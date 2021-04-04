@@ -10,12 +10,18 @@ namespace Urho3DNet.InputEvents
         private readonly SharedPtr<UIElement> _uiRoot;
 
         private Color _defaultFogColor;
+        private MouseMode _mouseMode = MouseMode.MmAbsolute;
+        private MouseMode _prevMouseMode;
+        private bool _isMouseVisible = false;
+        private bool _prevMouseVisible;
 
         public AbstractGameScreen(Context context)
         {
             Context = context;
             _uiRoot = new SharedPtr<UIElement>(new UIElement(context));
-            _uiRoot.Value.SetDefaultStyle(Context.ResourceCache.GetResource<XMLFile>("UI/DefaultStyle.xml"));
+            var style = ResourceCache.GetResource<XMLFile>("UI/DefaultStyle.xml");
+            if (style != null)
+                _uiRoot.Value.SetDefaultStyle(style);
         }
 
         public Context Context { get; }
@@ -27,8 +33,6 @@ namespace Urho3DNet.InputEvents
         public Renderer Renderer => Context.Renderer;
 
         public Graphics Graphics => Context.Graphics;
-
-        public bool _needsInitialization;
 
         public Color DefaultFogColor
         {
@@ -44,13 +48,22 @@ namespace Urho3DNet.InputEvents
             }
         }
 
-        public virtual void OnUpdate(float timestep)
+        public UIElement UIRoot => _uiRoot;
+
+        public void HandleUpdate(VariantMap eventData)
         {
-            if (_needsInitialization)
+            var uiRoot = _uiRoot.Value;
+            if (uiRoot.GetParent() == null)
             {
                 Context.UI.Root.AddChild(_uiRoot);
-                _needsInitialization = false;
             }
+            uiRoot.Position = IntVector2.Zero;
+            uiRoot.Size = Graphics.Size;
+            OnUpdate(eventData[E.Update.TimeStep].Float);
+        }
+
+        public virtual void OnUpdate(float timeStep)
+        {
         }
 
         public void Raycast(int x, int y, RayQueryResultList result, RayQueryLevel level, float maxDistance,
@@ -110,24 +123,68 @@ namespace Urho3DNet.InputEvents
 
         protected override void OnListenerSubscribed()
         {
+            IsActive = true;
             foreach (var viewport in _viewports) Renderer.SetViewport(viewport.Key, viewport.Value);
 
             Renderer.DefaultZone.FogColor = _defaultFogColor;
 
-            _needsInitialization = true;
+            _uiRoot.Value.SubscribeToEvent(E.Update, HandleUpdate);
+
+            _prevMouseMode = Input.GetMouseMode();
+            Input.SetMouseMode(_mouseMode);
+
+            _prevMouseVisible = Input.IsMouseVisible();
+            Input.SetMouseVisible(_isMouseVisible);
+
+            Context.Input.SetMouseVisible(true);
+        }
+
+        public bool IsActive { get; private set; }
+
+        public bool IsMouseVisible
+        {
+            get => _isMouseVisible;
+            set
+            {
+                if (_isMouseVisible != value)
+                {
+                    _isMouseVisible = value;
+                    if (IsActive)
+                    {
+                        Input.SetMouseVisible(_isMouseVisible);
+                    }
+                }
+            }
+        }
+
+        public MouseMode MouseMode
+        {
+            get => _mouseMode;
+            set
+            {
+                if (_mouseMode != value)
+                {
+                    _mouseMode = value;
+                    if (IsActive)
+                    {
+                        Input.SetMouseMode(_mouseMode);
+                    }
+                }
+            }
         }
 
         protected override void OnListenerUnsubscribed()
         {
             foreach (var viewport in _viewports) Renderer.SetViewport(viewport.Key, null);
 
-            Context.UI.Root.RemoveChild(_uiRoot);
+            _uiRoot.Value.UnsubscribeFromEvent(E.Update);
 
-            _needsInitialization = false;
+            Context.UI.Root.RemoveChild(_uiRoot);
+            
+            Input.SetMouseMode(_prevMouseMode);
+            Input.SetMouseVisible(_prevMouseVisible);
         }
 
-        public UIElement UIRoot => _uiRoot;
-        
         public struct ViewportRay
         {
             public Viewport Viewport;

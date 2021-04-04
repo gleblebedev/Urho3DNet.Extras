@@ -2,12 +2,21 @@
 
 namespace Urho3DNet.InputEvents
 {
-    public sealed class FilteringInputSource : AbstractInputSource, IInputListener
+    public sealed class StatefulInputSource : AbstractInputSource, IInputListener
     {
         private readonly HashSet<PressedButton> _gamepadButtons = new HashSet<PressedButton>();
         private readonly HashSet<UniKey> _keyboardKeys = new HashSet<UniKey>();
         private readonly HashSet<UniKey> _mouseButtons = new HashSet<UniKey>();
         private readonly Dictionary<int, ActiveTouch> _activeTouches = new Dictionary<int, ActiveTouch>();
+
+        public StatefulInputSource()
+        {
+        }
+
+        public StatefulInputSource(IInputSource source)
+        {
+            source.Listener = this;
+        }
 
         protected override void OnListenerSet(IInputListener listener)
         {
