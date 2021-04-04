@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Gamepad.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Gamepad.tt</DependentUpon>
+    </None>
+    <None Include="Keyboard.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Keyboard.tt</DependentUpon>
+    </None>
+    <None Include="Mouse.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Mouse.tt</DependentUpon>
+    </None>
+    <None Include="Touch.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Touch.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.265" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Gamepad.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Gamepad.cs</LastGenOutput>
+    </None>
+    <None Update="Keyboard.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Keyboard.cs</LastGenOutput>
+    </None>
+    <None Update="Mouse.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Mouse.cs</LastGenOutput>
+    </None>
+    <None Update="Touch.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Touch.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Gamepad.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Gamepad.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Keyboard.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Keyboard.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Mouse.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Mouse.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Touch.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Touch.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

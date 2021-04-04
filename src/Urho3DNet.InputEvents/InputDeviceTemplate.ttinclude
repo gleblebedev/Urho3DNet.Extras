@@ -1,0 +1,114 @@
+﻿using System.Collections.Generic;
+
+<#
+
+void PrintInputEvents(
+    string DeviceName,
+    string EventType,
+    string EventArg,
+    params string[] Events)
+{
+#>
+#region <#=DeviceName#> <#=EventType.ToLower()#>
+
+    public partial interface IInputListener
+    {
+<#
+foreach (var suffix in Events)
+{
+#>
+        /// <summary>
+        /// Called when a <#=DeviceName#> <#=EventType.ToLower()#> <#=suffix.ToLower()#> event has occurred.
+        /// </summary>
+        /// <param name="sender"><#=EventType#> event source.</param>
+        /// <param name="args"><#=EventType#> event arguments.</param>
+        void On<#=DeviceName#><#=EventType#><#=suffix#>(object sender, <#=EventArg#> args);
+<#
+}
+#>
+    }
+
+    public partial class AbstractInputListener
+    {
+<#
+foreach (var suffix in Events)
+{
+#>
+        /// <summary>
+        /// Called when a <#=DeviceName#> <#=EventType.ToLower()#> <#=suffix.ToLower()#> event has occurred.
+        /// </summary>
+        /// <param name="sender"><#=EventType#> event source.</param>
+        /// <param name="args"><#=EventType#> event arguments.</param>
+        public virtual void On<#=DeviceName#><#=EventType#><#=suffix#>(object sender, <#=EventArg#> args) { }
+<#
+}
+#>
+    }
+
+    public partial class EventEmitter
+    {
+<#
+foreach (var suffix in Events)
+{
+#>
+        public event EventHandler<<#=EventArg#>> <#=DeviceName#><#=EventType#><#=suffix#>;
+
+        void IInputListener.On<#=DeviceName#><#=EventType#><#=suffix#>(object sender, <#=EventArg#> args)
+        {
+            <#=DeviceName#><#=EventType#><#=suffix#>?.Invoke(sender, args);
+        }
+<#
+}
+#>
+    }
+
+#endregion //<#=DeviceName#> <#=EventType.ToLower()#>
+
+<#
+
+}
+
+void GenDevice (
+    string DeviceName,
+    bool Buttons = false,
+    bool Pointer = false,
+    bool Touch = false,
+    bool Axis = false,
+    bool Dynamic = false
+){ #>// Auto-generated file from T4 template.
+using System;
+using System.Numerics;
+
+namespace Urho3DNet.InputEvents
+{
+<#
+if (Dynamic)
+{
+    PrintInputEvents(DeviceName, "Device", "DeviceEventArgs", "Connected", "Disconnected");
+}
+
+if (Buttons)
+{
+    PrintInputEvents(DeviceName, "Button", "KeyEventArgs", "Up", "Down", "Canceled");
+}
+
+if (Pointer)
+{
+    PrintInputEvents(DeviceName, "Pointer", "PointerEventArgs", "Moved");
+}
+
+if (Touch)
+{
+    PrintInputEvents(DeviceName, "Touch", "TouchEventArgs", "Begin", "End", "Moved", "Canceled");
+}
+
+if (Axis)
+{
+    PrintInputEvents(DeviceName, "Axis", "AxisEventArgs", "Moved");
+}
+#>
+
+}
+<#
+}; 
+#>
