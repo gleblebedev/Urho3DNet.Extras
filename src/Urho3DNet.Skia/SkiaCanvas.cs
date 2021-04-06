@@ -9,29 +9,32 @@ namespace Urho3DNet
     {
         private readonly Context _context;
         private readonly SKBitmap _bitmap;
-        private readonly SharedPtr<Texture2D> _texture = new SharedPtr<Texture2D>(null);
+        private readonly SharedPtr<Texture2D> _texture;
 
         public SkiaCanvas(Context context, SKBitmap bitmap, TextureUsage textureUsage = TextureUsage.TextureDynamic)
         {
             _context = context;
             _bitmap = bitmap;
             Canvas = new SKCanvas(_bitmap);
-            _texture.Value = new Texture2D(_context);
-            Texture.SetSize(_bitmap.Info.Width, _bitmap.Info.Height, GetFormat(_bitmap.Info.ColorType), textureUsage);
+            _texture = new Texture2D(_context);
+            var texWidth = MathDefs.NextPowerOfTwo(_bitmap.Info.Width);
+            var texHeight = MathDefs.NextPowerOfTwo(_bitmap.Info.Height);
+            Texture.SetSize(texWidth, texHeight, GetFormat(_bitmap.Info.ColorType), textureUsage);
         }
-
+        
         public SKCanvas Canvas { get; }
 
         public Texture2D Texture => _texture;
 
-        public int Width => _bitmap.Info.Width;
+        public IntVector2 Size => new IntVector2(_bitmap.Info.Width, _bitmap.Info.Height);
 
-        public int Height => _bitmap.Info.Height;
+        public IntVector2 TextureSize => Texture.Size;
 
         public float FullUpdateThreshold { get; set; } = 0.75f;
 
         public void Upload(int x, int y, int width, int height)
         {
+            var Width = Size.X;
             var fullUpdateArea = height * Width;
             var updateArea = height * width;
             if (updateArea < FullUpdateThreshold * fullUpdateArea)
@@ -60,13 +63,14 @@ namespace Urho3DNet
             }
             else
             {
-                Texture.SetData(0, 0, y, Width, height, _bitmap.GetAddress(0, y));
+                Texture.SetData(0, 0, y, Size.X, height, _bitmap.GetAddress(0, y));
             }
         }
 
         public void Upload()
         {
-            Texture.SetData(0, 0, 0, Width, Height, _bitmap.GetPixels());
+            var size = Size;
+            Texture.SetData(0, 0, 0, size.X, size.Y, _bitmap.GetPixels());
         }
 
         public void Dispose()

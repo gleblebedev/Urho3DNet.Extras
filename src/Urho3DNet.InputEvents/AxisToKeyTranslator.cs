@@ -40,11 +40,11 @@ namespace Urho3DNet.InputEvents
                 switch (_prevSign)
                 {
                     case -1:
-                        eventArgs.Init(_neg);
+                        eventArgs.Set(_neg);
                         _keyCanceled(this, eventArgs);
                         break;
                     case 1:
-                        eventArgs.Init(_pos);
+                        eventArgs.Set(_pos);
                         _keyCanceled(this, eventArgs);
                         break;
                 }
@@ -68,11 +68,11 @@ namespace Urho3DNet.InputEvents
                 switch (_prevSign)
                 {
                     case -1:
-                        eventArgs.Init(_neg);
+                        eventArgs.Set(_neg);
                         _keyReleased(this, eventArgs);
                         break;
                     case 1:
-                        eventArgs.Init(_pos);
+                        eventArgs.Set(_pos);
                         _keyReleased(this, eventArgs);
                         break;
                 }
@@ -80,11 +80,11 @@ namespace Urho3DNet.InputEvents
                 switch (newSign)
                 {
                     case -1:
-                        eventArgs.Init(_neg);
+                        eventArgs.Set(_neg);
                         _keyPressed(this, eventArgs);
                         break;
                     case 1:
-                        eventArgs.Init(_pos);
+                        eventArgs.Set(_pos);
                         _keyPressed(this, eventArgs);
                         break;
                 }

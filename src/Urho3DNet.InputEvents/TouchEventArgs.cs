@@ -4,7 +4,7 @@ namespace Urho3DNet.InputEvents
 {
     public class TouchEventArgs : EventArgs
     {
-        public TouchEventArgs(int touchId, int x, int y, int dx, int dy, float pressure)
+        public void Set(int touchId, int x, int y, int dx, int dy, float pressure)
         {
             TouchId = touchId;
             X = x;
@@ -14,43 +14,43 @@ namespace Urho3DNet.InputEvents
             Pressure = pressure;
         }
 
-        public int TouchId { get; }
-        public int X { get; }
-        public int Y { get; }
-        public int Dx { get; }
-        public int Dy { get; }
-        public float Pressure { get; }
+        public int TouchId { get; private set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int Dx { get; private set; }
+        public int Dy { get; private set; }
+        public float Pressure { get; private set; }
 
-        public static TouchEventArgs FromTouchBegin(VariantMap args)
+        public static void FromTouchBegin(TouchEventArgs eventArgs, InputEventsAdapter.TouchBeginEventArgs args)
         {
-            return new TouchEventArgs(
-                args[E.TouchBegin.TouchID].Int,
-                args[E.TouchBegin.X].Int,
-                args[E.TouchBegin.Y].Int,
+            eventArgs.Set(
+                args.TouchID,
+                args.X,
+                args.Y,
                 0,
                 0,
-                args[E.TouchBegin.Pressure].Float
+                args.Pressure
             );
         }
 
-        public static TouchEventArgs FromTouchMove(VariantMap args)
+        public static void FromTouchMove(TouchEventArgs eventArgs, InputEventsAdapter.TouchMoveEventArgs args)
         {
-            return new TouchEventArgs(
-                args[E.TouchMove.TouchID].Int,
-                args[E.TouchMove.X].Int,
-                args[E.TouchMove.Y].Int,
-                args[E.TouchMove.DX].Int,
-                args[E.TouchMove.DY].Int,
-                args[E.TouchMove.Pressure].Float
+            eventArgs.Set(
+                args.TouchID,
+                args.X,
+                args.Y,
+                args.DX,
+                args.DY,
+                args.Pressure
             );
         }
 
-        public static TouchEventArgs FromTouchEnd(VariantMap args)
+        public static void FromTouchEnd(TouchEventArgs eventArgs, InputEventsAdapter.TouchEndEventArgs args)
         {
-            return new TouchEventArgs(
-                args[E.TouchEnd.TouchID].Int,
-                args[E.TouchEnd.X].Int,
-                args[E.TouchEnd.Y].Int,
+            eventArgs.Set(
+                args.TouchID,
+                args.X,
+                args.Y,
                 0,
                 0,
                 0.0f

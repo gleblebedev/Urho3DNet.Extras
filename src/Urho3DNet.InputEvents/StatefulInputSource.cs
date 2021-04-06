@@ -8,6 +8,8 @@ namespace Urho3DNet.InputEvents
         private readonly HashSet<UniKey> _keyboardKeys = new HashSet<UniKey>();
         private readonly HashSet<UniKey> _mouseButtons = new HashSet<UniKey>();
         private readonly Dictionary<int, ActiveTouch> _activeTouches = new Dictionary<int, ActiveTouch>();
+        private readonly TouchEventArgs _touchEventArgs = new TouchEventArgs();
+        private readonly KeyEventArgs _keyEventArgs = new KeyEventArgs();
 
         public StatefulInputSource()
         {
@@ -25,18 +27,32 @@ namespace Urho3DNet.InputEvents
         protected override void OnListenerRemoved(IInputListener listener)
         {
             foreach (var gamepadButton in _gamepadButtons)
-                listener.OnGamepadButtonCanceled(this,
-                    new KeyEventArgs(gamepadButton.Key, gamepadButton.DeviceId, 0, 0, 0, false));
+            {
+                _keyEventArgs.Set(gamepadButton.Key, gamepadButton.DeviceId, 0, 0, 0, false);
+                listener.OnGamepadButtonCanceled(this, _keyEventArgs);
+            }
+
             _gamepadButtons.Clear();
             foreach (var gamepadButton in _keyboardKeys)
-                listener.OnKeyboardButtonCanceled(this, new KeyEventArgs(gamepadButton, 0, 0, 0, 0, false));
+            {
+                _keyEventArgs.Set(gamepadButton, 0, 0, 0, 0, false);
+                listener.OnKeyboardButtonCanceled(this, _keyEventArgs);
+            }
+
             _keyboardKeys.Clear();
             foreach (var gamepadButton in _mouseButtons)
-                listener.OnMouseButtonCanceled(this, new KeyEventArgs(gamepadButton, 0, 0, 0, 0, false));
+            {
+                _keyEventArgs.Set(gamepadButton, 0, 0, 0, 0, false);
+                listener.OnMouseButtonCanceled(this, _keyEventArgs);
+            }
+
             _mouseButtons.Clear();
             foreach (var touch in _activeTouches)
-                listener.OnTouchscreenTouchCanceled(this,
-                    new TouchEventArgs(touch.Value.TouchId, touch.Value.X, touch.Value.Y, 0, 0, 0.0f));
+            {
+                _touchEventArgs.Set(touch.Value.TouchId, touch.Value.X, touch.Value.Y, 0, 0, 0.0f);
+                listener.OnTouchscreenTouchCanceled(this, _touchEventArgs);
+            }
+
             _activeTouches.Clear();
         }
 

@@ -52,6 +52,8 @@ namespace Urho3DNet.InputEvents
 
         public void HandleUpdate(VariantMap eventData)
         {
+            if (!IsActive)
+                return;
             var uiRoot = _uiRoot.Value;
             if (uiRoot.GetParent() == null)
             {
@@ -135,8 +137,6 @@ namespace Urho3DNet.InputEvents
 
             _prevMouseVisible = Input.IsMouseVisible();
             Input.SetMouseVisible(_isMouseVisible);
-
-            Context.Input.SetMouseVisible(true);
         }
 
         public bool IsActive { get; private set; }

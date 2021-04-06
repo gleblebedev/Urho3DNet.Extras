@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="EventAdapter.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EventAdapter.tt</DependentUpon>
+    </None>
     <None Include="Gamepad.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -28,10 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.272" />
+    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.275" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="EventAdapter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EventAdapter.cs</LastGenOutput>
+    </None>
     <None Update="Gamepad.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Gamepad.cs</LastGenOutput>
@@ -55,6 +64,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="EventAdapter.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EventAdapter.tt</DependentUpon>
+    </Compile>
     <Compile Update="Gamepad.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

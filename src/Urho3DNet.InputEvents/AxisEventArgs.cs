@@ -4,23 +4,34 @@ namespace Urho3DNet.InputEvents
 {
     public class AxisEventArgs : DeviceEventArgs
     {
+        public AxisEventArgs()
+        {
+        }
+        
         public AxisEventArgs(UniAxis axis, int deviceId, float value) : base(deviceId)
         {
             Axis = axis;
             Value = value;
         }
 
-        public UniAxis Axis { get; }
-
-        public float Value { get; }
-
-        public static AxisEventArgs FromJoystickAxisMove(VariantMap args, Input input)
+        public void Init(UniAxis axis, int deviceId, float value)
         {
-            return new AxisEventArgs(
-                AxisFromJoystickAxis(args[E.JoystickAxisMove.Button].Int,
-                    input.GetJoystick(args[E.JoystickAxisMove.JoystickID].Int)),
-                args[E.JoystickAxisMove.JoystickID].Int,
-                args[E.JoystickAxisMove.Position].Float);
+            Axis = axis;
+            Value = value;
+            base.Set(deviceId);
+        }
+
+        public UniAxis Axis { get; private set; }
+
+        public float Value { get; private set; }
+
+        public static void FromJoystickAxisMove(AxisEventArgs eventArgs, InputEventsAdapter.JoystickAxisMoveEventArgs args, Input input)
+        {
+            eventArgs.Init(
+                AxisFromJoystickAxis(args.Button,
+                    input.GetJoystick(args.JoystickID)),
+                args.JoystickID,
+                args.Position);
         }
 
         private static UniAxis AxisFromJoystickAxis(int axis, JoystickState getJoystick)

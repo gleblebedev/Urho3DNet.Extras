@@ -4,7 +4,12 @@ namespace Urho3DNet.InputEvents
 {
     public class PointerEventArgs : EventArgs
     {
-        public PointerEventArgs(int x, int y, int dx, int dy)
+        public PointerEventArgs()
+        {
+        }
+
+
+        public void Set(int x, int y, int dx, int dy)
         {
             X = x;
             Y = y;
@@ -12,18 +17,18 @@ namespace Urho3DNet.InputEvents
             Dy = dy;
         }
 
-        public int X { get; }
-        public int Y { get; }
-        public int Dx { get; }
-        public int Dy { get; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public int Dx { get; private set; }
+        public int Dy { get; private set; }
 
-        public static PointerEventArgs FromMouseMove(VariantMap args)
+        public static void FromMouseMove(PointerEventArgs eventArgs, InputEventsAdapter.MouseMoveEventArgs args)
         {
-            return new PointerEventArgs(
-                args[E.MouseMove.X].Int,
-                args[E.MouseMove.Y].Int,
-                args[E.MouseMove.DX].Int,
-                args[E.MouseMove.DY].Int
+            eventArgs.Set(
+                args.X,
+                args.Y,
+                args.DX,
+                args.DY
             );
         }
     }

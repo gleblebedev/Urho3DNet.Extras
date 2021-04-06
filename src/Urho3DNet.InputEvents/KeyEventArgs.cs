@@ -11,10 +11,10 @@ namespace Urho3DNet.InputEvents
         public KeyEventArgs(UniKey key, int deviceId, int scancode, int buttons, Qualifier qualifiers, bool repeat) :
             base(deviceId)
         {
-            Init(key, deviceId, scancode, buttons, qualifiers, repeat);
+            Set(key, deviceId, scancode, buttons, qualifiers, repeat);
         }
         
-        public void Init(UniKey key, int deviceId = 0, int scancode = 0, int buttons = 0, Qualifier qualifiers = Qualifier.QualNone, bool repeat = false)
+        public void Set(UniKey key, int deviceId = 0, int scancode = 0, int buttons = 0, Qualifier qualifiers = Qualifier.QualNone, bool repeat = false)
         {
             DeviceId = deviceId;
             Key = key;
@@ -30,55 +30,55 @@ namespace Urho3DNet.InputEvents
         public Qualifier Qualifiers { get; private set; }
         public bool Repeat { get; private set; }
 
-        public static KeyEventArgs FromKeyDown(VariantMap args)
+        public static void FromKeyDown(KeyEventArgs eventArgs, InputEventsAdapter.KeyDownEventArgs args)
         {
-            return new KeyEventArgs(
-                (UniKey) args[E.KeyDown.Key].Int,
+            eventArgs.Set(
+                (UniKey) args.Key,
                 0,
-                args[E.KeyDown.Scancode].Int,
-                args[E.KeyDown.Buttons].Int,
-                (Qualifier)args[E.KeyDown.Qualifiers].Int,
-                args[E.KeyDown.Repeat].Bool);
+                args.Scancode,
+                args.Buttons,
+                (Qualifier)args.Qualifiers,
+                args.Repeat);
         }
 
-        public static KeyEventArgs FromKeyUp(VariantMap args)
+        public static void FromKeyUp(KeyEventArgs eventArgs, InputEventsAdapter.KeyUpEventArgs args)
         {
-            return new KeyEventArgs(
-                (UniKey) args[E.KeyUp.Key].Int,
+            eventArgs.Set(
+                (UniKey) args.Key,
                 0,
-                args[E.KeyUp.Scancode].Int,
-                args[E.KeyUp.Buttons].Int,
-                (Qualifier)args[E.KeyUp.Qualifiers].Int,
+                args.Scancode,
+                args.Buttons,
+                (Qualifier)args.Qualifiers,
                 false);
         }
 
-        public static KeyEventArgs FromMouseButtonDown(VariantMap args)
+        public static void FromMouseButtonDown(KeyEventArgs eventArgs, InputEventsAdapter.MouseButtonDownEventArgs args)
         {
-            return new KeyEventArgs(
-                KeyFromMouseButton(args[E.MouseButtonDown.Button].Int),
+            eventArgs.Set(
+                KeyFromMouseButton(args.Button),
                 0,
                 0,
-                args[E.MouseButtonDown.Buttons].Int,
-                (Qualifier)args[E.MouseButtonDown.Qualifiers].Int,
+                args.Buttons,
+                (Qualifier)args.Qualifiers,
                 false);
         }
 
-        public static KeyEventArgs FromMouseButtonUp(VariantMap args)
+        public static void FromMouseButtonUp(KeyEventArgs eventArgs, InputEventsAdapter.MouseButtonUpEventArgs args)
         {
-            return new KeyEventArgs(
-                KeyFromMouseButton(args[E.MouseButtonUp.Button].Int),
+            eventArgs.Set(
+                KeyFromMouseButton(args.Button),
                 0,
                 0,
-                args[E.MouseButtonUp.Buttons].Int,
-                (Qualifier)args[E.MouseButtonUp.Qualifiers].Int,
+                args.Buttons,
+                (Qualifier)args.Qualifiers,
                 false);
         }
 
-        public static KeyEventArgs FromJoystickButtonDownEvent(VariantMap args, Input input)
+        public static void FromJoystickButtonDownEvent(KeyEventArgs eventArgs, InputEventsAdapter.JoystickButtonDownEventArgs args, Input input)
         {
-            var deviceId = args[E.JoystickButtonDown.JoystickID].Int;
-            return new KeyEventArgs(
-                KeyFromJoystickButton(args[E.JoystickButtonDown.Button].Int, input.GetJoystick(deviceId)),
+            var deviceId = args.JoystickID;
+            eventArgs.Set(
+                KeyFromJoystickButton(args.Button, input.GetJoystick(deviceId)),
                 deviceId,
                 0,
                 0,
@@ -86,11 +86,11 @@ namespace Urho3DNet.InputEvents
                 false);
         }
 
-        public static KeyEventArgs FromJoystickButtonUpEvent(VariantMap args, Input input)
+        public static void FromJoystickButtonUpEvent(KeyEventArgs eventArgs, InputEventsAdapter.JoystickButtonUpEventArgs args, Input input)
         {
-            var deviceId = args[E.JoystickButtonUp.JoystickID].Int;
-            return new KeyEventArgs(
-                KeyFromJoystickButton(args[E.JoystickButtonUp.Button].Int,
+            var deviceId = args.JoystickID;
+            eventArgs.Set(
+                KeyFromJoystickButton(args.Button,
                     input.GetJoystick(deviceId)),
                 deviceId,
                 0,
