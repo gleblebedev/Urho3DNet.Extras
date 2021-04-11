@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Urho3DNet</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Skia" Version="0.10.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="5.0.0" />
+    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.275" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Urho3DNet.InputEvents\Urho3DNet.InputEvents.csproj" />
+  </ItemGroup>
+
+</Project>

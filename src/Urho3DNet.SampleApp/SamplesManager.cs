@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using Avalonia;
+using Avalonia.Dialogs;
 using Urho3DNet.InputEvents;
+using Urho3DNet.SampleApp.View;
 
 namespace Urho3DNet.Samples
 {
@@ -10,9 +13,12 @@ namespace Urho3DNet.Samples
         private StatefulInputSource _currentSample;
         private bool isClosing_;
         private SampleList _list;
-
+        
         public SamplesManager(Context context) : base(context)
         {
+            context.RegisterFactory<SliderTest>();
+            context.RegisterFactory<AvaloniaElement>();
+            context.RegisterFactory<SkiaElement>();
         }
 
         public override void Setup()
@@ -35,6 +41,14 @@ namespace Urho3DNet.Samples
 
         public override void Start()
         {
+            PortableAppBuilder.Configure<AvaloniaApp>()
+                .UsePortablePlatfrom(Context)
+                .UseSkia()
+                .UseManagedSystemDialogs()
+                .SetupWithoutStarting();
+            
+            //new SampleAvaloniaWindow().Show();
+            
             _inputAdapter = new InputAdapter(Context.Input);
             _currentSample = new StatefulInputSource(_inputAdapter);
             _list = new SampleList(Context);
@@ -54,6 +68,7 @@ namespace Urho3DNet.Samples
             Context.Engine.CreateDebugHud().ToggleAll();
 
             RegisterSample<SkiaSample>();
+            RegisterSample<AvaloniaSample>();
 
             base.Start();
         }
@@ -145,6 +160,9 @@ namespace Urho3DNet.Samples
             {
                 case nameof(SkiaSample):
                     _currentSample.Listener = new SkiaSample(Context);
+                    break;
+                case nameof(AvaloniaSample):
+                    _currentSample.Listener = new AvaloniaSample(Context);
                     break;
             }
         }

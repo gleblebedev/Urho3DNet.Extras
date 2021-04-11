@@ -14,14 +14,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
     <PackageReference Include="CargoBay.Urho3DNet.Asset" Version="0.0.2" />
     <PackageReference Include="DefaultUI.Urho3DNet.Asset" Version="0.0.1" />
-    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.272" />
+    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.275" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Urho3DNet.Actions\Urho3DNet.Actions.csproj" />
     <ProjectReference Include="..\Urho3DNet.InputEvents\Urho3DNet.InputEvents.csproj" />
+    <ProjectReference Include="..\Urho3DNet.SampleApp\Urho3DNet.SampleApp.csproj" />
     <ProjectReference Include="..\Urho3DNet.Skia\Urho3DNet.Skia.csproj" />
   </ItemGroup>
 

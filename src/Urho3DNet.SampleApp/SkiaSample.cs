@@ -4,20 +4,18 @@ namespace Urho3DNet.Samples
 {
     public class SkiaSample : Sample
     {
-        private Sprite _sprite;
+        private readonly SharedPtr<SkiaElement> _sprite;
         private SkiaCanvas _canvas;
 
         public SkiaSample(Context context) : base(context)
         {
-            _sprite = UIRoot.CreateChild<Sprite>();
-            _canvas = new SkiaCanvas(context, new SKBitmap(new SKImageInfo(256, 256, SKColorType.Rgba8888)), TextureUsage.TextureStatic);
-            _sprite.Texture = _canvas.Texture;
-            _sprite.Position = new Vector2(0, 0);
-            _sprite.Size = new IntVector2(256, 256);
+            MouseMode = MouseMode.MmFree;
+            IsMouseVisible = true;
+            _sprite = UIRoot.CreateChild<SkiaElement>();
+            _canvas = new SkiaCanvas(context, new SKBitmap(new SKImageInfo(200, 180, SKColorType.Rgba8888)), TextureUsage.TextureDynamic);
+            _sprite.Value.Canvas = _canvas;
             var canvas = _canvas.Canvas;
             canvas.Clear(new SKColor(255, 0, 0, 128));
-            canvas.Flush();
-            _canvas.Upload();
             using (var green = new SKPaint() { Color = new SKColor(0, 255, 0, 255) })
             {
                 using (var red = new SKPaint() {Color = new SKColor(255, 0, 0, 255)})
@@ -28,10 +26,11 @@ namespace Urho3DNet.Samples
                         {Color = new SKColor(255, 255, 255, 255)})
                     {
                         canvas.DrawText("Hello!", new SKPoint(40, 40), white);
+                        canvas.DrawLine(199, 0, 199, 180, white);
+                        canvas.DrawLine(0, 179, 199, 179, white);
                     }
                     canvas.Flush();
-                    _canvas.Upload(10,10,100,100);
-                    _canvas.Upload(200, 10, 10, 200);
+                    _canvas.Upload();
                 }
             }
 
@@ -42,8 +41,8 @@ namespace Urho3DNet.Samples
         {
             base.OnUpdate(timeStep);
 
-            _sprite.Position = new Vector2(0.5f * (Graphics.Width - _sprite.Width),
-                0.5f * (Graphics.Height - _sprite.Height));
+            _sprite.Value.Position = new Vector2(0.5f * (Graphics.Width - _sprite.Value.Width),
+                0.5f * (Graphics.Height - _sprite.Value.Height));
         }
     }
 }

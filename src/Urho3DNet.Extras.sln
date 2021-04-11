@@ -9,9 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.Actions.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.InputEvents", "Urho3DNet.InputEvents\Urho3DNet.InputEvents.csproj", "{C43B1A94-1DB5-4109-B11B-E6D804570F8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.Skia", "Urho3DNet.Skia\Urho3DNet.Skia.csproj", "{F80A2C12-2174-4609-910B-A64021C13356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.Skia", "Urho3DNet.Skia\Urho3DNet.Skia.csproj", "{F80A2C12-2174-4609-910B-A64021C13356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.Samples", "Urho3DNet.Samples\Urho3DNet.Samples.csproj", "{8FD2602B-FC45-462D-82DC-1537DCD27E03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.Samples", "Urho3DNet.Samples\Urho3DNet.Samples.csproj", "{8FD2602B-FC45-462D-82DC-1537DCD27E03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.SampleApp", "Urho3DNet.SampleApp\Urho3DNet.SampleApp.csproj", "{E0633BAC-1478-4EA2-871C-0E27357812A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.AndroidSamples", "Urho3DNet.AndroidSamples\Urho3DNet.AndroidSamples.csproj", "{42E9BE33-B506-4105-8523-F16094994FC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.Avalonia", "Urho3DNet.Avalonia\Urho3DNet.Avalonia.csproj", "{4CFEA06B-D621-4F43-892F-C642A1338092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,20 @@ Global
 		{8FD2602B-FC45-462D-82DC-1537DCD27E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FD2602B-FC45-462D-82DC-1537DCD27E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FD2602B-FC45-462D-82DC-1537DCD27E03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0633BAC-1478-4EA2-871C-0E27357812A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0633BAC-1478-4EA2-871C-0E27357812A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0633BAC-1478-4EA2-871C-0E27357812A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0633BAC-1478-4EA2-871C-0E27357812A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E9BE33-B506-4105-8523-F16094994FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E9BE33-B506-4105-8523-F16094994FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E9BE33-B506-4105-8523-F16094994FC1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{42E9BE33-B506-4105-8523-F16094994FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E9BE33-B506-4105-8523-F16094994FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E9BE33-B506-4105-8523-F16094994FC1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{4CFEA06B-D621-4F43-892F-C642A1338092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CFEA06B-D621-4F43-892F-C642A1338092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CFEA06B-D621-4F43-892F-C642A1338092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CFEA06B-D621-4F43-892F-C642A1338092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
