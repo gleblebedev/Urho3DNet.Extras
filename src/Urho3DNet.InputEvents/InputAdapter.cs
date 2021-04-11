@@ -15,8 +15,9 @@ namespace Urho3DNet.InputEvents
 
         public InputAdapter(Input input)
         {
-            _subscription = input.Context.CreateObject<Object>();
-            _inputAdapter = new InputEventsAdapter(input);
+            _input = input;
+            _subscription = new Object(input.Context);// input.Context.CreateObject<Object>();
+            _inputAdapter = new InputEventsAdapter(_subscription);
             _inputAdapter.JoystickAxisMove += TranslateJoystickAxisMove;
             _inputAdapter.JoystickButtonDown += TranslateJoystickButtonDown;
             _inputAdapter.JoystickButtonUp += TranslateJoystickButtonUp;
