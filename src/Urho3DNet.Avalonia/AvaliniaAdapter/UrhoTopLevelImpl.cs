@@ -59,17 +59,20 @@ namespace Urho3DNet.AvaliniaAdapter
 
         public Point PointToClient(PixelPoint point)
         {
-            throw new NotImplementedException();
+            //var position = IsFullscreen ? new PixelPoint(0, 0) : Position;
+            var position = new PixelPoint(0, 0);
+            return (point - position).ToPoint(RenderScaling);
         }
 
         public PixelPoint PointToScreen(Point point)
         {
-            throw new NotImplementedException();
+            //var position = IsFullscreen ? new PixelPoint(0, 0) : Position;
+            var position = new PixelPoint(0, 0);
+            return PixelPoint.FromPoint(point, RenderScaling) + position;
         }
 
         public void SetCursor(IPlatformHandle cursor)
         {
-            throw new NotImplementedException();
         }
 
         public IPopupImpl CreatePopup()
@@ -79,7 +82,6 @@ namespace Urho3DNet.AvaliniaAdapter
 
         public void SetTransparencyLevelHint(WindowTransparencyLevel transparencyLevel)
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace Urho3DNet.AvaliniaAdapter
                 return new Size(framebufferSize.Width / RenderScaling, framebufferSize.Height / RenderScaling);
             }
         }
-
+        
         /// <summary>
         ///     Gets the scaling factor for the toplevel.
         /// </summary>
@@ -186,7 +188,8 @@ namespace Urho3DNet.AvaliniaAdapter
             {
                 var paintArea = _invalidRegion.Intersect(new Avalonia.Rect(new Point(0, 0), ClientSize));
                 _invalidRegion = Avalonia.Rect.Empty;
-                paint?.Invoke(paintArea);
+                if (paintArea.Width * paintArea.Height > 0)
+                    paint?.Invoke(paintArea);
                 //_hasUpdatedImage = true;
             }
         }

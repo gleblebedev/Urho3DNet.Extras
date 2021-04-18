@@ -61,6 +61,7 @@ namespace Urho3DNet.InputEvents
             }
             uiRoot.Position = IntVector2.Zero;
             uiRoot.Size = Graphics.Size;
+            uiRoot.Size = new IntVector2(1920, 1280);
             OnUpdate(eventData[E.Update.TimeStep].Float);
         }
 

@@ -24,6 +24,34 @@ Func<Type, string> GetTypeField = (t) => {
         return "Bool";
     if (t == typeof(IntPtr))
         return "VoidPtr";
+    if (t == typeof(Node) ||
+        t == typeof(Scene) ||
+        t == typeof(CrowdAgent) ||
+        t == typeof(Obstacle) ||
+        t == typeof(ParticleEffect) ||
+        t == typeof(Resource) ||
+        t == typeof(Component) ||
+        t == typeof(RefCounted) ||
+        t == typeof(PhysicsWorld) ||
+        t == typeof(RigidBody) ||
+        t == typeof(Serializable) ||
+        t == typeof(PhysicsWorld2D) ||
+        t == typeof(RigidBody2D) ||
+        t == typeof(CollisionShape2D) ||
+        t == typeof(ParticleEffect2D) ||
+        t == typeof(Texture) ||
+        t == typeof(RenderSurface) ||
+        t == typeof(Camera) ||
+        t == typeof(UIElement) ||
+        t == typeof(SoundSource) ||
+        t == typeof(Sound) ||
+        t == typeof(Connection) ||
+        t == typeof(ObjectAnimation) ||
+        t == typeof(NavigationMesh) ||
+        t == typeof(Animation) ||
+        t == typeof(View) ||
+        t == typeof(Viewport))
+        return "Ptr";
     return t.Name;
 };
 Func<Type, string> GetTypeName = (t) => {
@@ -98,7 +126,7 @@ Action<string, string, IEnumerable<Tuple<string,Type>>> BuildEvent = (string nam
 <#
         } else {
 #>
-                <#=arg.Item1#> = eventData[E.<#=name#>.<#=arg.Item1#>].<#=GetTypeField(arg.Item2)#>;
+                <#=arg.Item1#> = (<#=GetTypeName(arg.Item2)#>)eventData[E.<#=name#>.<#=arg.Item1#>].<#=GetTypeField(arg.Item2)#>;
 <#
         }
     }
@@ -154,9 +182,9 @@ Action<string, string, IEnumerable<Tuple<string,Type>>> BuildEvent = (string nam
 
 StartAdapter("AudioEvents");
 BuildEvent("SoundFinished", "Sound playback finished. Sent through the SoundSource's Node.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("SoundSource", typeof(IntPtr)),
-    Tuple.Create("Sound", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("SoundSource", typeof(SoundSource)),
+    Tuple.Create("Sound", typeof(Sound)),
 });
 EndAdapter("AudioEvents");
 StartAdapter("CoreEvents");
@@ -210,27 +238,27 @@ BuildEvent("RegisterStaticPlugins", "A request for user to manually register sta
 EndAdapter("EngineEvents");
 StartAdapter("DrawableEvents");
 BuildEvent("BoneHierarchyCreated", "AnimatedModel bone hierarchy created.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
 });
 BuildEvent("AnimationTrigger", "AnimatedModel animation trigger.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Animation", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Animation", typeof(Animation)),
     Tuple.Create("Name", typeof(string)),
     Tuple.Create("Time", typeof(float)),
     Tuple.Create("Data", typeof(Variant)),
 });
 BuildEvent("AnimationFinished", "AnimatedModel animation finished or looped.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Animation", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Animation", typeof(Animation)),
     Tuple.Create("Name", typeof(string)),
     Tuple.Create("Looped", typeof(bool)),
 });
 BuildEvent("ParticleEffectFinished", "Particle effect finished.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Effect", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Effect", typeof(ParticleEffect)),
 });
 BuildEvent("TerrainCreated", "Terrain geometry created.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
 });
 EndAdapter("DrawableEvents");
 StartAdapter("GraphicsEvents");
@@ -255,46 +283,46 @@ BuildEvent("BeginRendering", "Frame rendering started.", new Tuple<string,Type>[
 BuildEvent("EndRendering", "Frame rendering ended.", new Tuple<string,Type>[]{
 });
 BuildEvent("BeginViewUpdate", "Update of a view started.", new Tuple<string,Type>[]{
-    Tuple.Create("View", typeof(IntPtr)),
-    Tuple.Create("Texture", typeof(IntPtr)),
-    Tuple.Create("Surface", typeof(IntPtr)),
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Camera", typeof(IntPtr)),
+    Tuple.Create("View", typeof(View)),
+    Tuple.Create("Texture", typeof(Texture)),
+    Tuple.Create("Surface", typeof(RenderSurface)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Camera", typeof(Camera)),
 });
 BuildEvent("EndViewUpdate", "Update of a view ended.", new Tuple<string,Type>[]{
-    Tuple.Create("View", typeof(IntPtr)),
-    Tuple.Create("Texture", typeof(IntPtr)),
-    Tuple.Create("Surface", typeof(IntPtr)),
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Camera", typeof(IntPtr)),
+    Tuple.Create("View", typeof(View)),
+    Tuple.Create("Texture", typeof(Texture)),
+    Tuple.Create("Surface", typeof(RenderSurface)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Camera", typeof(Camera)),
 });
 BuildEvent("BeginViewRender", "Render of a view started.", new Tuple<string,Type>[]{
-    Tuple.Create("View", typeof(IntPtr)),
-    Tuple.Create("Texture", typeof(IntPtr)),
-    Tuple.Create("Surface", typeof(IntPtr)),
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Camera", typeof(IntPtr)),
+    Tuple.Create("View", typeof(View)),
+    Tuple.Create("Texture", typeof(Texture)),
+    Tuple.Create("Surface", typeof(RenderSurface)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Camera", typeof(Camera)),
 });
 BuildEvent("ViewBuffersReady", "A view has allocated its screen buffers for rendering. They can be accessed now with View::FindNamedTexture().", new Tuple<string,Type>[]{
-    Tuple.Create("View", typeof(IntPtr)),
-    Tuple.Create("Texture", typeof(IntPtr)),
-    Tuple.Create("Surface", typeof(IntPtr)),
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Camera", typeof(IntPtr)),
+    Tuple.Create("View", typeof(View)),
+    Tuple.Create("Texture", typeof(Texture)),
+    Tuple.Create("Surface", typeof(RenderSurface)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Camera", typeof(Camera)),
 });
 BuildEvent("ViewGlobalShaderParameters", "A view has set global shader parameters for a new combination of vertex/pixel shaders. Custom global parameters can now be set.", new Tuple<string,Type>[]{
-    Tuple.Create("View", typeof(IntPtr)),
-    Tuple.Create("Texture", typeof(IntPtr)),
-    Tuple.Create("Surface", typeof(IntPtr)),
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Camera", typeof(IntPtr)),
+    Tuple.Create("View", typeof(View)),
+    Tuple.Create("Texture", typeof(Texture)),
+    Tuple.Create("Surface", typeof(RenderSurface)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Camera", typeof(Camera)),
 });
 BuildEvent("EndViewRender", "Render of a view ended. Its screen buffers are still accessible if needed.", new Tuple<string,Type>[]{
-    Tuple.Create("View", typeof(IntPtr)),
-    Tuple.Create("Texture", typeof(IntPtr)),
-    Tuple.Create("Surface", typeof(IntPtr)),
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Camera", typeof(IntPtr)),
+    Tuple.Create("View", typeof(View)),
+    Tuple.Create("Texture", typeof(Texture)),
+    Tuple.Create("Surface", typeof(RenderSurface)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Camera", typeof(Camera)),
 });
 BuildEvent("EndAllViewsRender", "Render of all views is finished for the frame.", new Tuple<string,Type>[]{
 });
@@ -308,8 +336,8 @@ BuildEvent("DeviceReset", "Graphics context has been recreated after being lost.
 EndAdapter("GraphicsEvents");
 StartAdapter("IKEvents");
 BuildEvent("IKEffectorTargetChanged", null, new Tuple<string,Type>[]{
-    Tuple.Create("EffectorNode", typeof(IntPtr)),
-    Tuple.Create("  TargetNode", typeof(IntPtr)),
+    Tuple.Create("EffectorNode", typeof(RefCounted)),
+    Tuple.Create("  TargetNode", typeof(RefCounted)),
 });
 EndAdapter("IKEvents");
 StartAdapter("InputEvents");
@@ -457,101 +485,101 @@ BuildEvent("AsyncExecFinished", "Async system command execution finished.", new 
 EndAdapter("IOEvents");
 StartAdapter("NavigationEvents");
 BuildEvent("NavigationMeshRebuilt", "Complete rebuild of navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Mesh", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Mesh", typeof(NavigationMesh)),
 });
 BuildEvent("NavigationAreaRebuilt", "Partial bounding box rebuild of navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Mesh", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Mesh", typeof(NavigationMesh)),
     Tuple.Create("BoundsMin", typeof(Vector3)),
     Tuple.Create("BoundsMax", typeof(Vector3)),
 });
 BuildEvent("NavigationTileAdded", "Mesh tile is added to navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Mesh", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Mesh", typeof(NavigationMesh)),
     Tuple.Create("Tile", typeof(int)),
 });
 BuildEvent("NavigationTileRemoved", "Mesh tile is removed from navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Mesh", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Mesh", typeof(NavigationMesh)),
     Tuple.Create("Tile", typeof(int)),
 });
 BuildEvent("NavigationAllTilesRemoved", "All mesh tiles are removed from navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Mesh", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Mesh", typeof(NavigationMesh)),
 });
 BuildEvent("CrowdAgentFormation", "Crowd agent formation.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Index", typeof(uint)),
     Tuple.Create("Size", typeof(uint)),
     Tuple.Create("Position", typeof(Vector3)),
 });
 BuildEvent("CrowdAgentNodeFormation", "Crowd agent formation specific to a node.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Index", typeof(uint)),
     Tuple.Create("Size", typeof(uint)),
     Tuple.Create("Position", typeof(Vector3)),
 });
 BuildEvent("CrowdAgentReposition", "Crowd agent has been repositioned.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Velocity", typeof(Vector3)),
     Tuple.Create("Arrived", typeof(bool)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("CrowdAgentNodeReposition", "Crowd agent has been repositioned, specific to a node.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Velocity", typeof(Vector3)),
     Tuple.Create("Arrived", typeof(bool)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("CrowdAgentFailure", "Crowd agent's internal state has become invalidated. This is a special case of CrowdAgentStateChanged event.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Velocity", typeof(Vector3)),
     Tuple.Create("CrowdAgentState", typeof(int)),
     Tuple.Create("CrowdTargetState", typeof(int)),
 });
 BuildEvent("CrowdAgentNodeFailure", "Crowd agent's internal state has become invalidated. This is a special case of CrowdAgentStateChanged event.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Velocity", typeof(Vector3)),
     Tuple.Create("CrowdAgentState", typeof(int)),
     Tuple.Create("CrowdTargetState", typeof(int)),
 });
 BuildEvent("CrowdAgentStateChanged", "Crowd agent's state has been changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Velocity", typeof(Vector3)),
     Tuple.Create("CrowdAgentState", typeof(int)),
     Tuple.Create("CrowdTargetState", typeof(int)),
 });
 BuildEvent("CrowdAgentNodeStateChanged", "Crowd agent's state has been changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CrowdAgent", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CrowdAgent", typeof(CrowdAgent)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Velocity", typeof(Vector3)),
     Tuple.Create("CrowdAgentState", typeof(int)),
     Tuple.Create("CrowdTargetState", typeof(int)),
 });
 BuildEvent("NavigationObstacleAdded", "Addition of obstacle to dynamic navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Obstacle", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Obstacle", typeof(Obstacle)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Radius", typeof(float)),
     Tuple.Create("Height", typeof(float)),
 });
 BuildEvent("NavigationObstacleRemoved", "Removal of obstacle from dynamic navigation mesh.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Obstacle", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Obstacle", typeof(Obstacle)),
     Tuple.Create("Position", typeof(Vector3)),
     Tuple.Create("Radius", typeof(float)),
     Tuple.Create("Height", typeof(float)),
@@ -567,20 +595,20 @@ BuildEvent("ConnectFailed", "Server connection failed.", new Tuple<string,Type>[
 BuildEvent("ConnectionInProgress", "Server connection failed because its already connected or tries to connect already.", new Tuple<string,Type>[]{
 });
 BuildEvent("ClientConnected", "New client connection established.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
 });
 BuildEvent("ClientDisconnected", "Client connection disconnected.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
 });
 BuildEvent("ClientIdentity", "Client has sent identity: identity map is in the event data.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
     Tuple.Create("Allow", typeof(bool)),
 });
 BuildEvent("ClientSceneLoaded", "Client has informed to have loaded the scene.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
 });
 BuildEvent("NetworkMessage", "Unhandled network message received.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
     Tuple.Create("MessageID", typeof(int)),
     // Unknown type! Tuple.Create("Data", typeof(Buffer)),
 });
@@ -589,10 +617,10 @@ BuildEvent("NetworkUpdate", "About to send network update on the client or serve
 BuildEvent("NetworkUpdateSent", "Network update has been sent on the client or server.", new Tuple<string,Type>[]{
 });
 BuildEvent("NetworkSceneLoadFailed", "Scene load failed, either due to file not found or checksum error.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
 });
 BuildEvent("RemoteEventData", "Remote event: adds Connection parameter to the event data.", new Tuple<string,Type>[]{
-    Tuple.Create("Connection", typeof(IntPtr)),
+    Tuple.Create("Connection", typeof(Connection)),
 });
 BuildEvent("NetworkBanned", "Server refuses client connection because of the ban.", new Tuple<string,Type>[]{
 });
@@ -620,57 +648,57 @@ BuildEvent("NetworkNatMasterDisconnected", "Disconnected from NAT master server.
 EndAdapter("NetworkEvents");
 StartAdapter("PhysicsEvents");
 BuildEvent("PhysicsPreStep", "Physics world is about to be stepped.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("PhysicsPostStep", "Physics world has been stepped.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("PhysicsCollisionStart", "Physics collision started. Global event sent by the PhysicsWorld.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
-    Tuple.Create("NodeA", typeof(IntPtr)),
-    Tuple.Create("NodeB", typeof(IntPtr)),
-    Tuple.Create("BodyA", typeof(IntPtr)),
-    Tuple.Create("BodyB", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld)),
+    Tuple.Create("NodeA", typeof(Node)),
+    Tuple.Create("NodeB", typeof(Node)),
+    Tuple.Create("BodyA", typeof(RigidBody)),
+    Tuple.Create("BodyB", typeof(RigidBody)),
     Tuple.Create("Trigger", typeof(bool)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector3), normal (Vector3), distance (float), impulse (float) for each contact)),
 });
 BuildEvent("PhysicsCollision", "Physics collision ongoing. Global event sent by the PhysicsWorld.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
-    Tuple.Create("NodeA", typeof(IntPtr)),
-    Tuple.Create("NodeB", typeof(IntPtr)),
-    Tuple.Create("BodyA", typeof(IntPtr)),
-    Tuple.Create("BodyB", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld)),
+    Tuple.Create("NodeA", typeof(Node)),
+    Tuple.Create("NodeB", typeof(Node)),
+    Tuple.Create("BodyA", typeof(RigidBody)),
+    Tuple.Create("BodyB", typeof(RigidBody)),
     Tuple.Create("Trigger", typeof(bool)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector3), normal (Vector3), distance (float), impulse (float) for each contact)),
 });
 BuildEvent("PhysicsCollisionEnd", "Physics collision ended. Global event sent by the PhysicsWorld.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
-    Tuple.Create("NodeA", typeof(IntPtr)),
-    Tuple.Create("NodeB", typeof(IntPtr)),
-    Tuple.Create("BodyA", typeof(IntPtr)),
-    Tuple.Create("BodyB", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld)),
+    Tuple.Create("NodeA", typeof(Node)),
+    Tuple.Create("NodeB", typeof(Node)),
+    Tuple.Create("BodyA", typeof(RigidBody)),
+    Tuple.Create("BodyB", typeof(RigidBody)),
     Tuple.Create("Trigger", typeof(bool)),
 });
 BuildEvent("NodeCollisionStart", "Node's physics collision started. Sent by scene nodes participating in a collision.", new Tuple<string,Type>[]{
-    Tuple.Create("Body", typeof(IntPtr)),
-    Tuple.Create("OtherNode", typeof(IntPtr)),
-    Tuple.Create("OtherBody", typeof(IntPtr)),
+    Tuple.Create("Body", typeof(RigidBody)),
+    Tuple.Create("OtherNode", typeof(Node)),
+    Tuple.Create("OtherBody", typeof(RigidBody)),
     Tuple.Create("Trigger", typeof(bool)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector3), normal (Vector3), distance (float), impulse (float) for each contact)),
 });
 BuildEvent("NodeCollision", "Node's physics collision ongoing. Sent by scene nodes participating in a collision.", new Tuple<string,Type>[]{
-    Tuple.Create("Body", typeof(IntPtr)),
-    Tuple.Create("OtherNode", typeof(IntPtr)),
-    Tuple.Create("OtherBody", typeof(IntPtr)),
+    Tuple.Create("Body", typeof(RigidBody)),
+    Tuple.Create("OtherNode", typeof(Node)),
+    Tuple.Create("OtherBody", typeof(RigidBody)),
     Tuple.Create("Trigger", typeof(bool)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector3), normal (Vector3), distance (float), impulse (float) for each contact)),
 });
 BuildEvent("NodeCollisionEnd", "Node's physics collision ended. Sent by scene nodes participating in a collision.", new Tuple<string,Type>[]{
-    Tuple.Create("Body", typeof(IntPtr)),
-    Tuple.Create("OtherNode", typeof(IntPtr)),
-    Tuple.Create("OtherBody", typeof(IntPtr)),
+    Tuple.Create("Body", typeof(RigidBody)),
+    Tuple.Create("OtherNode", typeof(Node)),
+    Tuple.Create("OtherBody", typeof(RigidBody)),
     Tuple.Create("Trigger", typeof(bool)),
 });
 EndAdapter("PhysicsEvents");
@@ -697,7 +725,7 @@ BuildEvent("UnknownResourceType", "Unknown resource type.", new Tuple<string,Typ
 BuildEvent("ResourceBackgroundLoaded", "Resource background loading finished.", new Tuple<string,Type>[]{
     Tuple.Create("ResourceName", typeof(string)),
     Tuple.Create("Success", typeof(bool)),
-    Tuple.Create("Resource", typeof(IntPtr)),
+    Tuple.Create("Resource", typeof(Resource)),
 });
 BuildEvent("ChangeLanguage", "Language changed.", new Tuple<string,Type>[]{
 });
@@ -708,19 +736,19 @@ BuildEvent("ResourceRenamed", "Resource renamed", new Tuple<string,Type>[]{
 EndAdapter("ResourceEvents");
 StartAdapter("CameraViewport");
 BuildEvent("CameraViewportResized", null, new Tuple<string,Type>[]{
-    Tuple.Create("Camera", typeof(IntPtr)),
-    Tuple.Create("Viewport", typeof(IntPtr)),
+    Tuple.Create("Camera", typeof(Camera)),
+    Tuple.Create("Viewport", typeof(Viewport)),
     // Unknown type! Tuple.Create("SizeNorm", typeof(Rect)),
     Tuple.Create("Size", typeof(int)),
 });
 EndAdapter("CameraViewport");
 StartAdapter("SceneEvents");
 BuildEvent("SceneUpdate", "Variable timestep scene update.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("SceneSubsystemUpdate", "Scene subsystem update.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("UpdateSmoothing", "Scene transform smoothing update.", new Tuple<string,Type>[]{
@@ -728,7 +756,7 @@ BuildEvent("UpdateSmoothing", "Scene transform smoothing update.", new Tuple<str
     Tuple.Create("SquaredSnapThreshold", typeof(float)),
 });
 BuildEvent("SceneDrawableUpdateFinished", "Scene drawable update finished. Custom animation (eg. IK) can be done at this point.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("TargetPositionChanged", "SmoothedTransform target position changed.", new Tuple<string,Type>[]{
@@ -736,23 +764,23 @@ BuildEvent("TargetPositionChanged", "SmoothedTransform target position changed."
 BuildEvent("TargetRotationChanged", "SmoothedTransform target position changed.", new Tuple<string,Type>[]{
 });
 BuildEvent("AttributeAnimationUpdate", "Scene attribute animation update.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("AttributeAnimationAdded", "Attribute animation added to object animation.", new Tuple<string,Type>[]{
-    Tuple.Create("ObjectAnimation", typeof(IntPtr)),
+    Tuple.Create("ObjectAnimation", typeof(ObjectAnimation)),
     Tuple.Create("AttributeAnimationName", typeof(string)),
 });
 BuildEvent("AttributeAnimationRemoved", "Attribute animation removed from object animation.", new Tuple<string,Type>[]{
-    Tuple.Create("ObjectAnimation", typeof(IntPtr)),
+    Tuple.Create("ObjectAnimation", typeof(ObjectAnimation)),
     Tuple.Create("AttributeAnimationName", typeof(string)),
 });
 BuildEvent("ScenePostUpdate", "Variable timestep scene post-update.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
     Tuple.Create("TimeStep", typeof(float)),
 });
 BuildEvent("AsyncLoadProgress", "Asynchronous scene loading progress.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
     Tuple.Create("Progress", typeof(float)),
     Tuple.Create("LoadedNodes", typeof(int)),
     Tuple.Create("TotalNodes", typeof(int)),
@@ -760,74 +788,74 @@ BuildEvent("AsyncLoadProgress", "Asynchronous scene loading progress.", new Tupl
     Tuple.Create("TotalResources", typeof(int)),
 });
 BuildEvent("AsyncLoadFinished", "Asynchronous scene loading finished.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
 });
 BuildEvent("NodeAdded", "A child node has been added to a parent node.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Parent", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Parent", typeof(Node)),
+    Tuple.Create("Node", typeof(Node)),
 });
 BuildEvent("NodeRemoved", "A child node is about to be removed from a parent node. Note that individual component removal events will not be sent.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Parent", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Parent", typeof(Node)),
+    Tuple.Create("Node", typeof(Node)),
 });
 BuildEvent("ComponentAdded", "A component has been created to a node.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Component", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Component", typeof(Component)),
 });
 BuildEvent("ComponentRemoved", "A component is about to be removed from a node.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Component", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Component", typeof(Component)),
 });
 BuildEvent("NodeNameChanged", "A node's name has changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
 });
 BuildEvent("NodeEnabledChanged", "A node's enabled state has changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
 });
 BuildEvent("NodeTagAdded", "A node's tag has been added.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
     Tuple.Create("Tag", typeof(string)),
 });
 BuildEvent("NodeTagRemoved", "A node's tag has been removed.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
     Tuple.Create("Tag", typeof(string)),
 });
 BuildEvent("ComponentEnabledChanged", "A component's enabled state has changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Component", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Component", typeof(Component)),
 });
 BuildEvent("TemporaryChanged", "A serializable's temporary state has changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Serializable", typeof(IntPtr)),
+    Tuple.Create("Serializable", typeof(Serializable)),
 });
 BuildEvent("NodeCloned", "A node (and its children and components) has been cloned.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("CloneNode", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("CloneNode", typeof(Node)),
 });
 BuildEvent("ComponentCloned", "A component has been cloned.", new Tuple<string,Type>[]{
-    Tuple.Create("Scene", typeof(IntPtr)),
-    Tuple.Create("Component", typeof(IntPtr)),
-    Tuple.Create("CloneComponent", typeof(IntPtr)),
+    Tuple.Create("Scene", typeof(Scene)),
+    Tuple.Create("Component", typeof(Component)),
+    Tuple.Create("CloneComponent", typeof(Component)),
 });
 BuildEvent("InterceptNetworkUpdate", "A network attribute update from the server has been intercepted.", new Tuple<string,Type>[]{
-    Tuple.Create("Serializable", typeof(IntPtr)),
+    Tuple.Create("Serializable", typeof(Serializable)),
     Tuple.Create("TimeStamp", typeof(uint)),
     Tuple.Create("Index", typeof(uint)),
     Tuple.Create("Name", typeof(string)),
     Tuple.Create("Value", typeof(Variant)),
 });
 BuildEvent("SceneActivated", "Scene manager has activated a new scene.", new Tuple<string,Type>[]{
-    Tuple.Create("OldScene", typeof(IntPtr)),
-    Tuple.Create("NewScene", typeof(IntPtr)),
+    Tuple.Create("OldScene", typeof(Scene)),
+    Tuple.Create("NewScene", typeof(Scene)),
 });
 EndAdapter("SceneEvents");
 StartAdapter("SystemUIEvents");
@@ -836,18 +864,18 @@ BuildEvent("EndRenderingSystemUI", null, new Tuple<string,Type>[]{
 BuildEvent("ConsoleClosed", null, new Tuple<string,Type>[]{
 });
 BuildEvent("AttributeInspectorMenu", null, new Tuple<string,Type>[]{
-    Tuple.Create("Serializable", typeof(IntPtr)),
+    Tuple.Create("Serializable", typeof(Serializable)),
     Tuple.Create("AttributeInfo", typeof(IntPtr)),
 });
 BuildEvent("AttributeInspectorValueModified", null, new Tuple<string,Type>[]{
-    Tuple.Create("Serializable", typeof(IntPtr)),
+    Tuple.Create("Serializable", typeof(Serializable)),
     Tuple.Create("AttributeInfo", typeof(IntPtr)),
     Tuple.Create("OldValue", typeof(Variant)),
     Tuple.Create("NewValue", typeof(Variant)),
     Tuple.Create("Reason", typeof(uint)),
 });
 BuildEvent("AttributeInspectorAttribute", null, new Tuple<string,Type>[]{
-    Tuple.Create("Serializable", typeof(IntPtr)),
+    Tuple.Create("Serializable", typeof(Serializable)),
     Tuple.Create("AttributeInfo", typeof(IntPtr)),
     Tuple.Create("Color", typeof(Color)),
     Tuple.Create("Hidden", typeof(bool)),
@@ -855,7 +883,7 @@ BuildEvent("AttributeInspectorAttribute", null, new Tuple<string,Type>[]{
     Tuple.Create("ValueKind", typeof(int)),
 });
 BuildEvent("GizmoNodeModified", null, new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
     Tuple.Create("OldTransform", typeof(Matrix3x4)),
     Tuple.Create("NewTransform", typeof(Matrix3x4)),
 });
@@ -864,7 +892,7 @@ BuildEvent("GizmoSelectionChanged", null, new Tuple<string,Type>[]{
 EndAdapter("SystemUIEvents");
 StartAdapter("UIEvents");
 BuildEvent("UIMouseClick", "Global mouse click in the UI. Sent by the UI subsystem.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("Button", typeof(int)),
@@ -872,8 +900,8 @@ BuildEvent("UIMouseClick", "Global mouse click in the UI. Sent by the UI subsyst
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("UIMouseClickEnd", "Global mouse click end in the UI. Sent by the UI subsystem.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
-    Tuple.Create("BeginElement", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
+    Tuple.Create("BeginElement", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("Button", typeof(int)),
@@ -881,7 +909,7 @@ BuildEvent("UIMouseClickEnd", "Global mouse click end in the UI. Sent by the UI 
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("UIMouseDoubleClick", "Global mouse double click in the UI. Sent by the UI subsystem.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("XBegin", typeof(int)),
@@ -891,7 +919,7 @@ BuildEvent("UIMouseDoubleClick", "Global mouse double click in the UI. Sent by t
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("Click", "Mouse click on a UI element. Parameters are same as in UIMouseClick event, but is sent by the element.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("Button", typeof(int)),
@@ -899,8 +927,8 @@ BuildEvent("Click", "Mouse click on a UI element. Parameters are same as in UIMo
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("ClickEnd", "Mouse click end on a UI element. Parameters are same as in UIMouseClickEnd event, but is sent by the element.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
-    Tuple.Create("BeginElement", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
+    Tuple.Create("BeginElement", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("Button", typeof(int)),
@@ -908,7 +936,7 @@ BuildEvent("ClickEnd", "Mouse click end on a UI element. Parameters are same as 
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("DoubleClick", "Mouse double click on a UI element. Parameters are same as in UIMouseDoubleClick event, but is sent by the element.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("XBegin", typeof(int)),
@@ -918,129 +946,129 @@ BuildEvent("DoubleClick", "Mouse double click on a UI element. Parameters are sa
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("DragDropTest", "Drag and drop test.", new Tuple<string,Type>[]{
-    Tuple.Create("Source", typeof(IntPtr)),
-    Tuple.Create("Target", typeof(IntPtr)),
+    Tuple.Create("Source", typeof(UIElement)),
+    Tuple.Create("Target", typeof(UIElement)),
     Tuple.Create("Accept", typeof(bool)),
 });
 BuildEvent("DragDropFinish", "Drag and drop finish.", new Tuple<string,Type>[]{
-    Tuple.Create("Source", typeof(IntPtr)),
-    Tuple.Create("Target", typeof(IntPtr)),
+    Tuple.Create("Source", typeof(UIElement)),
+    Tuple.Create("Target", typeof(UIElement)),
     Tuple.Create("Accept", typeof(bool)),
 });
 BuildEvent("FocusChanged", "Focus element changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
-    Tuple.Create("ClickedElement", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
+    Tuple.Create("ClickedElement", typeof(UIElement)),
 });
 BuildEvent("NameChanged", "UI element name changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("Resized", "UI element resized.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Width", typeof(int)),
     Tuple.Create("Height", typeof(int)),
     Tuple.Create("DX", typeof(int)),
     Tuple.Create("DY", typeof(int)),
 });
 BuildEvent("Positioned", "UI element positioned.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
 });
 BuildEvent("VisibleChanged", "UI element visibility changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Visible", typeof(bool)),
 });
 BuildEvent("Focused", "UI element focused.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("ByKey", typeof(bool)),
 });
 BuildEvent("Defocused", "UI element defocused.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("LayoutUpdated", "UI element layout updated.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("Pressed", "UI button pressed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("Released", "UI button was pressed, then released.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("Toggled", "UI checkbox toggled.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("State", typeof(bool)),
 });
 BuildEvent("SliderChanged", "UI slider value changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Value", typeof(float)),
 });
 BuildEvent("SliderPaged", "UI slider being paged.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Offset", typeof(int)),
     Tuple.Create("Pressed", typeof(bool)),
 });
 BuildEvent("ProgressBarChanged", "UI progressbar value changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Value", typeof(float)),
 });
 BuildEvent("ScrollBarChanged", "UI scrollbar value changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Value", typeof(float)),
 });
 BuildEvent("ViewChanged", "UI scrollview position changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
 });
 BuildEvent("ModalChanged", "UI modal changed (currently only Window has modal flag).", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Modal", typeof(bool)),
 });
 BuildEvent("TextEntry", "Text entry into a LineEdit. The text can be modified in the event data.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Text", typeof(string)),
 });
 BuildEvent("TextChanged", "Editable text changed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Text", typeof(string)),
 });
 BuildEvent("TextFinished", "Text editing finished (enter pressed on a LineEdit).", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Text", typeof(string)),
     Tuple.Create("Value", typeof(float)),
 });
 BuildEvent("MenuSelected", "Menu selected.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("ItemSelected", "Listview or DropDownList item selected.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Selection", typeof(int)),
 });
 BuildEvent("ItemDeselected", "Listview item deselected.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Selection", typeof(int)),
 });
 BuildEvent("SelectionChanged", "Listview selection change finished.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("ItemClicked", "Listview item clicked. If this is a left-click, also ItemSelected event will be sent. If this is a right-click, only this event is sent.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
-    Tuple.Create("Item", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
+    Tuple.Create("Item", typeof(UIElement)),
     Tuple.Create("Selection", typeof(int)),
     Tuple.Create("Button", typeof(int)),
     Tuple.Create("Buttons", typeof(int)),
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("ItemDoubleClicked", "Listview item double clicked.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
-    Tuple.Create("Item", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
+    Tuple.Create("Item", typeof(UIElement)),
     Tuple.Create("Selection", typeof(int)),
     Tuple.Create("Button", typeof(int)),
     Tuple.Create("Buttons", typeof(int)),
     Tuple.Create("Qualifiers", typeof(int)),
 });
 BuildEvent("UnhandledKey", "LineEdit or ListView unhandled key pressed.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("Key", typeof(int)),
     Tuple.Create("Buttons", typeof(int)),
     Tuple.Create("Qualifiers", typeof(int)),
@@ -1054,27 +1082,27 @@ BuildEvent("MessageACK", "MessageBox acknowlegement.", new Tuple<string,Type>[]{
     Tuple.Create("OK", typeof(bool)),
 });
 BuildEvent("ElementAdded", "A child element has been added to an element. Sent by the UI root element, or element-event-sender if set.", new Tuple<string,Type>[]{
-    Tuple.Create("Root", typeof(IntPtr)),
-    Tuple.Create("Parent", typeof(IntPtr)),
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Root", typeof(UIElement)),
+    Tuple.Create("Parent", typeof(UIElement)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("ElementRemoved", "A child element is about to be removed from an element. Sent by the UI root element, or element-event-sender if set.", new Tuple<string,Type>[]{
-    Tuple.Create("Root", typeof(IntPtr)),
-    Tuple.Create("Parent", typeof(IntPtr)),
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Root", typeof(UIElement)),
+    Tuple.Create("Parent", typeof(UIElement)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("HoverBegin", "Hovering on an UI element has started.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("ElementX", typeof(int)),
     Tuple.Create("ElementY", typeof(int)),
 });
 BuildEvent("HoverEnd", "Hovering on an UI element has ended.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
 });
 BuildEvent("DragBegin", "Drag behavior of a UI Element has started.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("ElementX", typeof(int)),
@@ -1083,7 +1111,7 @@ BuildEvent("DragBegin", "Drag behavior of a UI Element has started.", new Tuple<
     Tuple.Create("NumButtons", typeof(int)),
 });
 BuildEvent("DragMove", "Drag behavior of a UI Element when the input device has moved.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("DX", typeof(int)),
@@ -1094,7 +1122,7 @@ BuildEvent("DragMove", "Drag behavior of a UI Element when the input device has 
     Tuple.Create("NumButtons", typeof(int)),
 });
 BuildEvent("DragEnd", "Drag behavior of a UI Element has finished.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("ElementX", typeof(int)),
@@ -1103,7 +1131,7 @@ BuildEvent("DragEnd", "Drag behavior of a UI Element has finished.", new Tuple<s
     Tuple.Create("NumButtons", typeof(int)),
 });
 BuildEvent("DragCancel", "Drag of a UI Element was canceled by pressing ESC.", new Tuple<string,Type>[]{
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("ElementX", typeof(int)),
@@ -1113,7 +1141,7 @@ BuildEvent("DragCancel", "Drag of a UI Element was canceled by pressing ESC.", n
 });
 BuildEvent("UIDropFile", "A file was drag-dropped into the application window. Includes also coordinates and UI element if applicable.", new Tuple<string,Type>[]{
     Tuple.Create("FileName", typeof(string)),
-    Tuple.Create("Element", typeof(IntPtr)),
+    Tuple.Create("Element", typeof(UIElement)),
     Tuple.Create("X", typeof(int)),
     Tuple.Create("Y", typeof(int)),
     Tuple.Create("ElementX", typeof(int)),
@@ -1122,72 +1150,73 @@ BuildEvent("UIDropFile", "A file was drag-dropped into the application window. I
 EndAdapter("UIEvents");
 StartAdapter("PhysicsEvents2D");
 BuildEvent("PhysicsUpdateContact2D", "Physics update contact. Global event sent by PhysicsWorld2D.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
-    Tuple.Create("BodyA", typeof(IntPtr)),
-    Tuple.Create("BodyB", typeof(IntPtr)),
-    Tuple.Create("NodeA", typeof(IntPtr)),
-    Tuple.Create("NodeB", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld2D)),
+    Tuple.Create("BodyA", typeof(RigidBody2D)),
+    Tuple.Create("BodyB", typeof(RigidBody2D)),
+    Tuple.Create("NodeA", typeof(Node)),
+    Tuple.Create("NodeB", typeof(Node)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector2), normal (Vector2), negative overlap distance (float). Normal is the same for all points.)),
-    Tuple.Create("ShapeA", typeof(IntPtr)),
-    Tuple.Create("ShapeB", typeof(IntPtr)),
+    Tuple.Create("ShapeA", typeof(CollisionShape2D)),
+    Tuple.Create("ShapeB", typeof(CollisionShape2D)),
     Tuple.Create("Enabled", typeof(bool)),
 });
 BuildEvent("PhysicsBeginContact2D", "Physics begin contact. Global event sent by PhysicsWorld2D.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
-    Tuple.Create("BodyA", typeof(IntPtr)),
-    Tuple.Create("BodyB", typeof(IntPtr)),
-    Tuple.Create("NodeA", typeof(IntPtr)),
-    Tuple.Create("NodeB", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld2D)),
+    Tuple.Create("BodyA", typeof(RigidBody2D)),
+    Tuple.Create("BodyB", typeof(RigidBody2D)),
+    Tuple.Create("NodeA", typeof(Node)),
+    Tuple.Create("NodeB", typeof(Node)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector2), normal (Vector2), negative overlap distance (float). Normal is the same for all points.)),
-    Tuple.Create("ShapeA", typeof(IntPtr)),
-    Tuple.Create("ShapeB", typeof(IntPtr)),
+    Tuple.Create("ShapeA", typeof(CollisionShape2D)),
+    Tuple.Create("ShapeB", typeof(CollisionShape2D)),
 });
 BuildEvent("PhysicsEndContact2D", "Physics end contact. Global event sent by PhysicsWorld2D.", new Tuple<string,Type>[]{
-    Tuple.Create("World", typeof(IntPtr)),
-    Tuple.Create("BodyA", typeof(IntPtr)),
-    Tuple.Create("BodyB", typeof(IntPtr)),
-    Tuple.Create("NodeA", typeof(IntPtr)),
-    Tuple.Create("NodeB", typeof(IntPtr)),
+    Tuple.Create("World", typeof(PhysicsWorld2D)),
+    Tuple.Create("BodyA", typeof(RigidBody2D)),
+    Tuple.Create("BodyB", typeof(RigidBody2D)),
+    Tuple.Create("NodeA", typeof(Node)),
+    Tuple.Create("NodeB", typeof(Node)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector2), normal (Vector2), negative overlap distance (float). Normal is the same for all points.)),
-    Tuple.Create("ShapeA", typeof(IntPtr)),
-    Tuple.Create("ShapeB", typeof(IntPtr)),
+    Tuple.Create("ShapeA", typeof(CollisionShape2D)),
+    Tuple.Create("ShapeB", typeof(CollisionShape2D)),
 });
 BuildEvent("NodeUpdateContact2D", "Node update contact. Sent by scene nodes participating in a collision.", new Tuple<string,Type>[]{
-    Tuple.Create("Body", typeof(IntPtr)),
-    Tuple.Create("OtherNode", typeof(IntPtr)),
-    Tuple.Create("OtherBody", typeof(IntPtr)),
+    Tuple.Create("Body", typeof(RigidBody2D)),
+    Tuple.Create("OtherNode", typeof(Node)),
+    Tuple.Create("OtherBody", typeof(RigidBody2D)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector2), normal (Vector2), negative overlap distance (float). Normal is the same for all points.)),
-    Tuple.Create("Shape", typeof(IntPtr)),
-    Tuple.Create("OtherShape", typeof(IntPtr)),
+    Tuple.Create("Shape", typeof(CollisionShape2D)),
+    Tuple.Create("OtherShape", typeof(CollisionShape2D)),
     Tuple.Create("Enabled", typeof(bool)),
 });
 BuildEvent("NodeBeginContact2D", "Node begin contact. Sent by scene nodes participating in a collision.", new Tuple<string,Type>[]{
-    Tuple.Create("Body", typeof(IntPtr)),
-    Tuple.Create("OtherNode", typeof(IntPtr)),
-    Tuple.Create("OtherBody", typeof(IntPtr)),
+    Tuple.Create("Body", typeof(RigidBody2D)),
+    Tuple.Create("OtherNode", typeof(Node)),
+    Tuple.Create("OtherBody", typeof(RigidBody2D)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector2), normal (Vector2), negative overlap distance (float). Normal is the same for all points.)),
-    Tuple.Create("Shape", typeof(IntPtr)),
-    Tuple.Create("OtherShape", typeof(IntPtr)),
+    Tuple.Create("Shape", typeof(CollisionShape2D)),
+    Tuple.Create("OtherShape", typeof(CollisionShape2D)),
 });
 BuildEvent("NodeEndContact2D", "Node end contact. Sent by scene nodes participating in a collision.", new Tuple<string,Type>[]{
-    Tuple.Create("Body", typeof(IntPtr)),
-    Tuple.Create("OtherNode", typeof(IntPtr)),
-    Tuple.Create("OtherBody", typeof(IntPtr)),
+    Tuple.Create("Body", typeof(RigidBody2D)),
+    Tuple.Create("OtherNode", typeof(Node)),
+    Tuple.Create("OtherBody", typeof(RigidBody2D)),
     // Unknown type! Tuple.Create("Contacts", typeof(Buffer containing position (Vector2), normal (Vector2), negative overlap distance (float). Normal is the same for all points.)),
-    Tuple.Create("Shape", typeof(IntPtr)),
-    Tuple.Create("OtherShape", typeof(IntPtr)),
+    Tuple.Create("Shape", typeof(CollisionShape2D)),
+    Tuple.Create("OtherShape", typeof(CollisionShape2D)),
 });
 EndAdapter("PhysicsEvents2D");
 StartAdapter("Urho2DEvents");
 BuildEvent("ParticlesEnd", "Emitting ParticleEmitter2D particles stopped.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Effect", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Effect", typeof(ParticleEffect2D)),
 });
 BuildEvent("ParticlesDuration", "All ParticleEmitter2D particles have been removed.", new Tuple<string,Type>[]{
-    Tuple.Create("Node", typeof(IntPtr)),
-    Tuple.Create("Effect", typeof(IntPtr)),
+    Tuple.Create("Node", typeof(Node)),
+    Tuple.Create("Effect", typeof(ParticleEffect2D)),
 });
 EndAdapter("Urho2DEvents");
+
 
 
 #>

@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Platform;
+using Avalonia.Skia;
+using SkiaSharp;
 
 namespace Urho3DNet.AvaliniaAdapter
 {
@@ -20,6 +22,16 @@ namespace Urho3DNet.AvaliniaAdapter
             _texture = new Texture2D(avaloniaContext.Context);
             _texture.SetNumLevels(1);
             _lockedFramebuffer = new LockedFramebuffer(this);
+            switch (SKImageInfo.PlatformColorType)
+            {
+                //case SKColorType.Bgra8888:
+                //    Format = PixelFormat.Bgra8888;
+                //    break;
+                default:
+                    Format = PixelFormat.Rgba8888;
+                    break;
+            }
+
         }
 
         public ILockedFramebuffer Lock()
@@ -98,7 +110,7 @@ namespace Urho3DNet.AvaliniaAdapter
 
         public int RowBytes { get; private set; }
 
-        public PixelFormat Format { get; set; } = PixelFormat.Rgba8888;
+        public PixelFormat Format { get; }
 
         public Vector Dpi { get; set; }
 

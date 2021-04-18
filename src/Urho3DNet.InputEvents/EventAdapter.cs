@@ -21,16 +21,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.SoundFinished.Node].VoidPtr;
-                SoundSource = eventData[E.SoundFinished.SoundSource].VoidPtr;
-                Sound = eventData[E.SoundFinished.Sound].VoidPtr;
+                Node = (Node)eventData[E.SoundFinished.Node].Ptr;
+                SoundSource = (SoundSource)eventData[E.SoundFinished.SoundSource].Ptr;
+                Sound = (Sound)eventData[E.SoundFinished.Sound].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr SoundSource { get; private set; }
+            public SoundSource SoundSource { get; private set; }
 
-            public IntPtr Sound { get; private set; }
+            public Sound Sound { get; private set; }
         }
 
         private event EventHandler<SoundFinishedEventArgs> SoundFinishedImpl;
@@ -96,8 +96,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                FrameNumber = eventData[E.BeginFrame.FrameNumber].UInt;
-                TimeStep = eventData[E.BeginFrame.TimeStep].Float;
+                FrameNumber = (uint)eventData[E.BeginFrame.FrameNumber].UInt;
+                TimeStep = (float)eventData[E.BeginFrame.TimeStep].Float;
             }
 
             public uint FrameNumber { get; private set; }
@@ -150,7 +150,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TimeStep = eventData[E.Update.TimeStep].Float;
+                TimeStep = (float)eventData[E.Update.TimeStep].Float;
             }
 
             public float TimeStep { get; private set; }
@@ -201,7 +201,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TimeStep = eventData[E.PostUpdate.TimeStep].Float;
+                TimeStep = (float)eventData[E.PostUpdate.TimeStep].Float;
             }
 
             public float TimeStep { get; private set; }
@@ -252,7 +252,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TimeStep = eventData[E.RenderUpdate.TimeStep].Float;
+                TimeStep = (float)eventData[E.RenderUpdate.TimeStep].Float;
             }
 
             public float TimeStep { get; private set; }
@@ -303,7 +303,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TimeStep = eventData[E.PostRenderUpdate.TimeStep].Float;
+                TimeStep = (float)eventData[E.PostRenderUpdate.TimeStep].Float;
             }
 
             public float TimeStep { get; private set; }
@@ -425,7 +425,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Item = eventData[E.WorkItemCompleted.Item].VoidPtr;
+                Item = (IntPtr)eventData[E.WorkItemCompleted.Item].VoidPtr;
             }
 
             public IntPtr Item { get; private set; }
@@ -494,8 +494,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Command = eventData[E.ConsoleCommand.Command].String;
-                Id = eventData[E.ConsoleCommand.Id].String;
+                Command = (String)eventData[E.ConsoleCommand.Command].String;
+                Id = (String)eventData[E.ConsoleCommand.Id].String;
             }
 
             public String Command { get; private set; }
@@ -548,8 +548,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Address = eventData[E.ConsoleUriClick.Address].String;
-                Protocol = eventData[E.ConsoleUriClick.Protocol].String;
+                Address = (String)eventData[E.ConsoleUriClick.Address].String;
+                Protocol = (String)eventData[E.ConsoleUriClick.Protocol].String;
             }
 
             public String Address { get; private set; }
@@ -964,10 +964,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.BoneHierarchyCreated.Node].VoidPtr;
+                Node = (Node)eventData[E.BoneHierarchyCreated.Node].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
         }
 
         private event EventHandler<BoneHierarchyCreatedEventArgs> BoneHierarchyCreatedImpl;
@@ -1015,16 +1015,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.AnimationTrigger.Node].VoidPtr;
-                Animation = eventData[E.AnimationTrigger.Animation].VoidPtr;
-                Name = eventData[E.AnimationTrigger.Name].String;
-                Time = eventData[E.AnimationTrigger.Time].Float;
+                Node = (Node)eventData[E.AnimationTrigger.Node].Ptr;
+                Animation = (Animation)eventData[E.AnimationTrigger.Animation].Ptr;
+                Name = (String)eventData[E.AnimationTrigger.Name].String;
+                Time = (float)eventData[E.AnimationTrigger.Time].Float;
                 Data = eventData[E.AnimationTrigger.Data];
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Animation { get; private set; }
+            public Animation Animation { get; private set; }
 
             public String Name { get; private set; }
 
@@ -1078,15 +1078,15 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.AnimationFinished.Node].VoidPtr;
-                Animation = eventData[E.AnimationFinished.Animation].VoidPtr;
-                Name = eventData[E.AnimationFinished.Name].String;
-                Looped = eventData[E.AnimationFinished.Looped].Bool;
+                Node = (Node)eventData[E.AnimationFinished.Node].Ptr;
+                Animation = (Animation)eventData[E.AnimationFinished.Animation].Ptr;
+                Name = (String)eventData[E.AnimationFinished.Name].String;
+                Looped = (bool)eventData[E.AnimationFinished.Looped].Bool;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Animation { get; private set; }
+            public Animation Animation { get; private set; }
 
             public String Name { get; private set; }
 
@@ -1138,13 +1138,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.ParticleEffectFinished.Node].VoidPtr;
-                Effect = eventData[E.ParticleEffectFinished.Effect].VoidPtr;
+                Node = (Node)eventData[E.ParticleEffectFinished.Node].Ptr;
+                Effect = (ParticleEffect)eventData[E.ParticleEffectFinished.Effect].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Effect { get; private set; }
+            public ParticleEffect Effect { get; private set; }
         }
 
         private event EventHandler<ParticleEffectFinishedEventArgs> ParticleEffectFinishedImpl;
@@ -1192,10 +1192,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.TerrainCreated.Node].VoidPtr;
+                Node = (Node)eventData[E.TerrainCreated.Node].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
         }
 
         private event EventHandler<TerrainCreatedEventArgs> TerrainCreatedImpl;
@@ -1265,14 +1265,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Width = eventData[E.ScreenMode.Width].Int;
-                Height = eventData[E.ScreenMode.Height].Int;
-                Fullscreen = eventData[E.ScreenMode.Fullscreen].Bool;
-                Borderless = eventData[E.ScreenMode.Borderless].Bool;
-                Resizable = eventData[E.ScreenMode.Resizable].Bool;
-                HighDPI = eventData[E.ScreenMode.HighDPI].Bool;
-                Monitor = eventData[E.ScreenMode.Monitor].Int;
-                RefreshRate = eventData[E.ScreenMode.RefreshRate].Int;
+                Width = (int)eventData[E.ScreenMode.Width].Int;
+                Height = (int)eventData[E.ScreenMode.Height].Int;
+                Fullscreen = (bool)eventData[E.ScreenMode.Fullscreen].Bool;
+                Borderless = (bool)eventData[E.ScreenMode.Borderless].Bool;
+                Resizable = (bool)eventData[E.ScreenMode.Resizable].Bool;
+                HighDPI = (bool)eventData[E.ScreenMode.HighDPI].Bool;
+                Monitor = (int)eventData[E.ScreenMode.Monitor].Int;
+                RefreshRate = (int)eventData[E.ScreenMode.RefreshRate].Int;
             }
 
             public int Width { get; private set; }
@@ -1337,8 +1337,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                X = eventData[E.WindowPos.X].Int;
-                Y = eventData[E.WindowPos.Y].Int;
+                X = (int)eventData[E.WindowPos.X].Int;
+                Y = (int)eventData[E.WindowPos.Y].Int;
             }
 
             public int X { get; private set; }
@@ -1535,22 +1535,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                View = eventData[E.BeginViewUpdate.View].VoidPtr;
-                Texture = eventData[E.BeginViewUpdate.Texture].VoidPtr;
-                Surface = eventData[E.BeginViewUpdate.Surface].VoidPtr;
-                Scene = eventData[E.BeginViewUpdate.Scene].VoidPtr;
-                Camera = eventData[E.BeginViewUpdate.Camera].VoidPtr;
+                View = (View)eventData[E.BeginViewUpdate.View].Ptr;
+                Texture = (Texture)eventData[E.BeginViewUpdate.Texture].Ptr;
+                Surface = (RenderSurface)eventData[E.BeginViewUpdate.Surface].Ptr;
+                Scene = (Scene)eventData[E.BeginViewUpdate.Scene].Ptr;
+                Camera = (Camera)eventData[E.BeginViewUpdate.Camera].Ptr;
             }
 
-            public IntPtr View { get; private set; }
+            public View View { get; private set; }
 
-            public IntPtr Texture { get; private set; }
+            public Texture Texture { get; private set; }
 
-            public IntPtr Surface { get; private set; }
+            public RenderSurface Surface { get; private set; }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
         }
 
         private event EventHandler<BeginViewUpdateEventArgs> BeginViewUpdateImpl;
@@ -1598,22 +1598,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                View = eventData[E.EndViewUpdate.View].VoidPtr;
-                Texture = eventData[E.EndViewUpdate.Texture].VoidPtr;
-                Surface = eventData[E.EndViewUpdate.Surface].VoidPtr;
-                Scene = eventData[E.EndViewUpdate.Scene].VoidPtr;
-                Camera = eventData[E.EndViewUpdate.Camera].VoidPtr;
+                View = (View)eventData[E.EndViewUpdate.View].Ptr;
+                Texture = (Texture)eventData[E.EndViewUpdate.Texture].Ptr;
+                Surface = (RenderSurface)eventData[E.EndViewUpdate.Surface].Ptr;
+                Scene = (Scene)eventData[E.EndViewUpdate.Scene].Ptr;
+                Camera = (Camera)eventData[E.EndViewUpdate.Camera].Ptr;
             }
 
-            public IntPtr View { get; private set; }
+            public View View { get; private set; }
 
-            public IntPtr Texture { get; private set; }
+            public Texture Texture { get; private set; }
 
-            public IntPtr Surface { get; private set; }
+            public RenderSurface Surface { get; private set; }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
         }
 
         private event EventHandler<EndViewUpdateEventArgs> EndViewUpdateImpl;
@@ -1661,22 +1661,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                View = eventData[E.BeginViewRender.View].VoidPtr;
-                Texture = eventData[E.BeginViewRender.Texture].VoidPtr;
-                Surface = eventData[E.BeginViewRender.Surface].VoidPtr;
-                Scene = eventData[E.BeginViewRender.Scene].VoidPtr;
-                Camera = eventData[E.BeginViewRender.Camera].VoidPtr;
+                View = (View)eventData[E.BeginViewRender.View].Ptr;
+                Texture = (Texture)eventData[E.BeginViewRender.Texture].Ptr;
+                Surface = (RenderSurface)eventData[E.BeginViewRender.Surface].Ptr;
+                Scene = (Scene)eventData[E.BeginViewRender.Scene].Ptr;
+                Camera = (Camera)eventData[E.BeginViewRender.Camera].Ptr;
             }
 
-            public IntPtr View { get; private set; }
+            public View View { get; private set; }
 
-            public IntPtr Texture { get; private set; }
+            public Texture Texture { get; private set; }
 
-            public IntPtr Surface { get; private set; }
+            public RenderSurface Surface { get; private set; }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
         }
 
         private event EventHandler<BeginViewRenderEventArgs> BeginViewRenderImpl;
@@ -1724,22 +1724,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                View = eventData[E.ViewBuffersReady.View].VoidPtr;
-                Texture = eventData[E.ViewBuffersReady.Texture].VoidPtr;
-                Surface = eventData[E.ViewBuffersReady.Surface].VoidPtr;
-                Scene = eventData[E.ViewBuffersReady.Scene].VoidPtr;
-                Camera = eventData[E.ViewBuffersReady.Camera].VoidPtr;
+                View = (View)eventData[E.ViewBuffersReady.View].Ptr;
+                Texture = (Texture)eventData[E.ViewBuffersReady.Texture].Ptr;
+                Surface = (RenderSurface)eventData[E.ViewBuffersReady.Surface].Ptr;
+                Scene = (Scene)eventData[E.ViewBuffersReady.Scene].Ptr;
+                Camera = (Camera)eventData[E.ViewBuffersReady.Camera].Ptr;
             }
 
-            public IntPtr View { get; private set; }
+            public View View { get; private set; }
 
-            public IntPtr Texture { get; private set; }
+            public Texture Texture { get; private set; }
 
-            public IntPtr Surface { get; private set; }
+            public RenderSurface Surface { get; private set; }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
         }
 
         private event EventHandler<ViewBuffersReadyEventArgs> ViewBuffersReadyImpl;
@@ -1787,22 +1787,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                View = eventData[E.ViewGlobalShaderParameters.View].VoidPtr;
-                Texture = eventData[E.ViewGlobalShaderParameters.Texture].VoidPtr;
-                Surface = eventData[E.ViewGlobalShaderParameters.Surface].VoidPtr;
-                Scene = eventData[E.ViewGlobalShaderParameters.Scene].VoidPtr;
-                Camera = eventData[E.ViewGlobalShaderParameters.Camera].VoidPtr;
+                View = (View)eventData[E.ViewGlobalShaderParameters.View].Ptr;
+                Texture = (Texture)eventData[E.ViewGlobalShaderParameters.Texture].Ptr;
+                Surface = (RenderSurface)eventData[E.ViewGlobalShaderParameters.Surface].Ptr;
+                Scene = (Scene)eventData[E.ViewGlobalShaderParameters.Scene].Ptr;
+                Camera = (Camera)eventData[E.ViewGlobalShaderParameters.Camera].Ptr;
             }
 
-            public IntPtr View { get; private set; }
+            public View View { get; private set; }
 
-            public IntPtr Texture { get; private set; }
+            public Texture Texture { get; private set; }
 
-            public IntPtr Surface { get; private set; }
+            public RenderSurface Surface { get; private set; }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
         }
 
         private event EventHandler<ViewGlobalShaderParametersEventArgs> ViewGlobalShaderParametersImpl;
@@ -1850,22 +1850,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                View = eventData[E.EndViewRender.View].VoidPtr;
-                Texture = eventData[E.EndViewRender.Texture].VoidPtr;
-                Surface = eventData[E.EndViewRender.Surface].VoidPtr;
-                Scene = eventData[E.EndViewRender.Scene].VoidPtr;
-                Camera = eventData[E.EndViewRender.Camera].VoidPtr;
+                View = (View)eventData[E.EndViewRender.View].Ptr;
+                Texture = (Texture)eventData[E.EndViewRender.Texture].Ptr;
+                Surface = (RenderSurface)eventData[E.EndViewRender.Surface].Ptr;
+                Scene = (Scene)eventData[E.EndViewRender.Scene].Ptr;
+                Camera = (Camera)eventData[E.EndViewRender.Camera].Ptr;
             }
 
-            public IntPtr View { get; private set; }
+            public View View { get; private set; }
 
-            public IntPtr Texture { get; private set; }
+            public Texture Texture { get; private set; }
 
-            public IntPtr Surface { get; private set; }
+            public RenderSurface Surface { get; private set; }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
         }
 
         private event EventHandler<EndViewRenderEventArgs> EndViewRenderImpl;
@@ -1961,7 +1961,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Name = eventData[E.RenderPathEvent.Name].String;
+                Name = (String)eventData[E.RenderPathEvent.Name].String;
             }
 
             public String Name { get; private set; }
@@ -2140,13 +2140,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                EffectorNode = eventData[E.IKEffectorTargetChanged.EffectorNode].VoidPtr;
-                  TargetNode = eventData[E.IKEffectorTargetChanged.  TargetNode].VoidPtr;
+                EffectorNode = (RefCounted)eventData[E.IKEffectorTargetChanged.EffectorNode].Ptr;
+                  TargetNode = (RefCounted)eventData[E.IKEffectorTargetChanged.  TargetNode].Ptr;
             }
 
-            public IntPtr EffectorNode { get; private set; }
+            public RefCounted EffectorNode { get; private set; }
 
-            public IntPtr   TargetNode { get; private set; }
+            public RefCounted   TargetNode { get; private set; }
         }
 
         private event EventHandler<IKEffectorTargetChangedEventArgs> IKEffectorTargetChangedImpl;
@@ -2212,10 +2212,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Button = eventData[E.MouseButtonDown.Button].Int;
-                Buttons = eventData[E.MouseButtonDown.Buttons].Int;
-                Qualifiers = eventData[E.MouseButtonDown.Qualifiers].Int;
-                Clicks = eventData[E.MouseButtonDown.Clicks].Int;
+                Button = (int)eventData[E.MouseButtonDown.Button].Int;
+                Buttons = (int)eventData[E.MouseButtonDown.Buttons].Int;
+                Qualifiers = (int)eventData[E.MouseButtonDown.Qualifiers].Int;
+                Clicks = (int)eventData[E.MouseButtonDown.Clicks].Int;
             }
 
             public int Button { get; private set; }
@@ -2272,9 +2272,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Button = eventData[E.MouseButtonUp.Button].Int;
-                Buttons = eventData[E.MouseButtonUp.Buttons].Int;
-                Qualifiers = eventData[E.MouseButtonUp.Qualifiers].Int;
+                Button = (int)eventData[E.MouseButtonUp.Button].Int;
+                Buttons = (int)eventData[E.MouseButtonUp.Buttons].Int;
+                Qualifiers = (int)eventData[E.MouseButtonUp.Qualifiers].Int;
             }
 
             public int Button { get; private set; }
@@ -2329,12 +2329,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                X = eventData[E.MouseMove.X].Int;
-                Y = eventData[E.MouseMove.Y].Int;
-                DX = eventData[E.MouseMove.DX].Int;
-                DY = eventData[E.MouseMove.DY].Int;
-                Buttons = eventData[E.MouseMove.Buttons].Int;
-                Qualifiers = eventData[E.MouseMove.Qualifiers].Int;
+                X = (int)eventData[E.MouseMove.X].Int;
+                Y = (int)eventData[E.MouseMove.Y].Int;
+                DX = (int)eventData[E.MouseMove.DX].Int;
+                DY = (int)eventData[E.MouseMove.DY].Int;
+                Buttons = (int)eventData[E.MouseMove.Buttons].Int;
+                Qualifiers = (int)eventData[E.MouseMove.Qualifiers].Int;
             }
 
             public int X { get; private set; }
@@ -2395,9 +2395,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Wheel = eventData[E.MouseWheel.Wheel].Int;
-                Buttons = eventData[E.MouseWheel.Buttons].Int;
-                Qualifiers = eventData[E.MouseWheel.Qualifiers].Int;
+                Wheel = (int)eventData[E.MouseWheel.Wheel].Int;
+                Buttons = (int)eventData[E.MouseWheel.Buttons].Int;
+                Qualifiers = (int)eventData[E.MouseWheel.Qualifiers].Int;
             }
 
             public int Wheel { get; private set; }
@@ -2452,11 +2452,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Key = eventData[E.KeyDown.Key].Int;
-                Scancode = eventData[E.KeyDown.Scancode].Int;
-                Buttons = eventData[E.KeyDown.Buttons].Int;
-                Qualifiers = eventData[E.KeyDown.Qualifiers].Int;
-                Repeat = eventData[E.KeyDown.Repeat].Bool;
+                Key = (int)eventData[E.KeyDown.Key].Int;
+                Scancode = (int)eventData[E.KeyDown.Scancode].Int;
+                Buttons = (int)eventData[E.KeyDown.Buttons].Int;
+                Qualifiers = (int)eventData[E.KeyDown.Qualifiers].Int;
+                Repeat = (bool)eventData[E.KeyDown.Repeat].Bool;
             }
 
             public int Key { get; private set; }
@@ -2515,10 +2515,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Key = eventData[E.KeyUp.Key].Int;
-                Scancode = eventData[E.KeyUp.Scancode].Int;
-                Buttons = eventData[E.KeyUp.Buttons].Int;
-                Qualifiers = eventData[E.KeyUp.Qualifiers].Int;
+                Key = (int)eventData[E.KeyUp.Key].Int;
+                Scancode = (int)eventData[E.KeyUp.Scancode].Int;
+                Buttons = (int)eventData[E.KeyUp.Buttons].Int;
+                Qualifiers = (int)eventData[E.KeyUp.Qualifiers].Int;
             }
 
             public int Key { get; private set; }
@@ -2575,7 +2575,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Text = eventData[E.TextInput.Text].String;
+                Text = (String)eventData[E.TextInput.Text].String;
             }
 
             public String Text { get; private set; }
@@ -2626,9 +2626,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Composition = eventData[E.TextEditing.Composition].String;
-                Cursor = eventData[E.TextEditing.Cursor].Int;
-                SelectionLength = eventData[E.TextEditing.SelectionLength].Int;
+                Composition = (String)eventData[E.TextEditing.Composition].String;
+                Cursor = (int)eventData[E.TextEditing.Cursor].Int;
+                SelectionLength = (int)eventData[E.TextEditing.SelectionLength].Int;
             }
 
             public String Composition { get; private set; }
@@ -2683,7 +2683,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                JoystickID = eventData[E.JoystickConnected.JoystickID].Int;
+                JoystickID = (int)eventData[E.JoystickConnected.JoystickID].Int;
             }
 
             public int JoystickID { get; private set; }
@@ -2734,7 +2734,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                JoystickID = eventData[E.JoystickDisconnected.JoystickID].Int;
+                JoystickID = (int)eventData[E.JoystickDisconnected.JoystickID].Int;
             }
 
             public int JoystickID { get; private set; }
@@ -2785,8 +2785,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                JoystickID = eventData[E.JoystickButtonDown.JoystickID].Int;
-                Button = eventData[E.JoystickButtonDown.Button].Int;
+                JoystickID = (int)eventData[E.JoystickButtonDown.JoystickID].Int;
+                Button = (int)eventData[E.JoystickButtonDown.Button].Int;
             }
 
             public int JoystickID { get; private set; }
@@ -2839,8 +2839,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                JoystickID = eventData[E.JoystickButtonUp.JoystickID].Int;
-                Button = eventData[E.JoystickButtonUp.Button].Int;
+                JoystickID = (int)eventData[E.JoystickButtonUp.JoystickID].Int;
+                Button = (int)eventData[E.JoystickButtonUp.Button].Int;
             }
 
             public int JoystickID { get; private set; }
@@ -2893,9 +2893,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                JoystickID = eventData[E.JoystickAxisMove.JoystickID].Int;
-                Button = eventData[E.JoystickAxisMove.Button].Int;
-                Position = eventData[E.JoystickAxisMove.Position].Float;
+                JoystickID = (int)eventData[E.JoystickAxisMove.JoystickID].Int;
+                Button = (int)eventData[E.JoystickAxisMove.Button].Int;
+                Position = (float)eventData[E.JoystickAxisMove.Position].Float;
             }
 
             public int JoystickID { get; private set; }
@@ -2950,9 +2950,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                JoystickID = eventData[E.JoystickHatMove.JoystickID].Int;
-                Button = eventData[E.JoystickHatMove.Button].Int;
-                Position = eventData[E.JoystickHatMove.Position].Int;
+                JoystickID = (int)eventData[E.JoystickHatMove.JoystickID].Int;
+                Button = (int)eventData[E.JoystickHatMove.Button].Int;
+                Position = (int)eventData[E.JoystickHatMove.Position].Int;
             }
 
             public int JoystickID { get; private set; }
@@ -3007,10 +3007,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TouchID = eventData[E.TouchBegin.TouchID].Int;
-                X = eventData[E.TouchBegin.X].Int;
-                Y = eventData[E.TouchBegin.Y].Int;
-                Pressure = eventData[E.TouchBegin.Pressure].Float;
+                TouchID = (int)eventData[E.TouchBegin.TouchID].Int;
+                X = (int)eventData[E.TouchBegin.X].Int;
+                Y = (int)eventData[E.TouchBegin.Y].Int;
+                Pressure = (float)eventData[E.TouchBegin.Pressure].Float;
             }
 
             public int TouchID { get; private set; }
@@ -3067,9 +3067,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TouchID = eventData[E.TouchEnd.TouchID].Int;
-                X = eventData[E.TouchEnd.X].Int;
-                Y = eventData[E.TouchEnd.Y].Int;
+                TouchID = (int)eventData[E.TouchEnd.TouchID].Int;
+                X = (int)eventData[E.TouchEnd.X].Int;
+                Y = (int)eventData[E.TouchEnd.Y].Int;
             }
 
             public int TouchID { get; private set; }
@@ -3124,12 +3124,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                TouchID = eventData[E.TouchMove.TouchID].Int;
-                X = eventData[E.TouchMove.X].Int;
-                Y = eventData[E.TouchMove.Y].Int;
-                DX = eventData[E.TouchMove.DX].Int;
-                DY = eventData[E.TouchMove.DY].Int;
-                Pressure = eventData[E.TouchMove.Pressure].Float;
+                TouchID = (int)eventData[E.TouchMove.TouchID].Int;
+                X = (int)eventData[E.TouchMove.X].Int;
+                Y = (int)eventData[E.TouchMove.Y].Int;
+                DX = (int)eventData[E.TouchMove.DX].Int;
+                DY = (int)eventData[E.TouchMove.DY].Int;
+                Pressure = (float)eventData[E.TouchMove.Pressure].Float;
             }
 
             public int TouchID { get; private set; }
@@ -3190,7 +3190,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                GestureID = eventData[E.GestureRecorded.GestureID].UInt;
+                GestureID = (uint)eventData[E.GestureRecorded.GestureID].UInt;
             }
 
             public uint GestureID { get; private set; }
@@ -3241,11 +3241,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                GestureID = eventData[E.GestureInput.GestureID].UInt;
-                CenterX = eventData[E.GestureInput.CenterX].Int;
-                CenterY = eventData[E.GestureInput.CenterY].Int;
-                NumFingers = eventData[E.GestureInput.NumFingers].Int;
-                Error = eventData[E.GestureInput.Error].Float;
+                GestureID = (uint)eventData[E.GestureInput.GestureID].UInt;
+                CenterX = (int)eventData[E.GestureInput.CenterX].Int;
+                CenterY = (int)eventData[E.GestureInput.CenterY].Int;
+                NumFingers = (int)eventData[E.GestureInput.NumFingers].Int;
+                Error = (float)eventData[E.GestureInput.Error].Float;
             }
 
             public uint GestureID { get; private set; }
@@ -3304,11 +3304,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                CenterX = eventData[E.MultiGesture.CenterX].Int;
-                CenterY = eventData[E.MultiGesture.CenterY].Int;
-                NumFingers = eventData[E.MultiGesture.NumFingers].Int;
-                DTheta = eventData[E.MultiGesture.DTheta].Float;
-                DDist = eventData[E.MultiGesture.DDist].Float;
+                CenterX = (int)eventData[E.MultiGesture.CenterX].Int;
+                CenterY = (int)eventData[E.MultiGesture.CenterY].Int;
+                NumFingers = (int)eventData[E.MultiGesture.NumFingers].Int;
+                DTheta = (float)eventData[E.MultiGesture.DTheta].Float;
+                DDist = (float)eventData[E.MultiGesture.DDist].Float;
             }
 
             public int CenterX { get; private set; }
@@ -3367,7 +3367,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                FileName = eventData[E.DropFile.FileName].String;
+                FileName = (String)eventData[E.DropFile.FileName].String;
             }
 
             public String FileName { get; private set; }
@@ -3418,8 +3418,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Focus = eventData[E.InputFocus.Focus].Bool;
-                Minimized = eventData[E.InputFocus.Minimized].Bool;
+                Focus = (bool)eventData[E.InputFocus.Focus].Bool;
+                Minimized = (bool)eventData[E.InputFocus.Minimized].Bool;
             }
 
             public bool Focus { get; private set; }
@@ -3472,7 +3472,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Visible = eventData[E.MouseVisibleChanged.Visible].Bool;
+                Visible = (bool)eventData[E.MouseVisibleChanged.Visible].Bool;
             }
 
             public bool Visible { get; private set; }
@@ -3523,8 +3523,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Mode = eventData[E.MouseModeChanged.Mode].Int;
-                MouseLocked = eventData[E.MouseModeChanged.MouseLocked].Bool;
+                Mode = (int)eventData[E.MouseModeChanged.Mode].Int;
+                MouseLocked = (bool)eventData[E.MouseModeChanged.MouseLocked].Bool;
             }
 
             public int Mode { get; private set; }
@@ -3625,8 +3625,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                SDLEvent = eventData[E.SDLRawInput.SDLEvent].VoidPtr;
-                Consumed = eventData[E.SDLRawInput.Consumed].Bool;
+                SDLEvent = (IntPtr)eventData[E.SDLRawInput.SDLEvent].VoidPtr;
+                Consumed = (bool)eventData[E.SDLRawInput.Consumed].Bool;
             }
 
             public IntPtr SDLEvent { get; private set; }
@@ -3820,10 +3820,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Message = eventData[E.LogMessage.Message].String;
-                Logger = eventData[E.LogMessage.Logger].String;
-                Level = eventData[E.LogMessage.Level].Int;
-                Time = eventData[E.LogMessage.Time].UInt;
+                Message = (String)eventData[E.LogMessage.Message].String;
+                Logger = (String)eventData[E.LogMessage.Logger].String;
+                Level = (int)eventData[E.LogMessage.Level].Int;
+                Time = (uint)eventData[E.LogMessage.Time].UInt;
             }
 
             public String Message { get; private set; }
@@ -3880,8 +3880,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                RequestID = eventData[E.AsyncExecFinished.RequestID].UInt;
-                ExitCode = eventData[E.AsyncExecFinished.ExitCode].Int;
+                RequestID = (uint)eventData[E.AsyncExecFinished.RequestID].UInt;
+                ExitCode = (int)eventData[E.AsyncExecFinished.ExitCode].Int;
             }
 
             public uint RequestID { get; private set; }
@@ -3953,13 +3953,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationMeshRebuilt.Node].VoidPtr;
-                Mesh = eventData[E.NavigationMeshRebuilt.Mesh].VoidPtr;
+                Node = (Node)eventData[E.NavigationMeshRebuilt.Node].Ptr;
+                Mesh = (NavigationMesh)eventData[E.NavigationMeshRebuilt.Mesh].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Mesh { get; private set; }
+            public NavigationMesh Mesh { get; private set; }
         }
 
         private event EventHandler<NavigationMeshRebuiltEventArgs> NavigationMeshRebuiltImpl;
@@ -4007,15 +4007,15 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationAreaRebuilt.Node].VoidPtr;
-                Mesh = eventData[E.NavigationAreaRebuilt.Mesh].VoidPtr;
-                BoundsMin = eventData[E.NavigationAreaRebuilt.BoundsMin].Vector3;
-                BoundsMax = eventData[E.NavigationAreaRebuilt.BoundsMax].Vector3;
+                Node = (Node)eventData[E.NavigationAreaRebuilt.Node].Ptr;
+                Mesh = (NavigationMesh)eventData[E.NavigationAreaRebuilt.Mesh].Ptr;
+                BoundsMin = (Vector3)eventData[E.NavigationAreaRebuilt.BoundsMin].Vector3;
+                BoundsMax = (Vector3)eventData[E.NavigationAreaRebuilt.BoundsMax].Vector3;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Mesh { get; private set; }
+            public NavigationMesh Mesh { get; private set; }
 
             public Vector3 BoundsMin { get; private set; }
 
@@ -4067,14 +4067,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationTileAdded.Node].VoidPtr;
-                Mesh = eventData[E.NavigationTileAdded.Mesh].VoidPtr;
-                Tile = eventData[E.NavigationTileAdded.Tile].Int;
+                Node = (Node)eventData[E.NavigationTileAdded.Node].Ptr;
+                Mesh = (NavigationMesh)eventData[E.NavigationTileAdded.Mesh].Ptr;
+                Tile = (int)eventData[E.NavigationTileAdded.Tile].Int;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Mesh { get; private set; }
+            public NavigationMesh Mesh { get; private set; }
 
             public int Tile { get; private set; }
         }
@@ -4124,14 +4124,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationTileRemoved.Node].VoidPtr;
-                Mesh = eventData[E.NavigationTileRemoved.Mesh].VoidPtr;
-                Tile = eventData[E.NavigationTileRemoved.Tile].Int;
+                Node = (Node)eventData[E.NavigationTileRemoved.Node].Ptr;
+                Mesh = (NavigationMesh)eventData[E.NavigationTileRemoved.Mesh].Ptr;
+                Tile = (int)eventData[E.NavigationTileRemoved.Tile].Int;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Mesh { get; private set; }
+            public NavigationMesh Mesh { get; private set; }
 
             public int Tile { get; private set; }
         }
@@ -4181,13 +4181,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationAllTilesRemoved.Node].VoidPtr;
-                Mesh = eventData[E.NavigationAllTilesRemoved.Mesh].VoidPtr;
+                Node = (Node)eventData[E.NavigationAllTilesRemoved.Node].Ptr;
+                Mesh = (NavigationMesh)eventData[E.NavigationAllTilesRemoved.Mesh].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Mesh { get; private set; }
+            public NavigationMesh Mesh { get; private set; }
         }
 
         private event EventHandler<NavigationAllTilesRemovedEventArgs> NavigationAllTilesRemovedImpl;
@@ -4235,16 +4235,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentFormation.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentFormation.CrowdAgent].VoidPtr;
-                Index = eventData[E.CrowdAgentFormation.Index].UInt;
-                Size = eventData[E.CrowdAgentFormation.Size].UInt;
-                Position = eventData[E.CrowdAgentFormation.Position].Vector3;
+                Node = (Node)eventData[E.CrowdAgentFormation.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentFormation.CrowdAgent].Ptr;
+                Index = (uint)eventData[E.CrowdAgentFormation.Index].UInt;
+                Size = (uint)eventData[E.CrowdAgentFormation.Size].UInt;
+                Position = (Vector3)eventData[E.CrowdAgentFormation.Position].Vector3;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public uint Index { get; private set; }
 
@@ -4298,16 +4298,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentNodeFormation.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentNodeFormation.CrowdAgent].VoidPtr;
-                Index = eventData[E.CrowdAgentNodeFormation.Index].UInt;
-                Size = eventData[E.CrowdAgentNodeFormation.Size].UInt;
-                Position = eventData[E.CrowdAgentNodeFormation.Position].Vector3;
+                Node = (Node)eventData[E.CrowdAgentNodeFormation.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentNodeFormation.CrowdAgent].Ptr;
+                Index = (uint)eventData[E.CrowdAgentNodeFormation.Index].UInt;
+                Size = (uint)eventData[E.CrowdAgentNodeFormation.Size].UInt;
+                Position = (Vector3)eventData[E.CrowdAgentNodeFormation.Position].Vector3;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public uint Index { get; private set; }
 
@@ -4361,17 +4361,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentReposition.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentReposition.CrowdAgent].VoidPtr;
-                Position = eventData[E.CrowdAgentReposition.Position].Vector3;
-                Velocity = eventData[E.CrowdAgentReposition.Velocity].Vector3;
-                Arrived = eventData[E.CrowdAgentReposition.Arrived].Bool;
-                TimeStep = eventData[E.CrowdAgentReposition.TimeStep].Float;
+                Node = (Node)eventData[E.CrowdAgentReposition.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentReposition.CrowdAgent].Ptr;
+                Position = (Vector3)eventData[E.CrowdAgentReposition.Position].Vector3;
+                Velocity = (Vector3)eventData[E.CrowdAgentReposition.Velocity].Vector3;
+                Arrived = (bool)eventData[E.CrowdAgentReposition.Arrived].Bool;
+                TimeStep = (float)eventData[E.CrowdAgentReposition.TimeStep].Float;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4427,17 +4427,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentNodeReposition.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentNodeReposition.CrowdAgent].VoidPtr;
-                Position = eventData[E.CrowdAgentNodeReposition.Position].Vector3;
-                Velocity = eventData[E.CrowdAgentNodeReposition.Velocity].Vector3;
-                Arrived = eventData[E.CrowdAgentNodeReposition.Arrived].Bool;
-                TimeStep = eventData[E.CrowdAgentNodeReposition.TimeStep].Float;
+                Node = (Node)eventData[E.CrowdAgentNodeReposition.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentNodeReposition.CrowdAgent].Ptr;
+                Position = (Vector3)eventData[E.CrowdAgentNodeReposition.Position].Vector3;
+                Velocity = (Vector3)eventData[E.CrowdAgentNodeReposition.Velocity].Vector3;
+                Arrived = (bool)eventData[E.CrowdAgentNodeReposition.Arrived].Bool;
+                TimeStep = (float)eventData[E.CrowdAgentNodeReposition.TimeStep].Float;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4493,17 +4493,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentFailure.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentFailure.CrowdAgent].VoidPtr;
-                Position = eventData[E.CrowdAgentFailure.Position].Vector3;
-                Velocity = eventData[E.CrowdAgentFailure.Velocity].Vector3;
-                CrowdAgentState = eventData[E.CrowdAgentFailure.CrowdAgentState].Int;
-                CrowdTargetState = eventData[E.CrowdAgentFailure.CrowdTargetState].Int;
+                Node = (Node)eventData[E.CrowdAgentFailure.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentFailure.CrowdAgent].Ptr;
+                Position = (Vector3)eventData[E.CrowdAgentFailure.Position].Vector3;
+                Velocity = (Vector3)eventData[E.CrowdAgentFailure.Velocity].Vector3;
+                CrowdAgentState = (int)eventData[E.CrowdAgentFailure.CrowdAgentState].Int;
+                CrowdTargetState = (int)eventData[E.CrowdAgentFailure.CrowdTargetState].Int;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4559,17 +4559,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentNodeFailure.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentNodeFailure.CrowdAgent].VoidPtr;
-                Position = eventData[E.CrowdAgentNodeFailure.Position].Vector3;
-                Velocity = eventData[E.CrowdAgentNodeFailure.Velocity].Vector3;
-                CrowdAgentState = eventData[E.CrowdAgentNodeFailure.CrowdAgentState].Int;
-                CrowdTargetState = eventData[E.CrowdAgentNodeFailure.CrowdTargetState].Int;
+                Node = (Node)eventData[E.CrowdAgentNodeFailure.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentNodeFailure.CrowdAgent].Ptr;
+                Position = (Vector3)eventData[E.CrowdAgentNodeFailure.Position].Vector3;
+                Velocity = (Vector3)eventData[E.CrowdAgentNodeFailure.Velocity].Vector3;
+                CrowdAgentState = (int)eventData[E.CrowdAgentNodeFailure.CrowdAgentState].Int;
+                CrowdTargetState = (int)eventData[E.CrowdAgentNodeFailure.CrowdTargetState].Int;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4625,17 +4625,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentStateChanged.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentStateChanged.CrowdAgent].VoidPtr;
-                Position = eventData[E.CrowdAgentStateChanged.Position].Vector3;
-                Velocity = eventData[E.CrowdAgentStateChanged.Velocity].Vector3;
-                CrowdAgentState = eventData[E.CrowdAgentStateChanged.CrowdAgentState].Int;
-                CrowdTargetState = eventData[E.CrowdAgentStateChanged.CrowdTargetState].Int;
+                Node = (Node)eventData[E.CrowdAgentStateChanged.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentStateChanged.CrowdAgent].Ptr;
+                Position = (Vector3)eventData[E.CrowdAgentStateChanged.Position].Vector3;
+                Velocity = (Vector3)eventData[E.CrowdAgentStateChanged.Velocity].Vector3;
+                CrowdAgentState = (int)eventData[E.CrowdAgentStateChanged.CrowdAgentState].Int;
+                CrowdTargetState = (int)eventData[E.CrowdAgentStateChanged.CrowdTargetState].Int;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4691,17 +4691,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.CrowdAgentNodeStateChanged.Node].VoidPtr;
-                CrowdAgent = eventData[E.CrowdAgentNodeStateChanged.CrowdAgent].VoidPtr;
-                Position = eventData[E.CrowdAgentNodeStateChanged.Position].Vector3;
-                Velocity = eventData[E.CrowdAgentNodeStateChanged.Velocity].Vector3;
-                CrowdAgentState = eventData[E.CrowdAgentNodeStateChanged.CrowdAgentState].Int;
-                CrowdTargetState = eventData[E.CrowdAgentNodeStateChanged.CrowdTargetState].Int;
+                Node = (Node)eventData[E.CrowdAgentNodeStateChanged.Node].Ptr;
+                CrowdAgent = (CrowdAgent)eventData[E.CrowdAgentNodeStateChanged.CrowdAgent].Ptr;
+                Position = (Vector3)eventData[E.CrowdAgentNodeStateChanged.Position].Vector3;
+                Velocity = (Vector3)eventData[E.CrowdAgentNodeStateChanged.Velocity].Vector3;
+                CrowdAgentState = (int)eventData[E.CrowdAgentNodeStateChanged.CrowdAgentState].Int;
+                CrowdTargetState = (int)eventData[E.CrowdAgentNodeStateChanged.CrowdTargetState].Int;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CrowdAgent { get; private set; }
+            public CrowdAgent CrowdAgent { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4757,16 +4757,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationObstacleAdded.Node].VoidPtr;
-                Obstacle = eventData[E.NavigationObstacleAdded.Obstacle].VoidPtr;
-                Position = eventData[E.NavigationObstacleAdded.Position].Vector3;
-                Radius = eventData[E.NavigationObstacleAdded.Radius].Float;
-                Height = eventData[E.NavigationObstacleAdded.Height].Float;
+                Node = (Node)eventData[E.NavigationObstacleAdded.Node].Ptr;
+                Obstacle = (Obstacle)eventData[E.NavigationObstacleAdded.Obstacle].Ptr;
+                Position = (Vector3)eventData[E.NavigationObstacleAdded.Position].Vector3;
+                Radius = (float)eventData[E.NavigationObstacleAdded.Radius].Float;
+                Height = (float)eventData[E.NavigationObstacleAdded.Height].Float;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Obstacle { get; private set; }
+            public Obstacle Obstacle { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -4820,16 +4820,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.NavigationObstacleRemoved.Node].VoidPtr;
-                Obstacle = eventData[E.NavigationObstacleRemoved.Obstacle].VoidPtr;
-                Position = eventData[E.NavigationObstacleRemoved.Position].Vector3;
-                Radius = eventData[E.NavigationObstacleRemoved.Radius].Float;
-                Height = eventData[E.NavigationObstacleRemoved.Height].Float;
+                Node = (Node)eventData[E.NavigationObstacleRemoved.Node].Ptr;
+                Obstacle = (Obstacle)eventData[E.NavigationObstacleRemoved.Obstacle].Ptr;
+                Position = (Vector3)eventData[E.NavigationObstacleRemoved.Position].Vector3;
+                Radius = (float)eventData[E.NavigationObstacleRemoved.Radius].Float;
+                Height = (float)eventData[E.NavigationObstacleRemoved.Height].Float;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Obstacle { get; private set; }
+            public Obstacle Obstacle { get; private set; }
 
             public Vector3 Position { get; private set; }
 
@@ -5107,10 +5107,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.ClientConnected.Connection].VoidPtr;
+                Connection = (Connection)eventData[E.ClientConnected.Connection].Ptr;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
         }
 
         private event EventHandler<ClientConnectedEventArgs> ClientConnectedImpl;
@@ -5158,10 +5158,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.ClientDisconnected.Connection].VoidPtr;
+                Connection = (Connection)eventData[E.ClientDisconnected.Connection].Ptr;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
         }
 
         private event EventHandler<ClientDisconnectedEventArgs> ClientDisconnectedImpl;
@@ -5209,11 +5209,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.ClientIdentity.Connection].VoidPtr;
-                Allow = eventData[E.ClientIdentity.Allow].Bool;
+                Connection = (Connection)eventData[E.ClientIdentity.Connection].Ptr;
+                Allow = (bool)eventData[E.ClientIdentity.Allow].Bool;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
 
             public bool Allow { get; private set; }
         }
@@ -5263,10 +5263,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.ClientSceneLoaded.Connection].VoidPtr;
+                Connection = (Connection)eventData[E.ClientSceneLoaded.Connection].Ptr;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
         }
 
         private event EventHandler<ClientSceneLoadedEventArgs> ClientSceneLoadedImpl;
@@ -5314,11 +5314,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.NetworkMessage.Connection].VoidPtr;
-                MessageID = eventData[E.NetworkMessage.MessageID].Int;
+                Connection = (Connection)eventData[E.NetworkMessage.Connection].Ptr;
+                MessageID = (int)eventData[E.NetworkMessage.MessageID].Int;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
 
             public int MessageID { get; private set; }
         }
@@ -5464,10 +5464,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.NetworkSceneLoadFailed.Connection].VoidPtr;
+                Connection = (Connection)eventData[E.NetworkSceneLoadFailed.Connection].Ptr;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
         }
 
         private event EventHandler<NetworkSceneLoadFailedEventArgs> NetworkSceneLoadFailedImpl;
@@ -5515,10 +5515,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Connection = eventData[E.RemoteEventData.Connection].VoidPtr;
+                Connection = (Connection)eventData[E.RemoteEventData.Connection].Ptr;
             }
 
-            public IntPtr Connection { get; private set; }
+            public Connection Connection { get; private set; }
         }
 
         private event EventHandler<RemoteEventDataEventArgs> RemoteEventDataImpl;
@@ -5662,9 +5662,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Address = eventData[E.NetworkHostDiscovered.Address].String;
-                Port = eventData[E.NetworkHostDiscovered.Port].Int;
-                Beacon = eventData[E.NetworkHostDiscovered.Beacon].VariantMap;
+                Address = (String)eventData[E.NetworkHostDiscovered.Address].String;
+                Port = (int)eventData[E.NetworkHostDiscovered.Port].Int;
+                Beacon = (VariantMap)eventData[E.NetworkHostDiscovered.Beacon].VariantMap;
             }
 
             public String Address { get; private set; }
@@ -5719,8 +5719,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Address = eventData[E.NetworkNatPunchtroughSucceeded.Address].String;
-                Port = eventData[E.NetworkNatPunchtroughSucceeded.Port].Int;
+                Address = (String)eventData[E.NetworkNatPunchtroughSucceeded.Address].String;
+                Port = (int)eventData[E.NetworkNatPunchtroughSucceeded.Port].Int;
             }
 
             public String Address { get; private set; }
@@ -5773,8 +5773,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Address = eventData[E.NetworkNatPunchtroughFailed.Address].String;
-                Port = eventData[E.NetworkNatPunchtroughFailed.Port].Int;
+                Address = (String)eventData[E.NetworkNatPunchtroughFailed.Address].String;
+                Port = (int)eventData[E.NetworkNatPunchtroughFailed.Port].Int;
             }
 
             public String Address { get; private set; }
@@ -6009,11 +6009,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsPreStep.World].VoidPtr;
-                TimeStep = eventData[E.PhysicsPreStep.TimeStep].Float;
+                World = (PhysicsWorld)eventData[E.PhysicsPreStep.World].Ptr;
+                TimeStep = (float)eventData[E.PhysicsPreStep.TimeStep].Float;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld World { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -6063,11 +6063,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsPostStep.World].VoidPtr;
-                TimeStep = eventData[E.PhysicsPostStep.TimeStep].Float;
+                World = (PhysicsWorld)eventData[E.PhysicsPostStep.World].Ptr;
+                TimeStep = (float)eventData[E.PhysicsPostStep.TimeStep].Float;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld World { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -6117,23 +6117,23 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsCollisionStart.World].VoidPtr;
-                NodeA = eventData[E.PhysicsCollisionStart.NodeA].VoidPtr;
-                NodeB = eventData[E.PhysicsCollisionStart.NodeB].VoidPtr;
-                BodyA = eventData[E.PhysicsCollisionStart.BodyA].VoidPtr;
-                BodyB = eventData[E.PhysicsCollisionStart.BodyB].VoidPtr;
-                Trigger = eventData[E.PhysicsCollisionStart.Trigger].Bool;
+                World = (PhysicsWorld)eventData[E.PhysicsCollisionStart.World].Ptr;
+                NodeA = (Node)eventData[E.PhysicsCollisionStart.NodeA].Ptr;
+                NodeB = (Node)eventData[E.PhysicsCollisionStart.NodeB].Ptr;
+                BodyA = (RigidBody)eventData[E.PhysicsCollisionStart.BodyA].Ptr;
+                BodyB = (RigidBody)eventData[E.PhysicsCollisionStart.BodyB].Ptr;
+                Trigger = (bool)eventData[E.PhysicsCollisionStart.Trigger].Bool;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld World { get; private set; }
 
-            public IntPtr NodeA { get; private set; }
+            public Node NodeA { get; private set; }
 
-            public IntPtr NodeB { get; private set; }
+            public Node NodeB { get; private set; }
 
-            public IntPtr BodyA { get; private set; }
+            public RigidBody BodyA { get; private set; }
 
-            public IntPtr BodyB { get; private set; }
+            public RigidBody BodyB { get; private set; }
 
             public bool Trigger { get; private set; }
         }
@@ -6183,23 +6183,23 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsCollision.World].VoidPtr;
-                NodeA = eventData[E.PhysicsCollision.NodeA].VoidPtr;
-                NodeB = eventData[E.PhysicsCollision.NodeB].VoidPtr;
-                BodyA = eventData[E.PhysicsCollision.BodyA].VoidPtr;
-                BodyB = eventData[E.PhysicsCollision.BodyB].VoidPtr;
-                Trigger = eventData[E.PhysicsCollision.Trigger].Bool;
+                World = (PhysicsWorld)eventData[E.PhysicsCollision.World].Ptr;
+                NodeA = (Node)eventData[E.PhysicsCollision.NodeA].Ptr;
+                NodeB = (Node)eventData[E.PhysicsCollision.NodeB].Ptr;
+                BodyA = (RigidBody)eventData[E.PhysicsCollision.BodyA].Ptr;
+                BodyB = (RigidBody)eventData[E.PhysicsCollision.BodyB].Ptr;
+                Trigger = (bool)eventData[E.PhysicsCollision.Trigger].Bool;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld World { get; private set; }
 
-            public IntPtr NodeA { get; private set; }
+            public Node NodeA { get; private set; }
 
-            public IntPtr NodeB { get; private set; }
+            public Node NodeB { get; private set; }
 
-            public IntPtr BodyA { get; private set; }
+            public RigidBody BodyA { get; private set; }
 
-            public IntPtr BodyB { get; private set; }
+            public RigidBody BodyB { get; private set; }
 
             public bool Trigger { get; private set; }
         }
@@ -6249,23 +6249,23 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsCollisionEnd.World].VoidPtr;
-                NodeA = eventData[E.PhysicsCollisionEnd.NodeA].VoidPtr;
-                NodeB = eventData[E.PhysicsCollisionEnd.NodeB].VoidPtr;
-                BodyA = eventData[E.PhysicsCollisionEnd.BodyA].VoidPtr;
-                BodyB = eventData[E.PhysicsCollisionEnd.BodyB].VoidPtr;
-                Trigger = eventData[E.PhysicsCollisionEnd.Trigger].Bool;
+                World = (PhysicsWorld)eventData[E.PhysicsCollisionEnd.World].Ptr;
+                NodeA = (Node)eventData[E.PhysicsCollisionEnd.NodeA].Ptr;
+                NodeB = (Node)eventData[E.PhysicsCollisionEnd.NodeB].Ptr;
+                BodyA = (RigidBody)eventData[E.PhysicsCollisionEnd.BodyA].Ptr;
+                BodyB = (RigidBody)eventData[E.PhysicsCollisionEnd.BodyB].Ptr;
+                Trigger = (bool)eventData[E.PhysicsCollisionEnd.Trigger].Bool;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld World { get; private set; }
 
-            public IntPtr NodeA { get; private set; }
+            public Node NodeA { get; private set; }
 
-            public IntPtr NodeB { get; private set; }
+            public Node NodeB { get; private set; }
 
-            public IntPtr BodyA { get; private set; }
+            public RigidBody BodyA { get; private set; }
 
-            public IntPtr BodyB { get; private set; }
+            public RigidBody BodyB { get; private set; }
 
             public bool Trigger { get; private set; }
         }
@@ -6315,17 +6315,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Body = eventData[E.NodeCollisionStart.Body].VoidPtr;
-                OtherNode = eventData[E.NodeCollisionStart.OtherNode].VoidPtr;
-                OtherBody = eventData[E.NodeCollisionStart.OtherBody].VoidPtr;
-                Trigger = eventData[E.NodeCollisionStart.Trigger].Bool;
+                Body = (RigidBody)eventData[E.NodeCollisionStart.Body].Ptr;
+                OtherNode = (Node)eventData[E.NodeCollisionStart.OtherNode].Ptr;
+                OtherBody = (RigidBody)eventData[E.NodeCollisionStart.OtherBody].Ptr;
+                Trigger = (bool)eventData[E.NodeCollisionStart.Trigger].Bool;
             }
 
-            public IntPtr Body { get; private set; }
+            public RigidBody Body { get; private set; }
 
-            public IntPtr OtherNode { get; private set; }
+            public Node OtherNode { get; private set; }
 
-            public IntPtr OtherBody { get; private set; }
+            public RigidBody OtherBody { get; private set; }
 
             public bool Trigger { get; private set; }
         }
@@ -6375,17 +6375,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Body = eventData[E.NodeCollision.Body].VoidPtr;
-                OtherNode = eventData[E.NodeCollision.OtherNode].VoidPtr;
-                OtherBody = eventData[E.NodeCollision.OtherBody].VoidPtr;
-                Trigger = eventData[E.NodeCollision.Trigger].Bool;
+                Body = (RigidBody)eventData[E.NodeCollision.Body].Ptr;
+                OtherNode = (Node)eventData[E.NodeCollision.OtherNode].Ptr;
+                OtherBody = (RigidBody)eventData[E.NodeCollision.OtherBody].Ptr;
+                Trigger = (bool)eventData[E.NodeCollision.Trigger].Bool;
             }
 
-            public IntPtr Body { get; private set; }
+            public RigidBody Body { get; private set; }
 
-            public IntPtr OtherNode { get; private set; }
+            public Node OtherNode { get; private set; }
 
-            public IntPtr OtherBody { get; private set; }
+            public RigidBody OtherBody { get; private set; }
 
             public bool Trigger { get; private set; }
         }
@@ -6435,17 +6435,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Body = eventData[E.NodeCollisionEnd.Body].VoidPtr;
-                OtherNode = eventData[E.NodeCollisionEnd.OtherNode].VoidPtr;
-                OtherBody = eventData[E.NodeCollisionEnd.OtherBody].VoidPtr;
-                Trigger = eventData[E.NodeCollisionEnd.Trigger].Bool;
+                Body = (RigidBody)eventData[E.NodeCollisionEnd.Body].Ptr;
+                OtherNode = (Node)eventData[E.NodeCollisionEnd.OtherNode].Ptr;
+                OtherBody = (RigidBody)eventData[E.NodeCollisionEnd.OtherBody].Ptr;
+                Trigger = (bool)eventData[E.NodeCollisionEnd.Trigger].Bool;
             }
 
-            public IntPtr Body { get; private set; }
+            public RigidBody Body { get; private set; }
 
-            public IntPtr OtherNode { get; private set; }
+            public Node OtherNode { get; private set; }
 
-            public IntPtr OtherBody { get; private set; }
+            public RigidBody OtherBody { get; private set; }
 
             public bool Trigger { get; private set; }
         }
@@ -6664,8 +6664,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                FileName = eventData[E.FileChanged.FileName].String;
-                ResourceName = eventData[E.FileChanged.ResourceName].String;
+                FileName = (String)eventData[E.FileChanged.FileName].String;
+                ResourceName = (String)eventData[E.FileChanged.ResourceName].String;
             }
 
             public String FileName { get; private set; }
@@ -6718,7 +6718,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                ResourceName = eventData[E.LoadFailed.ResourceName].String;
+                ResourceName = (String)eventData[E.LoadFailed.ResourceName].String;
             }
 
             public String ResourceName { get; private set; }
@@ -6769,7 +6769,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                ResourceName = eventData[E.ResourceNotFound.ResourceName].String;
+                ResourceName = (String)eventData[E.ResourceNotFound.ResourceName].String;
             }
 
             public String ResourceName { get; private set; }
@@ -6820,7 +6820,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                ResourceType = eventData[E.UnknownResourceType.ResourceType].StringHash;
+                ResourceType = (StringHash)eventData[E.UnknownResourceType.ResourceType].StringHash;
             }
 
             public StringHash ResourceType { get; private set; }
@@ -6871,16 +6871,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                ResourceName = eventData[E.ResourceBackgroundLoaded.ResourceName].String;
-                Success = eventData[E.ResourceBackgroundLoaded.Success].Bool;
-                Resource = eventData[E.ResourceBackgroundLoaded.Resource].VoidPtr;
+                ResourceName = (String)eventData[E.ResourceBackgroundLoaded.ResourceName].String;
+                Success = (bool)eventData[E.ResourceBackgroundLoaded.Success].Bool;
+                Resource = (Resource)eventData[E.ResourceBackgroundLoaded.Resource].Ptr;
             }
 
             public String ResourceName { get; private set; }
 
             public bool Success { get; private set; }
 
-            public IntPtr Resource { get; private set; }
+            public Resource Resource { get; private set; }
         }
 
         private event EventHandler<ResourceBackgroundLoadedEventArgs> ResourceBackgroundLoadedImpl;
@@ -6976,8 +6976,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                From = eventData[E.ResourceRenamed.From].String;
-                To = eventData[E.ResourceRenamed.To].String;
+                From = (String)eventData[E.ResourceRenamed.From].String;
+                To = (String)eventData[E.ResourceRenamed.To].String;
             }
 
             public String From { get; private set; }
@@ -7057,14 +7057,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Camera = eventData[E.CameraViewportResized.Camera].VoidPtr;
-                Viewport = eventData[E.CameraViewportResized.Viewport].VoidPtr;
-                Size = eventData[E.CameraViewportResized.Size].Int;
+                Camera = (Camera)eventData[E.CameraViewportResized.Camera].Ptr;
+                Viewport = (Viewport)eventData[E.CameraViewportResized.Viewport].Ptr;
+                Size = (int)eventData[E.CameraViewportResized.Size].Int;
             }
 
-            public IntPtr Camera { get; private set; }
+            public Camera Camera { get; private set; }
 
-            public IntPtr Viewport { get; private set; }
+            public Viewport Viewport { get; private set; }
 
             public int Size { get; private set; }
         }
@@ -7132,11 +7132,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.SceneUpdate.Scene].VoidPtr;
-                TimeStep = eventData[E.SceneUpdate.TimeStep].Float;
+                Scene = (Scene)eventData[E.SceneUpdate.Scene].Ptr;
+                TimeStep = (float)eventData[E.SceneUpdate.TimeStep].Float;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -7186,11 +7186,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.SceneSubsystemUpdate.Scene].VoidPtr;
-                TimeStep = eventData[E.SceneSubsystemUpdate.TimeStep].Float;
+                Scene = (Scene)eventData[E.SceneSubsystemUpdate.Scene].Ptr;
+                TimeStep = (float)eventData[E.SceneSubsystemUpdate.TimeStep].Float;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -7240,8 +7240,8 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Constant = eventData[E.UpdateSmoothing.Constant].Float;
-                SquaredSnapThreshold = eventData[E.UpdateSmoothing.SquaredSnapThreshold].Float;
+                Constant = (float)eventData[E.UpdateSmoothing.Constant].Float;
+                SquaredSnapThreshold = (float)eventData[E.UpdateSmoothing.SquaredSnapThreshold].Float;
             }
 
             public float Constant { get; private set; }
@@ -7294,11 +7294,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.SceneDrawableUpdateFinished.Scene].VoidPtr;
-                TimeStep = eventData[E.SceneDrawableUpdateFinished.TimeStep].Float;
+                Scene = (Scene)eventData[E.SceneDrawableUpdateFinished.Scene].Ptr;
+                TimeStep = (float)eventData[E.SceneDrawableUpdateFinished.TimeStep].Float;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -7444,11 +7444,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.AttributeAnimationUpdate.Scene].VoidPtr;
-                TimeStep = eventData[E.AttributeAnimationUpdate.TimeStep].Float;
+                Scene = (Scene)eventData[E.AttributeAnimationUpdate.Scene].Ptr;
+                TimeStep = (float)eventData[E.AttributeAnimationUpdate.TimeStep].Float;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -7498,11 +7498,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                ObjectAnimation = eventData[E.AttributeAnimationAdded.ObjectAnimation].VoidPtr;
-                AttributeAnimationName = eventData[E.AttributeAnimationAdded.AttributeAnimationName].String;
+                ObjectAnimation = (ObjectAnimation)eventData[E.AttributeAnimationAdded.ObjectAnimation].Ptr;
+                AttributeAnimationName = (String)eventData[E.AttributeAnimationAdded.AttributeAnimationName].String;
             }
 
-            public IntPtr ObjectAnimation { get; private set; }
+            public ObjectAnimation ObjectAnimation { get; private set; }
 
             public String AttributeAnimationName { get; private set; }
         }
@@ -7552,11 +7552,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                ObjectAnimation = eventData[E.AttributeAnimationRemoved.ObjectAnimation].VoidPtr;
-                AttributeAnimationName = eventData[E.AttributeAnimationRemoved.AttributeAnimationName].String;
+                ObjectAnimation = (ObjectAnimation)eventData[E.AttributeAnimationRemoved.ObjectAnimation].Ptr;
+                AttributeAnimationName = (String)eventData[E.AttributeAnimationRemoved.AttributeAnimationName].String;
             }
 
-            public IntPtr ObjectAnimation { get; private set; }
+            public ObjectAnimation ObjectAnimation { get; private set; }
 
             public String AttributeAnimationName { get; private set; }
         }
@@ -7606,11 +7606,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.ScenePostUpdate.Scene].VoidPtr;
-                TimeStep = eventData[E.ScenePostUpdate.TimeStep].Float;
+                Scene = (Scene)eventData[E.ScenePostUpdate.Scene].Ptr;
+                TimeStep = (float)eventData[E.ScenePostUpdate.TimeStep].Float;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
             public float TimeStep { get; private set; }
         }
@@ -7660,15 +7660,15 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.AsyncLoadProgress.Scene].VoidPtr;
-                Progress = eventData[E.AsyncLoadProgress.Progress].Float;
-                LoadedNodes = eventData[E.AsyncLoadProgress.LoadedNodes].Int;
-                TotalNodes = eventData[E.AsyncLoadProgress.TotalNodes].Int;
-                LoadedResources = eventData[E.AsyncLoadProgress.LoadedResources].Int;
-                TotalResources = eventData[E.AsyncLoadProgress.TotalResources].Int;
+                Scene = (Scene)eventData[E.AsyncLoadProgress.Scene].Ptr;
+                Progress = (float)eventData[E.AsyncLoadProgress.Progress].Float;
+                LoadedNodes = (int)eventData[E.AsyncLoadProgress.LoadedNodes].Int;
+                TotalNodes = (int)eventData[E.AsyncLoadProgress.TotalNodes].Int;
+                LoadedResources = (int)eventData[E.AsyncLoadProgress.LoadedResources].Int;
+                TotalResources = (int)eventData[E.AsyncLoadProgress.TotalResources].Int;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
             public float Progress { get; private set; }
 
@@ -7726,10 +7726,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.AsyncLoadFinished.Scene].VoidPtr;
+                Scene = (Scene)eventData[E.AsyncLoadFinished.Scene].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
         }
 
         private event EventHandler<AsyncLoadFinishedEventArgs> AsyncLoadFinishedImpl;
@@ -7777,16 +7777,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeAdded.Scene].VoidPtr;
-                Parent = eventData[E.NodeAdded.Parent].VoidPtr;
-                Node = eventData[E.NodeAdded.Node].VoidPtr;
+                Scene = (Scene)eventData[E.NodeAdded.Scene].Ptr;
+                Parent = (Node)eventData[E.NodeAdded.Parent].Ptr;
+                Node = (Node)eventData[E.NodeAdded.Node].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Parent { get; private set; }
+            public Node Parent { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
         }
 
         private event EventHandler<NodeAddedEventArgs> NodeAddedImpl;
@@ -7834,16 +7834,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeRemoved.Scene].VoidPtr;
-                Parent = eventData[E.NodeRemoved.Parent].VoidPtr;
-                Node = eventData[E.NodeRemoved.Node].VoidPtr;
+                Scene = (Scene)eventData[E.NodeRemoved.Scene].Ptr;
+                Parent = (Node)eventData[E.NodeRemoved.Parent].Ptr;
+                Node = (Node)eventData[E.NodeRemoved.Node].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Parent { get; private set; }
+            public Node Parent { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
         }
 
         private event EventHandler<NodeRemovedEventArgs> NodeRemovedImpl;
@@ -7891,16 +7891,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.ComponentAdded.Scene].VoidPtr;
-                Node = eventData[E.ComponentAdded.Node].VoidPtr;
-                Component = eventData[E.ComponentAdded.Component].VoidPtr;
+                Scene = (Scene)eventData[E.ComponentAdded.Scene].Ptr;
+                Node = (Node)eventData[E.ComponentAdded.Node].Ptr;
+                Component = (Component)eventData[E.ComponentAdded.Component].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Component { get; private set; }
+            public Component Component { get; private set; }
         }
 
         private event EventHandler<ComponentAddedEventArgs> ComponentAddedImpl;
@@ -7948,16 +7948,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.ComponentRemoved.Scene].VoidPtr;
-                Node = eventData[E.ComponentRemoved.Node].VoidPtr;
-                Component = eventData[E.ComponentRemoved.Component].VoidPtr;
+                Scene = (Scene)eventData[E.ComponentRemoved.Scene].Ptr;
+                Node = (Node)eventData[E.ComponentRemoved.Node].Ptr;
+                Component = (Component)eventData[E.ComponentRemoved.Component].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Component { get; private set; }
+            public Component Component { get; private set; }
         }
 
         private event EventHandler<ComponentRemovedEventArgs> ComponentRemovedImpl;
@@ -8005,13 +8005,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeNameChanged.Scene].VoidPtr;
-                Node = eventData[E.NodeNameChanged.Node].VoidPtr;
+                Scene = (Scene)eventData[E.NodeNameChanged.Scene].Ptr;
+                Node = (Node)eventData[E.NodeNameChanged.Node].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
         }
 
         private event EventHandler<NodeNameChangedEventArgs> NodeNameChangedImpl;
@@ -8059,13 +8059,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeEnabledChanged.Scene].VoidPtr;
-                Node = eventData[E.NodeEnabledChanged.Node].VoidPtr;
+                Scene = (Scene)eventData[E.NodeEnabledChanged.Scene].Ptr;
+                Node = (Node)eventData[E.NodeEnabledChanged.Node].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
         }
 
         private event EventHandler<NodeEnabledChangedEventArgs> NodeEnabledChangedImpl;
@@ -8113,14 +8113,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeTagAdded.Scene].VoidPtr;
-                Node = eventData[E.NodeTagAdded.Node].VoidPtr;
-                Tag = eventData[E.NodeTagAdded.Tag].String;
+                Scene = (Scene)eventData[E.NodeTagAdded.Scene].Ptr;
+                Node = (Node)eventData[E.NodeTagAdded.Node].Ptr;
+                Tag = (String)eventData[E.NodeTagAdded.Tag].String;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
             public String Tag { get; private set; }
         }
@@ -8170,14 +8170,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeTagRemoved.Scene].VoidPtr;
-                Node = eventData[E.NodeTagRemoved.Node].VoidPtr;
-                Tag = eventData[E.NodeTagRemoved.Tag].String;
+                Scene = (Scene)eventData[E.NodeTagRemoved.Scene].Ptr;
+                Node = (Node)eventData[E.NodeTagRemoved.Node].Ptr;
+                Tag = (String)eventData[E.NodeTagRemoved.Tag].String;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
             public String Tag { get; private set; }
         }
@@ -8227,16 +8227,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.ComponentEnabledChanged.Scene].VoidPtr;
-                Node = eventData[E.ComponentEnabledChanged.Node].VoidPtr;
-                Component = eventData[E.ComponentEnabledChanged.Component].VoidPtr;
+                Scene = (Scene)eventData[E.ComponentEnabledChanged.Scene].Ptr;
+                Node = (Node)eventData[E.ComponentEnabledChanged.Node].Ptr;
+                Component = (Component)eventData[E.ComponentEnabledChanged.Component].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Component { get; private set; }
+            public Component Component { get; private set; }
         }
 
         private event EventHandler<ComponentEnabledChangedEventArgs> ComponentEnabledChangedImpl;
@@ -8284,10 +8284,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Serializable = eventData[E.TemporaryChanged.Serializable].VoidPtr;
+                Serializable = (Serializable)eventData[E.TemporaryChanged.Serializable].Ptr;
             }
 
-            public IntPtr Serializable { get; private set; }
+            public Serializable Serializable { get; private set; }
         }
 
         private event EventHandler<TemporaryChangedEventArgs> TemporaryChangedImpl;
@@ -8335,16 +8335,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.NodeCloned.Scene].VoidPtr;
-                Node = eventData[E.NodeCloned.Node].VoidPtr;
-                CloneNode = eventData[E.NodeCloned.CloneNode].VoidPtr;
+                Scene = (Scene)eventData[E.NodeCloned.Scene].Ptr;
+                Node = (Node)eventData[E.NodeCloned.Node].Ptr;
+                CloneNode = (Node)eventData[E.NodeCloned.CloneNode].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr CloneNode { get; private set; }
+            public Node CloneNode { get; private set; }
         }
 
         private event EventHandler<NodeClonedEventArgs> NodeClonedImpl;
@@ -8392,16 +8392,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Scene = eventData[E.ComponentCloned.Scene].VoidPtr;
-                Component = eventData[E.ComponentCloned.Component].VoidPtr;
-                CloneComponent = eventData[E.ComponentCloned.CloneComponent].VoidPtr;
+                Scene = (Scene)eventData[E.ComponentCloned.Scene].Ptr;
+                Component = (Component)eventData[E.ComponentCloned.Component].Ptr;
+                CloneComponent = (Component)eventData[E.ComponentCloned.CloneComponent].Ptr;
             }
 
-            public IntPtr Scene { get; private set; }
+            public Scene Scene { get; private set; }
 
-            public IntPtr Component { get; private set; }
+            public Component Component { get; private set; }
 
-            public IntPtr CloneComponent { get; private set; }
+            public Component CloneComponent { get; private set; }
         }
 
         private event EventHandler<ComponentClonedEventArgs> ComponentClonedImpl;
@@ -8449,14 +8449,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Serializable = eventData[E.InterceptNetworkUpdate.Serializable].VoidPtr;
-                TimeStamp = eventData[E.InterceptNetworkUpdate.TimeStamp].UInt;
-                Index = eventData[E.InterceptNetworkUpdate.Index].UInt;
-                Name = eventData[E.InterceptNetworkUpdate.Name].String;
+                Serializable = (Serializable)eventData[E.InterceptNetworkUpdate.Serializable].Ptr;
+                TimeStamp = (uint)eventData[E.InterceptNetworkUpdate.TimeStamp].UInt;
+                Index = (uint)eventData[E.InterceptNetworkUpdate.Index].UInt;
+                Name = (String)eventData[E.InterceptNetworkUpdate.Name].String;
                 Value = eventData[E.InterceptNetworkUpdate.Value];
             }
 
-            public IntPtr Serializable { get; private set; }
+            public Serializable Serializable { get; private set; }
 
             public uint TimeStamp { get; private set; }
 
@@ -8512,13 +8512,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                OldScene = eventData[E.SceneActivated.OldScene].VoidPtr;
-                NewScene = eventData[E.SceneActivated.NewScene].VoidPtr;
+                OldScene = (Scene)eventData[E.SceneActivated.OldScene].Ptr;
+                NewScene = (Scene)eventData[E.SceneActivated.NewScene].Ptr;
             }
 
-            public IntPtr OldScene { get; private set; }
+            public Scene OldScene { get; private set; }
 
-            public IntPtr NewScene { get; private set; }
+            public Scene NewScene { get; private set; }
         }
 
         private event EventHandler<SceneActivatedEventArgs> SceneActivatedImpl;
@@ -8705,11 +8705,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Serializable = eventData[E.AttributeInspectorMenu.Serializable].VoidPtr;
-                AttributeInfo = eventData[E.AttributeInspectorMenu.AttributeInfo].VoidPtr;
+                Serializable = (Serializable)eventData[E.AttributeInspectorMenu.Serializable].Ptr;
+                AttributeInfo = (IntPtr)eventData[E.AttributeInspectorMenu.AttributeInfo].VoidPtr;
             }
 
-            public IntPtr Serializable { get; private set; }
+            public Serializable Serializable { get; private set; }
 
             public IntPtr AttributeInfo { get; private set; }
         }
@@ -8759,14 +8759,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Serializable = eventData[E.AttributeInspectorValueModified.Serializable].VoidPtr;
-                AttributeInfo = eventData[E.AttributeInspectorValueModified.AttributeInfo].VoidPtr;
+                Serializable = (Serializable)eventData[E.AttributeInspectorValueModified.Serializable].Ptr;
+                AttributeInfo = (IntPtr)eventData[E.AttributeInspectorValueModified.AttributeInfo].VoidPtr;
                 OldValue = eventData[E.AttributeInspectorValueModified.OldValue];
                 NewValue = eventData[E.AttributeInspectorValueModified.NewValue];
-                Reason = eventData[E.AttributeInspectorValueModified.Reason].UInt;
+                Reason = (uint)eventData[E.AttributeInspectorValueModified.Reason].UInt;
             }
 
-            public IntPtr Serializable { get; private set; }
+            public Serializable Serializable { get; private set; }
 
             public IntPtr AttributeInfo { get; private set; }
 
@@ -8822,15 +8822,15 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Serializable = eventData[E.AttributeInspectorAttribute.Serializable].VoidPtr;
-                AttributeInfo = eventData[E.AttributeInspectorAttribute.AttributeInfo].VoidPtr;
-                Color = eventData[E.AttributeInspectorAttribute.Color].Color;
-                Hidden = eventData[E.AttributeInspectorAttribute.Hidden].Bool;
-                Tooltip = eventData[E.AttributeInspectorAttribute.Tooltip].String;
-                ValueKind = eventData[E.AttributeInspectorAttribute.ValueKind].Int;
+                Serializable = (Serializable)eventData[E.AttributeInspectorAttribute.Serializable].Ptr;
+                AttributeInfo = (IntPtr)eventData[E.AttributeInspectorAttribute.AttributeInfo].VoidPtr;
+                Color = (Color)eventData[E.AttributeInspectorAttribute.Color].Color;
+                Hidden = (bool)eventData[E.AttributeInspectorAttribute.Hidden].Bool;
+                Tooltip = (String)eventData[E.AttributeInspectorAttribute.Tooltip].String;
+                ValueKind = (int)eventData[E.AttributeInspectorAttribute.ValueKind].Int;
             }
 
-            public IntPtr Serializable { get; private set; }
+            public Serializable Serializable { get; private set; }
 
             public IntPtr AttributeInfo { get; private set; }
 
@@ -8888,12 +8888,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.GizmoNodeModified.Node].VoidPtr;
-                OldTransform = eventData[E.GizmoNodeModified.OldTransform].Matrix3x4;
-                NewTransform = eventData[E.GizmoNodeModified.NewTransform].Matrix3x4;
+                Node = (Node)eventData[E.GizmoNodeModified.Node].Ptr;
+                OldTransform = (Matrix3x4)eventData[E.GizmoNodeModified.OldTransform].Matrix3x4;
+                NewTransform = (Matrix3x4)eventData[E.GizmoNodeModified.NewTransform].Matrix3x4;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
             public Matrix3x4 OldTransform { get; private set; }
 
@@ -9017,15 +9017,15 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.UIMouseClick.Element].VoidPtr;
-                X = eventData[E.UIMouseClick.X].Int;
-                Y = eventData[E.UIMouseClick.Y].Int;
-                Button = eventData[E.UIMouseClick.Button].Int;
-                Buttons = eventData[E.UIMouseClick.Buttons].Int;
-                Qualifiers = eventData[E.UIMouseClick.Qualifiers].Int;
+                Element = (UIElement)eventData[E.UIMouseClick.Element].Ptr;
+                X = (int)eventData[E.UIMouseClick.X].Int;
+                Y = (int)eventData[E.UIMouseClick.Y].Int;
+                Button = (int)eventData[E.UIMouseClick.Button].Int;
+                Buttons = (int)eventData[E.UIMouseClick.Buttons].Int;
+                Qualifiers = (int)eventData[E.UIMouseClick.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -9083,18 +9083,18 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.UIMouseClickEnd.Element].VoidPtr;
-                BeginElement = eventData[E.UIMouseClickEnd.BeginElement].VoidPtr;
-                X = eventData[E.UIMouseClickEnd.X].Int;
-                Y = eventData[E.UIMouseClickEnd.Y].Int;
-                Button = eventData[E.UIMouseClickEnd.Button].Int;
-                Buttons = eventData[E.UIMouseClickEnd.Buttons].Int;
-                Qualifiers = eventData[E.UIMouseClickEnd.Qualifiers].Int;
+                Element = (UIElement)eventData[E.UIMouseClickEnd.Element].Ptr;
+                BeginElement = (UIElement)eventData[E.UIMouseClickEnd.BeginElement].Ptr;
+                X = (int)eventData[E.UIMouseClickEnd.X].Int;
+                Y = (int)eventData[E.UIMouseClickEnd.Y].Int;
+                Button = (int)eventData[E.UIMouseClickEnd.Button].Int;
+                Buttons = (int)eventData[E.UIMouseClickEnd.Buttons].Int;
+                Qualifiers = (int)eventData[E.UIMouseClickEnd.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
-            public IntPtr BeginElement { get; private set; }
+            public UIElement BeginElement { get; private set; }
 
             public int X { get; private set; }
 
@@ -9152,17 +9152,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.UIMouseDoubleClick.Element].VoidPtr;
-                X = eventData[E.UIMouseDoubleClick.X].Int;
-                Y = eventData[E.UIMouseDoubleClick.Y].Int;
-                XBegin = eventData[E.UIMouseDoubleClick.XBegin].Int;
-                YBegin = eventData[E.UIMouseDoubleClick.YBegin].Int;
-                Button = eventData[E.UIMouseDoubleClick.Button].Int;
-                Buttons = eventData[E.UIMouseDoubleClick.Buttons].Int;
-                Qualifiers = eventData[E.UIMouseDoubleClick.Qualifiers].Int;
+                Element = (UIElement)eventData[E.UIMouseDoubleClick.Element].Ptr;
+                X = (int)eventData[E.UIMouseDoubleClick.X].Int;
+                Y = (int)eventData[E.UIMouseDoubleClick.Y].Int;
+                XBegin = (int)eventData[E.UIMouseDoubleClick.XBegin].Int;
+                YBegin = (int)eventData[E.UIMouseDoubleClick.YBegin].Int;
+                Button = (int)eventData[E.UIMouseDoubleClick.Button].Int;
+                Buttons = (int)eventData[E.UIMouseDoubleClick.Buttons].Int;
+                Qualifiers = (int)eventData[E.UIMouseDoubleClick.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -9224,15 +9224,15 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Click.Element].VoidPtr;
-                X = eventData[E.Click.X].Int;
-                Y = eventData[E.Click.Y].Int;
-                Button = eventData[E.Click.Button].Int;
-                Buttons = eventData[E.Click.Buttons].Int;
-                Qualifiers = eventData[E.Click.Qualifiers].Int;
+                Element = (UIElement)eventData[E.Click.Element].Ptr;
+                X = (int)eventData[E.Click.X].Int;
+                Y = (int)eventData[E.Click.Y].Int;
+                Button = (int)eventData[E.Click.Button].Int;
+                Buttons = (int)eventData[E.Click.Buttons].Int;
+                Qualifiers = (int)eventData[E.Click.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -9290,18 +9290,18 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ClickEnd.Element].VoidPtr;
-                BeginElement = eventData[E.ClickEnd.BeginElement].VoidPtr;
-                X = eventData[E.ClickEnd.X].Int;
-                Y = eventData[E.ClickEnd.Y].Int;
-                Button = eventData[E.ClickEnd.Button].Int;
-                Buttons = eventData[E.ClickEnd.Buttons].Int;
-                Qualifiers = eventData[E.ClickEnd.Qualifiers].Int;
+                Element = (UIElement)eventData[E.ClickEnd.Element].Ptr;
+                BeginElement = (UIElement)eventData[E.ClickEnd.BeginElement].Ptr;
+                X = (int)eventData[E.ClickEnd.X].Int;
+                Y = (int)eventData[E.ClickEnd.Y].Int;
+                Button = (int)eventData[E.ClickEnd.Button].Int;
+                Buttons = (int)eventData[E.ClickEnd.Buttons].Int;
+                Qualifiers = (int)eventData[E.ClickEnd.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
-            public IntPtr BeginElement { get; private set; }
+            public UIElement BeginElement { get; private set; }
 
             public int X { get; private set; }
 
@@ -9359,17 +9359,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.DoubleClick.Element].VoidPtr;
-                X = eventData[E.DoubleClick.X].Int;
-                Y = eventData[E.DoubleClick.Y].Int;
-                XBegin = eventData[E.DoubleClick.XBegin].Int;
-                YBegin = eventData[E.DoubleClick.YBegin].Int;
-                Button = eventData[E.DoubleClick.Button].Int;
-                Buttons = eventData[E.DoubleClick.Buttons].Int;
-                Qualifiers = eventData[E.DoubleClick.Qualifiers].Int;
+                Element = (UIElement)eventData[E.DoubleClick.Element].Ptr;
+                X = (int)eventData[E.DoubleClick.X].Int;
+                Y = (int)eventData[E.DoubleClick.Y].Int;
+                XBegin = (int)eventData[E.DoubleClick.XBegin].Int;
+                YBegin = (int)eventData[E.DoubleClick.YBegin].Int;
+                Button = (int)eventData[E.DoubleClick.Button].Int;
+                Buttons = (int)eventData[E.DoubleClick.Buttons].Int;
+                Qualifiers = (int)eventData[E.DoubleClick.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -9431,14 +9431,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Source = eventData[E.DragDropTest.Source].VoidPtr;
-                Target = eventData[E.DragDropTest.Target].VoidPtr;
-                Accept = eventData[E.DragDropTest.Accept].Bool;
+                Source = (UIElement)eventData[E.DragDropTest.Source].Ptr;
+                Target = (UIElement)eventData[E.DragDropTest.Target].Ptr;
+                Accept = (bool)eventData[E.DragDropTest.Accept].Bool;
             }
 
-            public IntPtr Source { get; private set; }
+            public UIElement Source { get; private set; }
 
-            public IntPtr Target { get; private set; }
+            public UIElement Target { get; private set; }
 
             public bool Accept { get; private set; }
         }
@@ -9488,14 +9488,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Source = eventData[E.DragDropFinish.Source].VoidPtr;
-                Target = eventData[E.DragDropFinish.Target].VoidPtr;
-                Accept = eventData[E.DragDropFinish.Accept].Bool;
+                Source = (UIElement)eventData[E.DragDropFinish.Source].Ptr;
+                Target = (UIElement)eventData[E.DragDropFinish.Target].Ptr;
+                Accept = (bool)eventData[E.DragDropFinish.Accept].Bool;
             }
 
-            public IntPtr Source { get; private set; }
+            public UIElement Source { get; private set; }
 
-            public IntPtr Target { get; private set; }
+            public UIElement Target { get; private set; }
 
             public bool Accept { get; private set; }
         }
@@ -9545,13 +9545,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.FocusChanged.Element].VoidPtr;
-                ClickedElement = eventData[E.FocusChanged.ClickedElement].VoidPtr;
+                Element = (UIElement)eventData[E.FocusChanged.Element].Ptr;
+                ClickedElement = (UIElement)eventData[E.FocusChanged.ClickedElement].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
-            public IntPtr ClickedElement { get; private set; }
+            public UIElement ClickedElement { get; private set; }
         }
 
         private event EventHandler<FocusChangedEventArgs> FocusChangedImpl;
@@ -9599,10 +9599,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.NameChanged.Element].VoidPtr;
+                Element = (UIElement)eventData[E.NameChanged.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<NameChangedEventArgs> NameChangedImpl;
@@ -9650,14 +9650,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Resized.Element].VoidPtr;
-                Width = eventData[E.Resized.Width].Int;
-                Height = eventData[E.Resized.Height].Int;
-                DX = eventData[E.Resized.DX].Int;
-                DY = eventData[E.Resized.DY].Int;
+                Element = (UIElement)eventData[E.Resized.Element].Ptr;
+                Width = (int)eventData[E.Resized.Width].Int;
+                Height = (int)eventData[E.Resized.Height].Int;
+                DX = (int)eventData[E.Resized.DX].Int;
+                DY = (int)eventData[E.Resized.DY].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int Width { get; private set; }
 
@@ -9713,12 +9713,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Positioned.Element].VoidPtr;
-                X = eventData[E.Positioned.X].Int;
-                Y = eventData[E.Positioned.Y].Int;
+                Element = (UIElement)eventData[E.Positioned.Element].Ptr;
+                X = (int)eventData[E.Positioned.X].Int;
+                Y = (int)eventData[E.Positioned.Y].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -9770,11 +9770,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.VisibleChanged.Element].VoidPtr;
-                Visible = eventData[E.VisibleChanged.Visible].Bool;
+                Element = (UIElement)eventData[E.VisibleChanged.Element].Ptr;
+                Visible = (bool)eventData[E.VisibleChanged.Visible].Bool;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public bool Visible { get; private set; }
         }
@@ -9824,11 +9824,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Focused.Element].VoidPtr;
-                ByKey = eventData[E.Focused.ByKey].Bool;
+                Element = (UIElement)eventData[E.Focused.Element].Ptr;
+                ByKey = (bool)eventData[E.Focused.ByKey].Bool;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public bool ByKey { get; private set; }
         }
@@ -9878,10 +9878,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Defocused.Element].VoidPtr;
+                Element = (UIElement)eventData[E.Defocused.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<DefocusedEventArgs> DefocusedImpl;
@@ -9929,10 +9929,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.LayoutUpdated.Element].VoidPtr;
+                Element = (UIElement)eventData[E.LayoutUpdated.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<LayoutUpdatedEventArgs> LayoutUpdatedImpl;
@@ -9980,10 +9980,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Pressed.Element].VoidPtr;
+                Element = (UIElement)eventData[E.Pressed.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<PressedEventArgs> PressedImpl;
@@ -10031,10 +10031,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Released.Element].VoidPtr;
+                Element = (UIElement)eventData[E.Released.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<ReleasedEventArgs> ReleasedImpl;
@@ -10082,11 +10082,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.Toggled.Element].VoidPtr;
-                State = eventData[E.Toggled.State].Bool;
+                Element = (UIElement)eventData[E.Toggled.Element].Ptr;
+                State = (bool)eventData[E.Toggled.State].Bool;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public bool State { get; private set; }
         }
@@ -10136,11 +10136,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.SliderChanged.Element].VoidPtr;
-                Value = eventData[E.SliderChanged.Value].Float;
+                Element = (UIElement)eventData[E.SliderChanged.Element].Ptr;
+                Value = (float)eventData[E.SliderChanged.Value].Float;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public float Value { get; private set; }
         }
@@ -10190,12 +10190,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.SliderPaged.Element].VoidPtr;
-                Offset = eventData[E.SliderPaged.Offset].Int;
-                Pressed = eventData[E.SliderPaged.Pressed].Bool;
+                Element = (UIElement)eventData[E.SliderPaged.Element].Ptr;
+                Offset = (int)eventData[E.SliderPaged.Offset].Int;
+                Pressed = (bool)eventData[E.SliderPaged.Pressed].Bool;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int Offset { get; private set; }
 
@@ -10247,11 +10247,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ProgressBarChanged.Element].VoidPtr;
-                Value = eventData[E.ProgressBarChanged.Value].Float;
+                Element = (UIElement)eventData[E.ProgressBarChanged.Element].Ptr;
+                Value = (float)eventData[E.ProgressBarChanged.Value].Float;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public float Value { get; private set; }
         }
@@ -10301,11 +10301,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ScrollBarChanged.Element].VoidPtr;
-                Value = eventData[E.ScrollBarChanged.Value].Float;
+                Element = (UIElement)eventData[E.ScrollBarChanged.Element].Ptr;
+                Value = (float)eventData[E.ScrollBarChanged.Value].Float;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public float Value { get; private set; }
         }
@@ -10355,12 +10355,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ViewChanged.Element].VoidPtr;
-                X = eventData[E.ViewChanged.X].Int;
-                Y = eventData[E.ViewChanged.Y].Int;
+                Element = (UIElement)eventData[E.ViewChanged.Element].Ptr;
+                X = (int)eventData[E.ViewChanged.X].Int;
+                Y = (int)eventData[E.ViewChanged.Y].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -10412,11 +10412,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ModalChanged.Element].VoidPtr;
-                Modal = eventData[E.ModalChanged.Modal].Bool;
+                Element = (UIElement)eventData[E.ModalChanged.Element].Ptr;
+                Modal = (bool)eventData[E.ModalChanged.Modal].Bool;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public bool Modal { get; private set; }
         }
@@ -10466,11 +10466,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.TextEntry.Element].VoidPtr;
-                Text = eventData[E.TextEntry.Text].String;
+                Element = (UIElement)eventData[E.TextEntry.Element].Ptr;
+                Text = (String)eventData[E.TextEntry.Text].String;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public String Text { get; private set; }
         }
@@ -10520,11 +10520,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.TextChanged.Element].VoidPtr;
-                Text = eventData[E.TextChanged.Text].String;
+                Element = (UIElement)eventData[E.TextChanged.Element].Ptr;
+                Text = (String)eventData[E.TextChanged.Text].String;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public String Text { get; private set; }
         }
@@ -10574,12 +10574,12 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.TextFinished.Element].VoidPtr;
-                Text = eventData[E.TextFinished.Text].String;
-                Value = eventData[E.TextFinished.Value].Float;
+                Element = (UIElement)eventData[E.TextFinished.Element].Ptr;
+                Text = (String)eventData[E.TextFinished.Text].String;
+                Value = (float)eventData[E.TextFinished.Value].Float;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public String Text { get; private set; }
 
@@ -10631,10 +10631,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.MenuSelected.Element].VoidPtr;
+                Element = (UIElement)eventData[E.MenuSelected.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<MenuSelectedEventArgs> MenuSelectedImpl;
@@ -10682,11 +10682,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ItemSelected.Element].VoidPtr;
-                Selection = eventData[E.ItemSelected.Selection].Int;
+                Element = (UIElement)eventData[E.ItemSelected.Element].Ptr;
+                Selection = (int)eventData[E.ItemSelected.Selection].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int Selection { get; private set; }
         }
@@ -10736,11 +10736,11 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ItemDeselected.Element].VoidPtr;
-                Selection = eventData[E.ItemDeselected.Selection].Int;
+                Element = (UIElement)eventData[E.ItemDeselected.Element].Ptr;
+                Selection = (int)eventData[E.ItemDeselected.Selection].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int Selection { get; private set; }
         }
@@ -10790,10 +10790,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.SelectionChanged.Element].VoidPtr;
+                Element = (UIElement)eventData[E.SelectionChanged.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<SelectionChangedEventArgs> SelectionChangedImpl;
@@ -10841,17 +10841,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ItemClicked.Element].VoidPtr;
-                Item = eventData[E.ItemClicked.Item].VoidPtr;
-                Selection = eventData[E.ItemClicked.Selection].Int;
-                Button = eventData[E.ItemClicked.Button].Int;
-                Buttons = eventData[E.ItemClicked.Buttons].Int;
-                Qualifiers = eventData[E.ItemClicked.Qualifiers].Int;
+                Element = (UIElement)eventData[E.ItemClicked.Element].Ptr;
+                Item = (UIElement)eventData[E.ItemClicked.Item].Ptr;
+                Selection = (int)eventData[E.ItemClicked.Selection].Int;
+                Button = (int)eventData[E.ItemClicked.Button].Int;
+                Buttons = (int)eventData[E.ItemClicked.Buttons].Int;
+                Qualifiers = (int)eventData[E.ItemClicked.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
-            public IntPtr Item { get; private set; }
+            public UIElement Item { get; private set; }
 
             public int Selection { get; private set; }
 
@@ -10907,17 +10907,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.ItemDoubleClicked.Element].VoidPtr;
-                Item = eventData[E.ItemDoubleClicked.Item].VoidPtr;
-                Selection = eventData[E.ItemDoubleClicked.Selection].Int;
-                Button = eventData[E.ItemDoubleClicked.Button].Int;
-                Buttons = eventData[E.ItemDoubleClicked.Buttons].Int;
-                Qualifiers = eventData[E.ItemDoubleClicked.Qualifiers].Int;
+                Element = (UIElement)eventData[E.ItemDoubleClicked.Element].Ptr;
+                Item = (UIElement)eventData[E.ItemDoubleClicked.Item].Ptr;
+                Selection = (int)eventData[E.ItemDoubleClicked.Selection].Int;
+                Button = (int)eventData[E.ItemDoubleClicked.Button].Int;
+                Buttons = (int)eventData[E.ItemDoubleClicked.Buttons].Int;
+                Qualifiers = (int)eventData[E.ItemDoubleClicked.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
-            public IntPtr Item { get; private set; }
+            public UIElement Item { get; private set; }
 
             public int Selection { get; private set; }
 
@@ -10973,13 +10973,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.UnhandledKey.Element].VoidPtr;
-                Key = eventData[E.UnhandledKey.Key].Int;
-                Buttons = eventData[E.UnhandledKey.Buttons].Int;
-                Qualifiers = eventData[E.UnhandledKey.Qualifiers].Int;
+                Element = (UIElement)eventData[E.UnhandledKey.Element].Ptr;
+                Key = (int)eventData[E.UnhandledKey.Key].Int;
+                Buttons = (int)eventData[E.UnhandledKey.Buttons].Int;
+                Qualifiers = (int)eventData[E.UnhandledKey.Qualifiers].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int Key { get; private set; }
 
@@ -11033,9 +11033,9 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                FileName = eventData[E.FileSelected.FileName].String;
-                Filter = eventData[E.FileSelected.Filter].String;
-                OK = eventData[E.FileSelected.OK].Bool;
+                FileName = (String)eventData[E.FileSelected.FileName].String;
+                Filter = (String)eventData[E.FileSelected.Filter].String;
+                OK = (bool)eventData[E.FileSelected.OK].Bool;
             }
 
             public String FileName { get; private set; }
@@ -11090,7 +11090,7 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                OK = eventData[E.MessageACK.OK].Bool;
+                OK = (bool)eventData[E.MessageACK.OK].Bool;
             }
 
             public bool OK { get; private set; }
@@ -11141,16 +11141,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Root = eventData[E.ElementAdded.Root].VoidPtr;
-                Parent = eventData[E.ElementAdded.Parent].VoidPtr;
-                Element = eventData[E.ElementAdded.Element].VoidPtr;
+                Root = (UIElement)eventData[E.ElementAdded.Root].Ptr;
+                Parent = (UIElement)eventData[E.ElementAdded.Parent].Ptr;
+                Element = (UIElement)eventData[E.ElementAdded.Element].Ptr;
             }
 
-            public IntPtr Root { get; private set; }
+            public UIElement Root { get; private set; }
 
-            public IntPtr Parent { get; private set; }
+            public UIElement Parent { get; private set; }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<ElementAddedEventArgs> ElementAddedImpl;
@@ -11198,16 +11198,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Root = eventData[E.ElementRemoved.Root].VoidPtr;
-                Parent = eventData[E.ElementRemoved.Parent].VoidPtr;
-                Element = eventData[E.ElementRemoved.Element].VoidPtr;
+                Root = (UIElement)eventData[E.ElementRemoved.Root].Ptr;
+                Parent = (UIElement)eventData[E.ElementRemoved.Parent].Ptr;
+                Element = (UIElement)eventData[E.ElementRemoved.Element].Ptr;
             }
 
-            public IntPtr Root { get; private set; }
+            public UIElement Root { get; private set; }
 
-            public IntPtr Parent { get; private set; }
+            public UIElement Parent { get; private set; }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<ElementRemovedEventArgs> ElementRemovedImpl;
@@ -11255,14 +11255,14 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.HoverBegin.Element].VoidPtr;
-                X = eventData[E.HoverBegin.X].Int;
-                Y = eventData[E.HoverBegin.Y].Int;
-                ElementX = eventData[E.HoverBegin.ElementX].Int;
-                ElementY = eventData[E.HoverBegin.ElementY].Int;
+                Element = (UIElement)eventData[E.HoverBegin.Element].Ptr;
+                X = (int)eventData[E.HoverBegin.X].Int;
+                Y = (int)eventData[E.HoverBegin.Y].Int;
+                ElementX = (int)eventData[E.HoverBegin.ElementX].Int;
+                ElementY = (int)eventData[E.HoverBegin.ElementY].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -11318,10 +11318,10 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.HoverEnd.Element].VoidPtr;
+                Element = (UIElement)eventData[E.HoverEnd.Element].Ptr;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
         }
 
         private event EventHandler<HoverEndEventArgs> HoverEndImpl;
@@ -11369,16 +11369,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.DragBegin.Element].VoidPtr;
-                X = eventData[E.DragBegin.X].Int;
-                Y = eventData[E.DragBegin.Y].Int;
-                ElementX = eventData[E.DragBegin.ElementX].Int;
-                ElementY = eventData[E.DragBegin.ElementY].Int;
-                Buttons = eventData[E.DragBegin.Buttons].Int;
-                NumButtons = eventData[E.DragBegin.NumButtons].Int;
+                Element = (UIElement)eventData[E.DragBegin.Element].Ptr;
+                X = (int)eventData[E.DragBegin.X].Int;
+                Y = (int)eventData[E.DragBegin.Y].Int;
+                ElementX = (int)eventData[E.DragBegin.ElementX].Int;
+                ElementY = (int)eventData[E.DragBegin.ElementY].Int;
+                Buttons = (int)eventData[E.DragBegin.Buttons].Int;
+                NumButtons = (int)eventData[E.DragBegin.NumButtons].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -11438,18 +11438,18 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.DragMove.Element].VoidPtr;
-                X = eventData[E.DragMove.X].Int;
-                Y = eventData[E.DragMove.Y].Int;
-                DX = eventData[E.DragMove.DX].Int;
-                DY = eventData[E.DragMove.DY].Int;
-                ElementX = eventData[E.DragMove.ElementX].Int;
-                ElementY = eventData[E.DragMove.ElementY].Int;
-                Buttons = eventData[E.DragMove.Buttons].Int;
-                NumButtons = eventData[E.DragMove.NumButtons].Int;
+                Element = (UIElement)eventData[E.DragMove.Element].Ptr;
+                X = (int)eventData[E.DragMove.X].Int;
+                Y = (int)eventData[E.DragMove.Y].Int;
+                DX = (int)eventData[E.DragMove.DX].Int;
+                DY = (int)eventData[E.DragMove.DY].Int;
+                ElementX = (int)eventData[E.DragMove.ElementX].Int;
+                ElementY = (int)eventData[E.DragMove.ElementY].Int;
+                Buttons = (int)eventData[E.DragMove.Buttons].Int;
+                NumButtons = (int)eventData[E.DragMove.NumButtons].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -11513,16 +11513,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.DragEnd.Element].VoidPtr;
-                X = eventData[E.DragEnd.X].Int;
-                Y = eventData[E.DragEnd.Y].Int;
-                ElementX = eventData[E.DragEnd.ElementX].Int;
-                ElementY = eventData[E.DragEnd.ElementY].Int;
-                Buttons = eventData[E.DragEnd.Buttons].Int;
-                NumButtons = eventData[E.DragEnd.NumButtons].Int;
+                Element = (UIElement)eventData[E.DragEnd.Element].Ptr;
+                X = (int)eventData[E.DragEnd.X].Int;
+                Y = (int)eventData[E.DragEnd.Y].Int;
+                ElementX = (int)eventData[E.DragEnd.ElementX].Int;
+                ElementY = (int)eventData[E.DragEnd.ElementY].Int;
+                Buttons = (int)eventData[E.DragEnd.Buttons].Int;
+                NumButtons = (int)eventData[E.DragEnd.NumButtons].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -11582,16 +11582,16 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Element = eventData[E.DragCancel.Element].VoidPtr;
-                X = eventData[E.DragCancel.X].Int;
-                Y = eventData[E.DragCancel.Y].Int;
-                ElementX = eventData[E.DragCancel.ElementX].Int;
-                ElementY = eventData[E.DragCancel.ElementY].Int;
-                Buttons = eventData[E.DragCancel.Buttons].Int;
-                NumButtons = eventData[E.DragCancel.NumButtons].Int;
+                Element = (UIElement)eventData[E.DragCancel.Element].Ptr;
+                X = (int)eventData[E.DragCancel.X].Int;
+                Y = (int)eventData[E.DragCancel.Y].Int;
+                ElementX = (int)eventData[E.DragCancel.ElementX].Int;
+                ElementY = (int)eventData[E.DragCancel.ElementY].Int;
+                Buttons = (int)eventData[E.DragCancel.Buttons].Int;
+                NumButtons = (int)eventData[E.DragCancel.NumButtons].Int;
             }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -11651,17 +11651,17 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                FileName = eventData[E.UIDropFile.FileName].String;
-                Element = eventData[E.UIDropFile.Element].VoidPtr;
-                X = eventData[E.UIDropFile.X].Int;
-                Y = eventData[E.UIDropFile.Y].Int;
-                ElementX = eventData[E.UIDropFile.ElementX].Int;
-                ElementY = eventData[E.UIDropFile.ElementY].Int;
+                FileName = (String)eventData[E.UIDropFile.FileName].String;
+                Element = (UIElement)eventData[E.UIDropFile.Element].Ptr;
+                X = (int)eventData[E.UIDropFile.X].Int;
+                Y = (int)eventData[E.UIDropFile.Y].Int;
+                ElementX = (int)eventData[E.UIDropFile.ElementX].Int;
+                ElementY = (int)eventData[E.UIDropFile.ElementY].Int;
             }
 
             public String FileName { get; private set; }
 
-            public IntPtr Element { get; private set; }
+            public UIElement Element { get; private set; }
 
             public int X { get; private set; }
 
@@ -11780,29 +11780,29 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsUpdateContact2D.World].VoidPtr;
-                BodyA = eventData[E.PhysicsUpdateContact2D.BodyA].VoidPtr;
-                BodyB = eventData[E.PhysicsUpdateContact2D.BodyB].VoidPtr;
-                NodeA = eventData[E.PhysicsUpdateContact2D.NodeA].VoidPtr;
-                NodeB = eventData[E.PhysicsUpdateContact2D.NodeB].VoidPtr;
-                ShapeA = eventData[E.PhysicsUpdateContact2D.ShapeA].VoidPtr;
-                ShapeB = eventData[E.PhysicsUpdateContact2D.ShapeB].VoidPtr;
-                Enabled = eventData[E.PhysicsUpdateContact2D.Enabled].Bool;
+                World = (PhysicsWorld2D)eventData[E.PhysicsUpdateContact2D.World].Ptr;
+                BodyA = (RigidBody2D)eventData[E.PhysicsUpdateContact2D.BodyA].Ptr;
+                BodyB = (RigidBody2D)eventData[E.PhysicsUpdateContact2D.BodyB].Ptr;
+                NodeA = (Node)eventData[E.PhysicsUpdateContact2D.NodeA].Ptr;
+                NodeB = (Node)eventData[E.PhysicsUpdateContact2D.NodeB].Ptr;
+                ShapeA = (CollisionShape2D)eventData[E.PhysicsUpdateContact2D.ShapeA].Ptr;
+                ShapeB = (CollisionShape2D)eventData[E.PhysicsUpdateContact2D.ShapeB].Ptr;
+                Enabled = (bool)eventData[E.PhysicsUpdateContact2D.Enabled].Bool;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld2D World { get; private set; }
 
-            public IntPtr BodyA { get; private set; }
+            public RigidBody2D BodyA { get; private set; }
 
-            public IntPtr BodyB { get; private set; }
+            public RigidBody2D BodyB { get; private set; }
 
-            public IntPtr NodeA { get; private set; }
+            public Node NodeA { get; private set; }
 
-            public IntPtr NodeB { get; private set; }
+            public Node NodeB { get; private set; }
 
-            public IntPtr ShapeA { get; private set; }
+            public CollisionShape2D ShapeA { get; private set; }
 
-            public IntPtr ShapeB { get; private set; }
+            public CollisionShape2D ShapeB { get; private set; }
 
             public bool Enabled { get; private set; }
         }
@@ -11852,28 +11852,28 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsBeginContact2D.World].VoidPtr;
-                BodyA = eventData[E.PhysicsBeginContact2D.BodyA].VoidPtr;
-                BodyB = eventData[E.PhysicsBeginContact2D.BodyB].VoidPtr;
-                NodeA = eventData[E.PhysicsBeginContact2D.NodeA].VoidPtr;
-                NodeB = eventData[E.PhysicsBeginContact2D.NodeB].VoidPtr;
-                ShapeA = eventData[E.PhysicsBeginContact2D.ShapeA].VoidPtr;
-                ShapeB = eventData[E.PhysicsBeginContact2D.ShapeB].VoidPtr;
+                World = (PhysicsWorld2D)eventData[E.PhysicsBeginContact2D.World].Ptr;
+                BodyA = (RigidBody2D)eventData[E.PhysicsBeginContact2D.BodyA].Ptr;
+                BodyB = (RigidBody2D)eventData[E.PhysicsBeginContact2D.BodyB].Ptr;
+                NodeA = (Node)eventData[E.PhysicsBeginContact2D.NodeA].Ptr;
+                NodeB = (Node)eventData[E.PhysicsBeginContact2D.NodeB].Ptr;
+                ShapeA = (CollisionShape2D)eventData[E.PhysicsBeginContact2D.ShapeA].Ptr;
+                ShapeB = (CollisionShape2D)eventData[E.PhysicsBeginContact2D.ShapeB].Ptr;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld2D World { get; private set; }
 
-            public IntPtr BodyA { get; private set; }
+            public RigidBody2D BodyA { get; private set; }
 
-            public IntPtr BodyB { get; private set; }
+            public RigidBody2D BodyB { get; private set; }
 
-            public IntPtr NodeA { get; private set; }
+            public Node NodeA { get; private set; }
 
-            public IntPtr NodeB { get; private set; }
+            public Node NodeB { get; private set; }
 
-            public IntPtr ShapeA { get; private set; }
+            public CollisionShape2D ShapeA { get; private set; }
 
-            public IntPtr ShapeB { get; private set; }
+            public CollisionShape2D ShapeB { get; private set; }
         }
 
         private event EventHandler<PhysicsBeginContact2DEventArgs> PhysicsBeginContact2DImpl;
@@ -11921,28 +11921,28 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                World = eventData[E.PhysicsEndContact2D.World].VoidPtr;
-                BodyA = eventData[E.PhysicsEndContact2D.BodyA].VoidPtr;
-                BodyB = eventData[E.PhysicsEndContact2D.BodyB].VoidPtr;
-                NodeA = eventData[E.PhysicsEndContact2D.NodeA].VoidPtr;
-                NodeB = eventData[E.PhysicsEndContact2D.NodeB].VoidPtr;
-                ShapeA = eventData[E.PhysicsEndContact2D.ShapeA].VoidPtr;
-                ShapeB = eventData[E.PhysicsEndContact2D.ShapeB].VoidPtr;
+                World = (PhysicsWorld2D)eventData[E.PhysicsEndContact2D.World].Ptr;
+                BodyA = (RigidBody2D)eventData[E.PhysicsEndContact2D.BodyA].Ptr;
+                BodyB = (RigidBody2D)eventData[E.PhysicsEndContact2D.BodyB].Ptr;
+                NodeA = (Node)eventData[E.PhysicsEndContact2D.NodeA].Ptr;
+                NodeB = (Node)eventData[E.PhysicsEndContact2D.NodeB].Ptr;
+                ShapeA = (CollisionShape2D)eventData[E.PhysicsEndContact2D.ShapeA].Ptr;
+                ShapeB = (CollisionShape2D)eventData[E.PhysicsEndContact2D.ShapeB].Ptr;
             }
 
-            public IntPtr World { get; private set; }
+            public PhysicsWorld2D World { get; private set; }
 
-            public IntPtr BodyA { get; private set; }
+            public RigidBody2D BodyA { get; private set; }
 
-            public IntPtr BodyB { get; private set; }
+            public RigidBody2D BodyB { get; private set; }
 
-            public IntPtr NodeA { get; private set; }
+            public Node NodeA { get; private set; }
 
-            public IntPtr NodeB { get; private set; }
+            public Node NodeB { get; private set; }
 
-            public IntPtr ShapeA { get; private set; }
+            public CollisionShape2D ShapeA { get; private set; }
 
-            public IntPtr ShapeB { get; private set; }
+            public CollisionShape2D ShapeB { get; private set; }
         }
 
         private event EventHandler<PhysicsEndContact2DEventArgs> PhysicsEndContact2DImpl;
@@ -11990,23 +11990,23 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Body = eventData[E.NodeUpdateContact2D.Body].VoidPtr;
-                OtherNode = eventData[E.NodeUpdateContact2D.OtherNode].VoidPtr;
-                OtherBody = eventData[E.NodeUpdateContact2D.OtherBody].VoidPtr;
-                Shape = eventData[E.NodeUpdateContact2D.Shape].VoidPtr;
-                OtherShape = eventData[E.NodeUpdateContact2D.OtherShape].VoidPtr;
-                Enabled = eventData[E.NodeUpdateContact2D.Enabled].Bool;
+                Body = (RigidBody2D)eventData[E.NodeUpdateContact2D.Body].Ptr;
+                OtherNode = (Node)eventData[E.NodeUpdateContact2D.OtherNode].Ptr;
+                OtherBody = (RigidBody2D)eventData[E.NodeUpdateContact2D.OtherBody].Ptr;
+                Shape = (CollisionShape2D)eventData[E.NodeUpdateContact2D.Shape].Ptr;
+                OtherShape = (CollisionShape2D)eventData[E.NodeUpdateContact2D.OtherShape].Ptr;
+                Enabled = (bool)eventData[E.NodeUpdateContact2D.Enabled].Bool;
             }
 
-            public IntPtr Body { get; private set; }
+            public RigidBody2D Body { get; private set; }
 
-            public IntPtr OtherNode { get; private set; }
+            public Node OtherNode { get; private set; }
 
-            public IntPtr OtherBody { get; private set; }
+            public RigidBody2D OtherBody { get; private set; }
 
-            public IntPtr Shape { get; private set; }
+            public CollisionShape2D Shape { get; private set; }
 
-            public IntPtr OtherShape { get; private set; }
+            public CollisionShape2D OtherShape { get; private set; }
 
             public bool Enabled { get; private set; }
         }
@@ -12056,22 +12056,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Body = eventData[E.NodeBeginContact2D.Body].VoidPtr;
-                OtherNode = eventData[E.NodeBeginContact2D.OtherNode].VoidPtr;
-                OtherBody = eventData[E.NodeBeginContact2D.OtherBody].VoidPtr;
-                Shape = eventData[E.NodeBeginContact2D.Shape].VoidPtr;
-                OtherShape = eventData[E.NodeBeginContact2D.OtherShape].VoidPtr;
+                Body = (RigidBody2D)eventData[E.NodeBeginContact2D.Body].Ptr;
+                OtherNode = (Node)eventData[E.NodeBeginContact2D.OtherNode].Ptr;
+                OtherBody = (RigidBody2D)eventData[E.NodeBeginContact2D.OtherBody].Ptr;
+                Shape = (CollisionShape2D)eventData[E.NodeBeginContact2D.Shape].Ptr;
+                OtherShape = (CollisionShape2D)eventData[E.NodeBeginContact2D.OtherShape].Ptr;
             }
 
-            public IntPtr Body { get; private set; }
+            public RigidBody2D Body { get; private set; }
 
-            public IntPtr OtherNode { get; private set; }
+            public Node OtherNode { get; private set; }
 
-            public IntPtr OtherBody { get; private set; }
+            public RigidBody2D OtherBody { get; private set; }
 
-            public IntPtr Shape { get; private set; }
+            public CollisionShape2D Shape { get; private set; }
 
-            public IntPtr OtherShape { get; private set; }
+            public CollisionShape2D OtherShape { get; private set; }
         }
 
         private event EventHandler<NodeBeginContact2DEventArgs> NodeBeginContact2DImpl;
@@ -12119,22 +12119,22 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Body = eventData[E.NodeEndContact2D.Body].VoidPtr;
-                OtherNode = eventData[E.NodeEndContact2D.OtherNode].VoidPtr;
-                OtherBody = eventData[E.NodeEndContact2D.OtherBody].VoidPtr;
-                Shape = eventData[E.NodeEndContact2D.Shape].VoidPtr;
-                OtherShape = eventData[E.NodeEndContact2D.OtherShape].VoidPtr;
+                Body = (RigidBody2D)eventData[E.NodeEndContact2D.Body].Ptr;
+                OtherNode = (Node)eventData[E.NodeEndContact2D.OtherNode].Ptr;
+                OtherBody = (RigidBody2D)eventData[E.NodeEndContact2D.OtherBody].Ptr;
+                Shape = (CollisionShape2D)eventData[E.NodeEndContact2D.Shape].Ptr;
+                OtherShape = (CollisionShape2D)eventData[E.NodeEndContact2D.OtherShape].Ptr;
             }
 
-            public IntPtr Body { get; private set; }
+            public RigidBody2D Body { get; private set; }
 
-            public IntPtr OtherNode { get; private set; }
+            public Node OtherNode { get; private set; }
 
-            public IntPtr OtherBody { get; private set; }
+            public RigidBody2D OtherBody { get; private set; }
 
-            public IntPtr Shape { get; private set; }
+            public CollisionShape2D Shape { get; private set; }
 
-            public IntPtr OtherShape { get; private set; }
+            public CollisionShape2D OtherShape { get; private set; }
         }
 
         private event EventHandler<NodeEndContact2DEventArgs> NodeEndContact2DImpl;
@@ -12205,13 +12205,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.ParticlesEnd.Node].VoidPtr;
-                Effect = eventData[E.ParticlesEnd.Effect].VoidPtr;
+                Node = (Node)eventData[E.ParticlesEnd.Node].Ptr;
+                Effect = (ParticleEffect2D)eventData[E.ParticlesEnd.Effect].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Effect { get; private set; }
+            public ParticleEffect2D Effect { get; private set; }
         }
 
         private event EventHandler<ParticlesEndEventArgs> ParticlesEndImpl;
@@ -12259,13 +12259,13 @@ namespace Urho3DNet.InputEvents
         {
             public void Set(VariantMap eventData)
             {
-                Node = eventData[E.ParticlesDuration.Node].VoidPtr;
-                Effect = eventData[E.ParticlesDuration.Effect].VoidPtr;
+                Node = (Node)eventData[E.ParticlesDuration.Node].Ptr;
+                Effect = (ParticleEffect2D)eventData[E.ParticlesDuration.Effect].Ptr;
             }
 
-            public IntPtr Node { get; private set; }
+            public Node Node { get; private set; }
 
-            public IntPtr Effect { get; private set; }
+            public ParticleEffect2D Effect { get; private set; }
         }
 
         private event EventHandler<ParticlesDurationEventArgs> ParticlesDurationImpl;

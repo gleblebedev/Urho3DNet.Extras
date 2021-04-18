@@ -17,7 +17,7 @@
     <PackageReference Include="Avalonia" Version="0.10.0" />
     <PackageReference Include="CargoBay.Urho3DNet.Asset" Version="0.0.2" />
     <PackageReference Include="DefaultUI.Urho3DNet.Asset" Version="0.0.1" />
-    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.275" />
+    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.280" />
   </ItemGroup>
 
   <ItemGroup>
