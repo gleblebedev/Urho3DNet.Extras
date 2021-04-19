@@ -20,21 +20,30 @@ namespace Urho3DNet
             FocusMode = FocusMode.FmFocusable;
 
 
-            _coreEventsAdapter = new CoreEventsAdapter(this);
-            _coreEventsAdapter.Update += HandleUpdate;
+            //_coreEventsAdapter = new CoreEventsAdapter(this);
+            //_coreEventsAdapter.Update += HandleUpdate;
             // Temporal workaround while virtual method override is broken
             _eventAdapter = new UIEventsAdapter(this);
             _eventAdapter.ClickEnd += HandleClickEnd;
             _eventAdapter.Click += HandleClickBegin;
             _eventAdapter.DragMove += HandleDragMove;
+            _eventAdapter.Resized += HandleResized;
             //_eventAdapter.HoverBegin += HandleHoverBegin;
             //_eventAdapter.HoverEnd += HandleHoverEnd;
         }
 
-        private void HandleUpdate(object sender, CoreEventsAdapter.UpdateEventArgs e)
+        private void HandleResized(object sender, UIEventsAdapter.ResizedEventArgs e)
         {
             var size = this.Size;
-            _windowImpl.Resize(new Avalonia.Size(size.X, size.Y));
+            var clientSize = new Avalonia.Size(size.X, size.Y);
+            if (_windowImpl.ClientSize != clientSize)
+            {
+                _windowImpl.Resize(clientSize);
+            }
+        }
+
+        private void HandleUpdate(object sender, CoreEventsAdapter.UpdateEventArgs e)
+        {
         }
 
         private void HandleDragMove(object sender, UIEventsAdapter.DragMoveEventArgs e)

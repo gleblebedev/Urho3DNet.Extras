@@ -51,7 +51,7 @@ namespace Urho3DNet.AvaliniaAdapter
 
                 var width = MathDefs.NextPowerOfTwo(_size.Width);
                 var height = MathDefs.NextPowerOfTwo(_size.Height);
-                if (width != _texture.Width && height != _texture.Height)
+                if (width != _texture.Width || height != _texture.Height)
                 {
                     RowBytes = width * 4;
                     if (RowBytes * height > _data.Length)
