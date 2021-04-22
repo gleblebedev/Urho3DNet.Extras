@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>unofficial.Urho3DNet.Actions</id>
+    <authors>glebedev</authors>
+    <version>0.0.0.0-alpha</version>
+    <owners>glebedev</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <description>Actions extension for Urho3DNet game engine</description>
+    <tags>rbfx Urho3D gamedev csharp dotnet gameengine</tags>
+    <repository url="https://github.com/gleblebedev/Urho3DNet.Extras" />
+    <dependencies>
+        <dependency id="unofficial.Urho3DNet" version="[0.3.7,)" />
+    </dependencies>
+  </metadata>
+  <files>
+      <file src="nuget\**" target="" />
+  </files>
+</package>

@@ -1,0 +1,77 @@
+#Azure DevOps yaml script to build and publish nuget
+
+parameters:
+  libraryName: 'Actions'
+
+jobs:
+- job: Build_Library
+  displayName: 'Build Library'
+  pool:
+    vmImage: 'windows-latest'
+  variables:
+    nugetFolder: $(Build.ArtifactStagingDirectory)/nuget
+
+  steps:
+  - checkout: self
+    submodules: true
+    displayName: 'Checkout project'
+
+  - task: PowerShell@2
+    displayName: 'Generate version environment variable'
+    inputs:
+      filePath: '$(Agent.BuildDirectory)/s/pipelines/Scripts/GenVersion.ps1'
+      arguments: '-versionTemplateFile $(Agent.BuildDirectory)/s/pipelines/version.txt'
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      arguments: '$(Agent.BuildDirectory)/s/src/Urho3DNet.${{ parameters.libraryName }}/Urho3DNet.${{ parameters.libraryName }}.csproj --configuration Release'
+    displayName: 'dotnet build'
+
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Agent.BuildDirectory)/s/nuget'
+      contents: 'LICENSE' 
+      targetFolder: '$(nugetFolder)'
+      overWrite: true
+
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Agent.BuildDirectory)/s/src/Urho3DNet.${{ parameters.libraryName }}/bin/Release/netstandard2.0/'
+      contents: 'Urho3DNet.${{ parameters.libraryName }}.???' 
+      targetFolder: '$(nugetFolder)/lib/netstandard2.0'
+      overWrite: true
+
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: '$(Agent.BuildDirectory)/s/nuget'
+      contents: 'unofficial.Urho3DNet.${{ parameters.libraryName }}.nuspec' 
+      targetFolder: '$(Build.ArtifactStagingDirectory)'
+      overWrite: true
+
+  - task: NuGetCommand@2
+    inputs:
+      command: 'pack'
+      packagesToPack: '$(Build.ArtifactStagingDirectory)/unofficial.Urho3DNet.${{ parameters.libraryName }}.nuspec'
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'VERSION'
+
+  - task: NuGetCommand@2
+    displayName: 'Publish to local feed'
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: '$(VstsFeed)'
+      allowPackageConflicts: true
+
+  - task: NuGetCommand@2
+    displayName: 'Publish to nuget.org'
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      publishFeedCredentials: 'rbfx_nuget_org'
+      nuGetFeedType: 'external'
+      versioningScheme: 'byEnvVar'
+      versionEnvVar: 'VERSION'
+      allowPackageConflicts: true

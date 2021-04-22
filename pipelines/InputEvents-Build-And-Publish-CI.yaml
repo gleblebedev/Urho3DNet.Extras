@@ -8,4 +8,4 @@ stages:
   jobs:
   - template: Template-Build-And-Publish-CI.yaml
     parameters:
-      libraryName: Actions
+      libraryName: InputEvents
