@@ -19,9 +19,12 @@ namespace Urho3DNet.InputEvents
         {
             Context = context;
             _uiRoot = new SharedPtr<UIElement>(new UIElement(context));
-            var style = ResourceCache.GetResource<XMLFile>("UI/DefaultStyle.xml");
-            if (style != null)
-                _uiRoot.Value.SetDefaultStyle(style);
+            if (ResourceCache.Exists("UI/DefaultStyle.xml"))
+            {
+                var style = ResourceCache.GetResource<XMLFile>("UI/DefaultStyle.xml");
+                if (style != null)
+                    _uiRoot.Value.SetDefaultStyle(style);
+            }
         }
 
         public Context Context { get; }
@@ -119,9 +122,15 @@ namespace Urho3DNet.InputEvents
             if (InputSource != null) Renderer.SetViewport(index, viewport);
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
             _uiRoot.Dispose();
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+
         }
 
         protected override void OnListenerSubscribed()
