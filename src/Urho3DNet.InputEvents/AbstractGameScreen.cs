@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Urho3DNet.InputEvents
 {
@@ -14,6 +15,7 @@ namespace Urho3DNet.InputEvents
         private MouseMode _prevMouseMode;
         private bool _isMouseVisible = false;
         private bool _prevMouseVisible;
+        private string _musicAssetName;
 
         public AbstractGameScreen(Context context)
         {
@@ -25,6 +27,73 @@ namespace Urho3DNet.InputEvents
                 if (style != null)
                     _uiRoot.Value.SetDefaultStyle(style);
             }
+        }
+
+        private readonly Dictionary<Scene, MusicPerScene> _musicSoundSources = new Dictionary<Scene, MusicPerScene>();
+
+        class MusicPerScene
+        {
+            public SoundSource SoundSource;
+            public Sound Track;
+            public float TimePosition;
+
+            public void Play()
+            {
+                SoundSource?.Play(Track);
+            }
+            public void Pause()
+            {
+                TimePosition = SoundSource.TimePosition;
+                SoundSource.Stop();
+            }
+            public void Resume()
+            {
+                SoundSource.Play(Track);
+                //SoundSource.TimePosition = SoundSource.TimePosition;
+            }
+
+        }
+
+        public void PlayMusic(string musicAssetName, Scene scene)
+        {
+            _musicAssetName = musicAssetName;
+            var source = GetOrCreateSoundSource(scene);
+            source.Track = ResourceCache.GetResource<Sound>(musicAssetName);
+            if (IsActive)
+            {
+                source.Play();
+            }
+        }
+
+        private MusicPerScene GetOrCreateSoundSource(Scene scene)
+        {
+            if (_musicSoundSources.TryGetValue(scene, out var soundSource))
+            {
+                return soundSource;
+            }
+
+            var soundSourceNode = scene.GetChild("MusicSoundSource", false);
+            if (soundSourceNode == null)
+            {
+                soundSourceNode = scene.CreateChild("MusicSoundSource", CreateMode.Local);
+            }
+
+            soundSource = new MusicPerScene()
+            {
+                SoundSource = soundSourceNode.GetOrCreateComponent<SoundSource>()
+            };
+            _musicSoundSources.Add(scene, soundSource);
+            return soundSource;
+        }
+
+        public Scene GetScene()
+        {
+            return _viewports.Select(_ => _.Value?.Value?.Scene).FirstOrDefault(_ => _ != null);
+        }
+
+        public Camera GetCamera()
+        {
+            return _viewports.Select(_ => _.Value?.Value?.Camera).FirstOrDefault(_ => _ != null);
         }
 
         public Context Context { get; }
@@ -167,6 +236,11 @@ namespace Urho3DNet.InputEvents
 
             _prevMouseVisible = Input.IsMouseVisible();
             Input.SetMouseVisible(_isMouseVisible);
+
+            foreach (var musicSoundSource in _musicSoundSources)
+            {
+                musicSoundSource.Value.Resume();
+            }
         }
 
         public bool IsActive { get; private set; }
@@ -213,6 +287,12 @@ namespace Urho3DNet.InputEvents
             
             Input.SetMouseMode(_prevMouseMode);
             Input.SetMouseVisible(_prevMouseVisible);
+
+            foreach (var musicSoundSource in _musicSoundSources)
+            {
+                musicSoundSource.Value.Pause();
+            }
+
         }
 
         public struct ViewportRay
