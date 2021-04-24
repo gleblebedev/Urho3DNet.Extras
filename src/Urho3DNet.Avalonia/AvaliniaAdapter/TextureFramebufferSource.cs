@@ -45,21 +45,28 @@ namespace Urho3DNet.AvaliniaAdapter
             get => _size;
             set
             {
-                if (value.Width == 0 || value.Height == 0)
-                    throw new ArgumentOutOfRangeException("Size can't be zero");
-                _size = value;
-
-                var width = MathDefs.NextPowerOfTwo(_size.Width);
-                var height = MathDefs.NextPowerOfTwo(_size.Height);
-                if (width != _texture.Width || height != _texture.Height)
+                if (_size != value)
                 {
-                    RowBytes = width * 4;
-                    if (RowBytes * height > _data.Length)
+                    _size = value;
+
+                    if (value.Width == 0 || value.Height == 0)
                     {
-                        _data = new byte[RowBytes * height];
+                        return;
+                        //throw new ArgumentOutOfRangeException("Size can't be zero");
                     }
 
-                    _texture.SetSize(width, height, GetFormat(Format), _textureUsage);
+                    var width = MathDefs.NextPowerOfTwo(_size.Width);
+                    var height = MathDefs.NextPowerOfTwo(_size.Height);
+                    if (width != _texture.Width || height != _texture.Height)
+                    {
+                        RowBytes = width * 4;
+                        if (RowBytes * height > _data.Length)
+                        {
+                            _data = new byte[RowBytes * height];
+                        }
+
+                        _texture.SetSize(width, height, GetFormat(Format), _textureUsage);
+                    }
                 }
             }
         }
