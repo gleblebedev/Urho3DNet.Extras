@@ -5,7 +5,7 @@ namespace Urho3DNet.InputEvents
 {
     public class AbstractGameScreen : AbstractInputListener, IDisposable
     {
-        private readonly Dictionary<uint, Viewport> _viewports = new Dictionary<uint, Viewport>();
+        private readonly Dictionary<uint, SharedPtr<Viewport>> _viewports = new Dictionary<uint, SharedPtr<Viewport>>();
 
         private readonly SharedPtr<UIElement> _uiRoot;
 
@@ -98,7 +98,7 @@ namespace Urho3DNet.InputEvents
         {
             foreach (var viewportPair in _viewports)
             {
-                var viewport = viewportPair.Value;
+                var viewport = viewportPair.Value?.Value;
                 var view = viewport?.View;
                 if (view != null)
                 {
@@ -118,13 +118,33 @@ namespace Urho3DNet.InputEvents
 
         public void SetViewport(uint index, Viewport viewport)
         {
-            _viewports[index] = viewport;
+            if (_viewports.TryGetValue(index, out var viewportPtr))
+            {
+                viewportPtr.Value = viewport;
+            }
+            else
+            {
+                _viewports[index] = viewport;
+            }
             if (InputSource != null) Renderer.SetViewport(index, viewport);
+        }
+        
+        public void SetViewport(uint index, Camera camera = null, Scene scene = null)
+        {
+            SetViewport(index, new Viewport(Context)
+            {
+                Camera = camera,
+                Scene = scene ?? camera?.Node?.Scene
+            });
         }
 
         public void Dispose()
         {
             _uiRoot.Dispose();
+            foreach (var viewport in _viewports)
+            {
+                viewport.Value.Dispose();
+            }
             Dispose(true);
         }
 
