@@ -4,26 +4,16 @@ namespace Urho3DNet.InputEvents
 {
     public class KeyEventArgs : DeviceEventArgs
     {
-        public KeyEventArgs():base(0)
+        public KeyEventArgs() : base(0)
         {
         }
-        
+
         public KeyEventArgs(UniKey key, int deviceId, int scancode, int buttons, Qualifier qualifiers, bool repeat) :
             base(deviceId)
         {
             Set(key, deviceId, scancode, buttons, qualifiers, repeat);
         }
-        
-        public void Set(UniKey key, int deviceId = 0, int scancode = 0, int buttons = 0, Qualifier qualifiers = Qualifier.QualNone, bool repeat = false)
-        {
-            DeviceId = deviceId;
-            Key = key;
-            Scancode = scancode;
-            Buttons = buttons;
-            Qualifiers = qualifiers;
-            Repeat = repeat;
-        }
-        
+
         public UniKey Key { get; private set; }
         public int Scancode { get; private set; }
         public int Buttons { get; private set; }
@@ -37,7 +27,7 @@ namespace Urho3DNet.InputEvents
                 0,
                 args.Scancode,
                 args.Buttons,
-                (Qualifier)args.Qualifiers,
+                (Qualifier) args.Qualifiers,
                 args.Repeat);
         }
 
@@ -48,8 +38,7 @@ namespace Urho3DNet.InputEvents
                 0,
                 args.Scancode,
                 args.Buttons,
-                (Qualifier)args.Qualifiers,
-                false);
+                (Qualifier) args.Qualifiers);
         }
 
         public static void FromMouseButtonDown(KeyEventArgs eventArgs, InputEventsAdapter.MouseButtonDownEventArgs args)
@@ -59,8 +48,7 @@ namespace Urho3DNet.InputEvents
                 0,
                 0,
                 args.Buttons,
-                (Qualifier)args.Qualifiers,
-                false);
+                (Qualifier) args.Qualifiers);
         }
 
         public static void FromMouseButtonUp(KeyEventArgs eventArgs, InputEventsAdapter.MouseButtonUpEventArgs args)
@@ -70,33 +58,26 @@ namespace Urho3DNet.InputEvents
                 0,
                 0,
                 args.Buttons,
-                (Qualifier)args.Qualifiers,
-                false);
+                (Qualifier) args.Qualifiers);
         }
 
-        public static void FromJoystickButtonDownEvent(KeyEventArgs eventArgs, InputEventsAdapter.JoystickButtonDownEventArgs args, Input input)
+        public static void FromJoystickButtonDownEvent(KeyEventArgs eventArgs,
+            InputEventsAdapter.JoystickButtonDownEventArgs args, Input input)
         {
             var deviceId = args.JoystickID;
             eventArgs.Set(
                 KeyFromJoystickButton(args.Button, input.GetJoystick(deviceId)),
-                deviceId,
-                0,
-                0,
-                0,
-                false);
+                deviceId);
         }
 
-        public static void FromJoystickButtonUpEvent(KeyEventArgs eventArgs, InputEventsAdapter.JoystickButtonUpEventArgs args, Input input)
+        public static void FromJoystickButtonUpEvent(KeyEventArgs eventArgs,
+            InputEventsAdapter.JoystickButtonUpEventArgs args, Input input)
         {
             var deviceId = args.JoystickID;
             eventArgs.Set(
                 KeyFromJoystickButton(args.Button,
                     input.GetJoystick(deviceId)),
-                deviceId,
-                0,
-                0,
-                0,
-                false);
+                deviceId);
         }
 
         private static UniKey KeyFromJoystickButton(int button, JoystickState joystickState)
@@ -112,13 +93,24 @@ namespace Urho3DNet.InputEvents
             switch (button)
             {
                 case 1: return UniKey.MouseButtonLeft;
-                case 2: return UniKey.MouseButtonRight;
-                case 4: return UniKey.MouseButtonMiddle;
+                case 2: return UniKey.MouseButtonMiddle;
+                case 4: return UniKey.MouseButtonRight;
                 case 8: return UniKey.MouseButton1;
                 case 16: return UniKey.MouseButton2;
             }
 
             return UniKey.KeyUnknown;
+        }
+
+        public void Set(UniKey key, int deviceId = 0, int scancode = 0, int buttons = 0,
+            Qualifier qualifiers = Qualifier.QualNone, bool repeat = false)
+        {
+            DeviceId = deviceId;
+            Key = key;
+            Scancode = scancode;
+            Buttons = buttons;
+            Qualifiers = qualifiers;
+            Repeat = repeat;
         }
     }
 }

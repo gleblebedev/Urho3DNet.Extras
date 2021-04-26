@@ -9,7 +9,9 @@ namespace Urho3DNet.InputEvents
         private readonly HashSet<UniKey> _mouseButtons = new HashSet<UniKey>();
         private readonly Dictionary<int, ActiveTouch> _activeTouches = new Dictionary<int, ActiveTouch>();
         private readonly TouchEventArgs _touchEventArgs = new TouchEventArgs();
+        private readonly AxisEventArgs _axisEventArgs = new AxisEventArgs();
         private readonly KeyEventArgs _keyEventArgs = new KeyEventArgs();
+        private readonly HashSet<ActiveAxis> _activeAxis = new HashSet<ActiveAxis>();
 
         public StatefulInputSource()
         {
@@ -28,25 +30,28 @@ namespace Urho3DNet.InputEvents
         {
             foreach (var gamepadButton in _gamepadButtons)
             {
-                _keyEventArgs.Set(gamepadButton.Key, gamepadButton.DeviceId, 0, 0, 0, false);
+                _keyEventArgs.Set(gamepadButton.Key, gamepadButton.DeviceId);
                 listener.OnGamepadButtonCanceled(this, _keyEventArgs);
             }
 
             _gamepadButtons.Clear();
+
             foreach (var gamepadButton in _keyboardKeys)
             {
-                _keyEventArgs.Set(gamepadButton, 0, 0, 0, 0, false);
+                _keyEventArgs.Set(gamepadButton);
                 listener.OnKeyboardButtonCanceled(this, _keyEventArgs);
             }
 
             _keyboardKeys.Clear();
+
             foreach (var gamepadButton in _mouseButtons)
             {
-                _keyEventArgs.Set(gamepadButton, 0, 0, 0, 0, false);
+                _keyEventArgs.Set(gamepadButton);
                 listener.OnMouseButtonCanceled(this, _keyEventArgs);
             }
 
             _mouseButtons.Clear();
+
             foreach (var touch in _activeTouches)
             {
                 _touchEventArgs.Set(touch.Value.TouchId, touch.Value.X, touch.Value.Y, 0, 0, 0.0f);
@@ -54,6 +59,14 @@ namespace Urho3DNet.InputEvents
             }
 
             _activeTouches.Clear();
+
+            foreach (var activeAxis in _activeAxis)
+            {
+                _axisEventArgs.Set(activeAxis.Axis, activeAxis.DeviceId, 0);
+                listener.OnGamepadAxisMoved(this, _axisEventArgs);
+            }
+
+            _activeAxis.Clear();
         }
 
         void IInputListener.ListenerSubscribed(IInputSource container)
@@ -129,6 +142,17 @@ namespace Urho3DNet.InputEvents
 
         void IInputListener.OnGamepadAxisMoved(object sender, AxisEventArgs args)
         {
+            var axisKey = new ActiveAxis(args.DeviceId, args.Axis);
+            if (args.Value == 0)
+            {
+                if (!_activeAxis.Remove(axisKey))
+                    return;
+            }
+            else
+            {
+                _activeAxis.Add(axisKey);
+            }
+
             Listener?.OnGamepadAxisMoved(sender, args);
         }
 
@@ -169,6 +193,18 @@ namespace Urho3DNet.InputEvents
             {
                 DeviceId = deviceId;
                 Key = key;
+            }
+        }
+
+        private struct ActiveAxis
+        {
+            public readonly int DeviceId;
+            public readonly UniAxis Axis;
+
+            public ActiveAxis(int deviceId, UniAxis axis)
+            {
+                DeviceId = deviceId;
+                Axis = axis;
             }
         }
 

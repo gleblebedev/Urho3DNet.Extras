@@ -4,7 +4,19 @@ namespace Urho3DNet.InputEvents
 {
     public abstract partial class AbstractInputListener : IInputListener
     {
+        private StatefulInputSource _inputProxy;
+
         public IInputSource InputSource { get; private set; }
+
+        protected IInputListener FallbackInputListener
+        {
+            get => _inputProxy?.Listener;
+            set
+            {
+                if (FallbackInputListener != value)
+                    (_inputProxy ?? (_inputProxy = new StatefulInputSource())).Listener = value;
+            }
+        }
 
         protected virtual void OnListenerSubscribed()
         {

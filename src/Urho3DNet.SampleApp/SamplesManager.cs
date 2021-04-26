@@ -13,7 +13,7 @@ namespace Urho3DNet.Samples
         private StatefulInputSource _currentSample;
         private bool isClosing_;
         private SampleList _list;
-        
+
         public SamplesManager(Context context) : base(context)
         {
             context.RegisterFactory<SliderTest>();
@@ -46,9 +46,9 @@ namespace Urho3DNet.Samples
                 .UseSkia()
                 .UseManagedSystemDialogs()
                 .SetupWithoutStarting();
-            
+
             //new SampleAvaloniaWindow().Show();
-            
+
             _inputAdapter = new InputAdapter(Context.Input);
             _currentSample = new StatefulInputSource(_inputAdapter);
             _list = new SampleList(Context);
@@ -69,13 +69,27 @@ namespace Urho3DNet.Samples
 
             RegisterSample<SkiaSample>();
             RegisterSample<AvaloniaSample>();
+            RegisterSample<FreeCameraSample>();
 
             base.Start();
         }
 
+        public override void Stop()
+        {
+            StopRunningSample();
+
+            Context.Engine.DumpResources(true);
+            base.Stop();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
         private void OnLogMessage(VariantMap obj)
         {
-            var level = (LogLevel)obj[E.LogMessage.Level].Int;
+            var level = (LogLevel) obj[E.LogMessage.Level].Int;
             var message = obj[E.LogMessage.Message].String;
             switch (level)
             {
@@ -92,27 +106,15 @@ namespace Urho3DNet.Samples
             }
         }
 
-        public override void Stop()
-        {
-            StopRunningSample();
-
-            Context.Engine.DumpResources(true);
-            base.Stop();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
-
         private void OnFrameStart(VariantMap obj)
         {
             if (isClosing_)
             {
                 isClosing_ = false;
-                if (_currentSample.Listener != null)
+                if (_currentSample.Listener != null && _currentSample.Listener != _list)
                 {
                     StopRunningSample();
+                    _currentSample.Listener = _list;
                 }
                 else
                 {
@@ -131,7 +133,7 @@ namespace Urho3DNet.Samples
 
         private void OnKeyPress(VariantMap eventData)
         {
-            var key = (Key)eventData[E.KeyDown.Key].Int;
+            var key = (Key) eventData[E.KeyDown.Key].Int;
 
             if (key == Key.KeyEscape)
                 isClosing_ = true;
@@ -141,7 +143,7 @@ namespace Urho3DNet.Samples
         {
             if (_currentSample.Listener == _list)
             {
-                var sampleType = ((UIElement)eventData[E.Released.Element].Ptr).Vars["SampleType"].String;
+                var sampleType = ((UIElement) eventData[E.Released.Element].Ptr).Vars["SampleType"].String;
                 if (string.IsNullOrWhiteSpace(sampleType))
                     return;
 
@@ -164,6 +166,9 @@ namespace Urho3DNet.Samples
                 case nameof(AvaloniaSample):
                     _currentSample.Listener = new AvaloniaSample(Context);
                     break;
+                case nameof(FreeCameraSample):
+                    _currentSample.Listener = new FreeCameraSample(Context);
+                    break;
             }
         }
 
@@ -171,16 +176,15 @@ namespace Urho3DNet.Samples
         {
             var prevSample = _currentSample.Listener;
             _currentSample.Listener = null;
-            if (prevSample is IDisposable disposableSample)
-            {
-                disposableSample.Dispose();
-            }
+            if (prevSample != _list)
+                if (prevSample is IDisposable disposableSample)
+                    disposableSample.Dispose();
         }
 
         private void RegisterSample<T>() where T : Sample
         {
             //Context.RegisterFactory<T>();
-            
+
             _list.Add<T>();
         }
     }

@@ -4,19 +4,6 @@ namespace Urho3DNet.InputEvents
 {
     public class PointerEventArgs : EventArgs
     {
-        public PointerEventArgs()
-        {
-        }
-
-
-        public void Set(int x, int y, int dx, int dy)
-        {
-            X = x;
-            Y = y;
-            Dx = dx;
-            Dy = dy;
-        }
-
         public int X { get; private set; }
         public int Y { get; private set; }
         public int Dx { get; private set; }
@@ -30,6 +17,15 @@ namespace Urho3DNet.InputEvents
                 args.DX,
                 args.DY
             );
+        }
+
+
+        public void Set(int x, int y, int dx, int dy)
+        {
+            X = x;
+            Y = y;
+            Dx = dx;
+            Dy = dy;
         }
     }
 }

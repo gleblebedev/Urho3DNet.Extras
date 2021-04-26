@@ -6,7 +6,7 @@ namespace Urho3DNet.InputEvents
 {
     public class AbstractGameScreen : AbstractInputListener, IDisposable
     {
-        private readonly Dictionary<uint, SharedPtr<Viewport>> _viewports = new Dictionary<uint, SharedPtr<Viewport>>();
+        private readonly Dictionary<uint, ViewportAndScene> _viewports = new Dictionary<uint, ViewportAndScene>();
         private readonly Dictionary<Scene, MusicPerScene> _musicSoundSources = new Dictionary<Scene, MusicPerScene>();
 
         private readonly SharedPtr<UIElement> _uiRoot;
@@ -18,7 +18,6 @@ namespace Urho3DNet.InputEvents
         private MouseMode _prevMouseMode;
         private bool _isMouseVisible;
         private bool _prevMouseVisible;
-        private string _musicAssetName;
         private CoreEventsAdapter _coreEventsAdapter;
         private float _musicGain = 0.2f;
 
@@ -90,19 +89,6 @@ namespace Urho3DNet.InputEvents
             }
         }
 
-        public virtual void OnUpdate(CoreEventsAdapter.UpdateEventArgs arg)
-        {
-        }
-
-        public void PlayMusic(string musicAssetName, Scene scene)
-        {
-            _musicAssetName = musicAssetName;
-            var source = GetOrCreateSoundSource(scene);
-            source.Gain = MusicGain;
-            source.Track = ResourceCache.GetResource<Sound>(musicAssetName);
-            if (IsActive) source.Play();
-        }
-
         public float MusicGain
         {
             get => _musicGain;
@@ -111,22 +97,31 @@ namespace Urho3DNet.InputEvents
                 if (_musicGain != value)
                 {
                     _musicGain = value;
-                    foreach (var musicSoundSource in _musicSoundSources)
-                    {
-                        musicSoundSource.Value.Gain = _musicGain;
-                    }
+                    foreach (var musicSoundSource in _musicSoundSources) musicSoundSource.Value.Gain = _musicGain;
                 }
             }
         }
 
+        public virtual void OnUpdate(CoreEventsAdapter.UpdateEventArgs arg)
+        {
+        }
+
+        public void PlayMusic(string musicAssetName, Scene scene)
+        {
+            var source = GetOrCreateSoundSource(scene);
+            source.Gain = MusicGain;
+            source.Track = ResourceCache.GetResource<Sound>(musicAssetName);
+            if (IsActive) source.Play();
+        }
+
         public Scene GetScene()
         {
-            return _viewports.Select(_ => _.Value?.Value?.Scene).FirstOrDefault(_ => _ != null);
+            return _viewports.Select(_ => _.Value?.Viewport?.Scene).FirstOrDefault(_ => _ != null);
         }
 
         public Camera GetCamera()
         {
-            return _viewports.Select(_ => _.Value?.Value?.Camera).FirstOrDefault(_ => _ != null);
+            return _viewports.Select(_ => _.Value?.Viewport?.Camera).FirstOrDefault(_ => _ != null);
         }
 
         public void HandleUpdate(object sender, CoreEventsAdapter.UpdateEventArgs args)
@@ -134,10 +129,7 @@ namespace Urho3DNet.InputEvents
             if (!IsActive)
                 return;
             var uiRoot = _uiRoot.Value;
-            if (uiRoot.GetParent() == null)
-            {
-                Context.UI.Root.AddChild(_uiRoot);
-            }
+            if (uiRoot.GetParent() == null) Context.UI.Root.AddChild(_uiRoot);
             var graphicsSize = Graphics.Size;
             if (_lastKnownGraphicsSize != graphicsSize)
             {
@@ -146,11 +138,8 @@ namespace Urho3DNet.InputEvents
                 uiRoot.Size = graphicsSize;
                 OnResize(graphicsSize);
             }
-            OnUpdate(args);
-        }
 
-        protected virtual void OnResize(IntVector2 graphicsSize)
-        {
+            OnUpdate(args);
         }
 
         public void Raycast(int x, int y, RayQueryResultList result, RayQueryLevel level, float maxDistance,
@@ -179,7 +168,7 @@ namespace Urho3DNet.InputEvents
         {
             foreach (var viewportPair in _viewports)
             {
-                var viewport = viewportPair.Value?.Value;
+                var viewport = viewportPair.Value?.Viewport;
                 var view = viewport?.View;
                 if (view != null)
                 {
@@ -199,10 +188,8 @@ namespace Urho3DNet.InputEvents
 
         public void SetViewport(uint index, Viewport viewport)
         {
-            if (_viewports.TryGetValue(index, out var viewportPtr))
-                viewportPtr.Value = viewport;
-            else
-                _viewports[index] = viewport;
+            if (_viewports.TryGetValue(index, out var viewportPtr)) viewportPtr.Dispose();
+            _viewports[index] = new ViewportAndScene(viewport);
             if (InputSource != null) Renderer.SetViewport(index, viewport);
         }
 
@@ -217,30 +204,41 @@ namespace Urho3DNet.InputEvents
 
         public void Dispose()
         {
+            FallbackInputListener = null;
             _uiRoot.Dispose();
             _coreEventsAdapter.Dispose();
             _coreEventsAdapter = null;
             _subscriptionObject.Dispose();
-                
             foreach (var viewport in _viewports) viewport.Value.Dispose();
             Dispose(true);
+        }
+
+        protected virtual void OnResize(IntVector2 graphicsSize)
+        {
         }
 
         protected virtual void Dispose(bool disposing)
         {
         }
 
+        protected virtual void OnRenderUpdate(CoreEventsAdapter.RenderUpdateEventArgs args)
+        {
+        }
+
+        protected virtual void OnPostRenderUpdate(CoreEventsAdapter.PostRenderUpdateEventArgs args)
+        {
+        }
+
         protected override void OnListenerSubscribed()
         {
             IsActive = true;
-            foreach (var viewport in _viewports) Renderer.SetViewport(viewport.Key, viewport.Value);
+            foreach (var viewport in _viewports) Renderer.SetViewport(viewport.Key, viewport.Value.Viewport);
 
             Renderer.DefaultZone.FogColor = _defaultFogColor;
 
             _coreEventsAdapter.Update += HandleUpdate;
             _coreEventsAdapter.RenderUpdate += HandleRenderUpdate;
             _coreEventsAdapter.PostRenderUpdate += HandlePostRenderUpdate;
-
 
             _prevMouseMode = Input.GetMouseMode();
             Input.SetMouseMode(_mouseMode);
@@ -249,24 +247,6 @@ namespace Urho3DNet.InputEvents
             Input.SetMouseVisible(_isMouseVisible);
 
             foreach (var musicSoundSource in _musicSoundSources) musicSoundSource.Value.Resume();
-        }
-
-        private void HandleRenderUpdate(object sender, CoreEventsAdapter.RenderUpdateEventArgs e)
-        {
-            OnRenderUpdate(e);
-        }
-
-        protected virtual void OnRenderUpdate(CoreEventsAdapter.RenderUpdateEventArgs args)
-        {
-        }
-
-        private void HandlePostRenderUpdate(object sender, CoreEventsAdapter.PostRenderUpdateEventArgs e)
-        {
-            OnPostRenderUpdate(e);
-        }
-
-        protected virtual void OnPostRenderUpdate(CoreEventsAdapter.PostRenderUpdateEventArgs args)
-        {
         }
 
         protected override void OnListenerUnsubscribed()
@@ -281,6 +261,16 @@ namespace Urho3DNet.InputEvents
             Input.SetMouseVisible(_prevMouseVisible);
 
             foreach (var musicSoundSource in _musicSoundSources) musicSoundSource.Value.Pause();
+        }
+
+        private void HandleRenderUpdate(object sender, CoreEventsAdapter.RenderUpdateEventArgs e)
+        {
+            OnRenderUpdate(e);
+        }
+
+        private void HandlePostRenderUpdate(object sender, CoreEventsAdapter.PostRenderUpdateEventArgs e)
+        {
+            OnPostRenderUpdate(e);
         }
 
         private MusicPerScene GetOrCreateSoundSource(Scene scene)
@@ -304,6 +294,26 @@ namespace Urho3DNet.InputEvents
             public Ray Ray;
         }
 
+        private class ViewportAndScene : IDisposable
+        {
+            private readonly SharedPtr<Viewport> _viewport;
+            private readonly SharedPtr<Scene> _scene;
+
+            public ViewportAndScene(Viewport viewport)
+            {
+                _viewport = viewport;
+                _scene = viewport.Scene;
+            }
+
+            public Viewport Viewport => _viewport?.Value;
+
+            public void Dispose()
+            {
+                _scene.Dispose();
+                _viewport.Dispose();
+            }
+        }
+
         private class MusicPerScene
         {
             public SoundSource SoundSource;
@@ -313,10 +323,7 @@ namespace Urho3DNet.InputEvents
             public float Gain
             {
                 get => SoundSource.Gain;
-                set
-                {
-                    SoundSource.Gain = value;
-                }
+                set => SoundSource.Gain = value;
             }
 
             public void Play()

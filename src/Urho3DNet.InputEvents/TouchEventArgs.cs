@@ -4,16 +4,6 @@ namespace Urho3DNet.InputEvents
 {
     public class TouchEventArgs : EventArgs
     {
-        public void Set(int touchId, int x, int y, int dx, int dy, float pressure)
-        {
-            TouchId = touchId;
-            X = x;
-            Y = y;
-            Dx = dx;
-            Dy = dy;
-            Pressure = pressure;
-        }
-
         public int TouchId { get; private set; }
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -55,6 +45,16 @@ namespace Urho3DNet.InputEvents
                 0,
                 0.0f
             );
+        }
+
+        public void Set(int touchId, int x, int y, int dx, int dy, float pressure)
+        {
+            TouchId = touchId;
+            X = x;
+            Y = y;
+            Dx = dx;
+            Dy = dy;
+            Pressure = pressure;
         }
     }
 }

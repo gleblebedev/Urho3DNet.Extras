@@ -16,14 +16,14 @@ namespace Urho3DNet.InputEvents
         public InputAdapter(Input input)
         {
             _input = input;
-            _subscription = new Object(input.Context);// input.Context.CreateObject<Object>();
+            _subscription = new Object(input.Context); // input.Context.CreateObject<Object>();
             _inputAdapter = new InputEventsAdapter(_subscription);
             _inputAdapter.JoystickAxisMove += TranslateJoystickAxisMove;
             _inputAdapter.JoystickButtonDown += TranslateJoystickButtonDown;
             _inputAdapter.JoystickButtonUp += TranslateJoystickButtonUp;
             _inputAdapter.JoystickConnected += TranslateJoystickConnected;
             _inputAdapter.JoystickDisconnected += TranslateJoystickDisconnected;
-            
+
             _inputAdapter.MouseButtonDown += TranslateMouseButtonDown;
             _inputAdapter.MouseButtonUp += TranslateMouseButtonUp;
             _inputAdapter.MouseMove += TranslateMouseMove;
@@ -36,6 +36,8 @@ namespace Urho3DNet.InputEvents
             _inputAdapter.TouchEnd += TranslateTouchEnd;
             _inputAdapter.TouchMove += TranslateTouchMove;
         }
+
+        public float AxisDeadZone { get; set; } = 0.1f;
 
         public void Dispose()
         {
@@ -111,7 +113,7 @@ namespace Urho3DNet.InputEvents
         {
             if (Listener != null)
             {
-                AxisEventArgs.FromJoystickAxisMove(_axisEventArgs, args, _input);
+                AxisEventArgs.FromJoystickAxisMove(_axisEventArgs, args, _input, AxisDeadZone);
                 Listener.OnGamepadAxisMoved(this, _axisEventArgs);
             }
         }

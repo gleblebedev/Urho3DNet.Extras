@@ -1,13 +1,14 @@
-﻿using Urho3DNet.SampleApp.View;
+﻿using Urho3DNet.InputEvents;
+using Urho3DNet.SampleApp.View;
 
 namespace Urho3DNet.Samples
 {
     public class AvaloniaSample : Sample
     {
         private readonly SharedPtr<AvaloniaElement> _sprite;
-        private SampleAvaloniaWindow _window;
-        private Slider _slider;
-        private SliderTest _sliderTest;
+        private readonly SampleAvaloniaWindow _window;
+        private readonly Slider _slider;
+        private readonly SliderTest _sliderTest;
 
         public AvaloniaSample(Context context) : base(context)
         {
@@ -39,23 +40,28 @@ namespace Urho3DNet.Samples
             _sliderTest.Position = new IntVector2(100, 100);
         }
 
-
-        public override void Dispose()
+        public override void OnUpdate(CoreEventsAdapter.UpdateEventArgs args)
         {
-            base.Dispose();
-            _sprite.Dispose();
+            base.OnUpdate(args);
         }
 
-        public override void OnUpdate(float timeStep)
+
+        protected override void Dispose(bool disposing)
         {
-            _slider.IsEnabled = true;
-            base.OnUpdate(timeStep);
+            _sprite.Dispose();
+            base.Dispose(disposing);
+        }
+
+        protected override void OnResize(IntVector2 graphicsSize)
+        {
+            base.OnResize(graphicsSize);
 
             _sprite.Value.Position = new Vector2(0.5f * (Graphics.Width - _sprite.Value.Width),
                 0.5f * (Graphics.Height - _sprite.Value.Height));
             _sprite.Value.Size = new IntVector2(220, 110);
 
-            _slider.Position = new IntVector2(100,20);
+            _slider.IsEnabled = true;
+            _slider.Position = new IntVector2(100, 20);
             _slider.Width = 200;
         }
     }

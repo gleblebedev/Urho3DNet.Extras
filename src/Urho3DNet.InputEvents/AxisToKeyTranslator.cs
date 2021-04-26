@@ -13,11 +13,12 @@ namespace Urho3DNet.InputEvents
         private bool _preparing;
 
         public AxisToKeyTranslator(UniKey neg, UniKey pos, IInputListener listener)
-            :this(neg,pos, listener.OnKeyboardButtonDown, listener.OnKeyboardButtonUp, listener.OnKeyboardButtonCanceled)
+            : this(neg, pos, listener.OnKeyboardButtonDown, listener.OnKeyboardButtonUp,
+                listener.OnKeyboardButtonCanceled)
         {
-
         }
-        public AxisToKeyTranslator(UniKey neg, UniKey pos, 
+
+        public AxisToKeyTranslator(UniKey neg, UniKey pos,
             Action<object, KeyEventArgs> keyPressed,
             Action<object, KeyEventArgs> keyReleased,
             Action<object, KeyEventArgs> keyCanceled)
@@ -54,11 +55,11 @@ namespace Urho3DNet.InputEvents
 
             _prevSign = 0;
         }
-        
+
         public void OnAxisMoved(object sender, AxisEventArgs args)
         {
-            float threshold = (_prevSign == 0) ? 0.6f : 0.4f;
-            int newSign = (args.Value < -threshold)?-1:((args.Value > threshold) ? 1: 0);
+            var threshold = _prevSign == 0 ? 0.6f : 0.4f;
+            var newSign = args.Value < -threshold ? -1 : args.Value > threshold ? 1 : 0;
             if (newSign == 0)
                 _preparing = false;
             if (_prevSign != newSign && !_preparing)
@@ -76,6 +77,7 @@ namespace Urho3DNet.InputEvents
                         _keyReleased(this, eventArgs);
                         break;
                 }
+
                 _prevSign = newSign;
                 switch (newSign)
                 {
@@ -88,6 +90,7 @@ namespace Urho3DNet.InputEvents
                         _keyPressed(this, eventArgs);
                         break;
                 }
+
                 eventArgsPool.Return(eventArgs);
             }
         }

@@ -39,11 +39,38 @@ foreach (var suffix in Events)
         /// </summary>
         /// <param name="sender"><#=EventType#> event source.</param>
         /// <param name="args"><#=EventType#> event arguments.</param>
-        public virtual void On<#=DeviceName#><#=EventType#><#=suffix#>(object sender, <#=EventArg#> args) { }
+        public virtual void On<#=DeviceName#><#=EventType#><#=suffix#>(object sender, <#=EventArg#> args)
+        {
+            ((IInputListener)_inputProxy)?.On<#=DeviceName#><#=EventType#><#=suffix#>(sender, args);
+        }
 <#
 }
 #>
     }
+
+    public partial class InputDemultiplexer
+    {
+<#
+foreach (var suffix in Events)
+{
+#>
+        /// <summary>
+        /// Called when a <#=DeviceName#> <#=EventType.ToLower()#> <#=suffix.ToLower()#> event has occurred.
+        /// </summary>
+        /// <param name="sender"><#=EventType#> event source.</param>
+        /// <param name="args"><#=EventType#> event arguments.</param>
+        void IInputListener.On<#=DeviceName#><#=EventType#><#=suffix#>(object sender, <#=EventArg#> args)
+        {
+            foreach (var inputListener in _listeners)
+            {
+                inputListener?.On<#=DeviceName#><#=EventType#><#=suffix#>(sender, args);
+            }
+        }
+<#
+}
+#>
+    }
+
 
     public partial class EventEmitter
     {

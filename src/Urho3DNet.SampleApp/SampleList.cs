@@ -4,8 +4,8 @@ namespace Urho3DNet.Samples
 {
     public class SampleList : AbstractGameScreen
     {
-        private readonly SharedPtr<UIElement> listViewHolder_ = new SharedPtr<UIElement>(null);
-        private ListView _list;
+        private readonly SharedPtr<UIElement> listViewHolder_ = new SharedPtr<UIElement>();
+        private readonly ListView _list;
 
         public SampleList(Context context) : base(context)
         {
