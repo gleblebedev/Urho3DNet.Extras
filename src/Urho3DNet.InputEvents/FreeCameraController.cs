@@ -95,7 +95,8 @@ namespace Urho3DNet.InputEvents
         public float MouseSensitivityX { get; set; } = 0.2f;
         public float MouseSensitivityY { get; set; } = 0.2f;
         public bool InvertMouse { get; set; } = false;
-
+        public float MinPitch { get; set; } = -80f;
+        public float MaxPitch { get; set; } = 80f;
         public Camera Camera
         {
             get { return _camera?.Value; }
@@ -183,8 +184,8 @@ namespace Urho3DNet.InputEvents
                 var angles = rot.EulerAngles;
 
                 angles.Y += _yaw * GamepadSensitivityX;
-                angles.X = Clamp(angles.X + _pitch * GamepadSensitivityY * (InvertGamepad ? -1 : 1), -179.9f, 179.9f);
-                rot.FromEulerAngles(angles.X, angles.Y, angles.Z);
+                angles.X = Clamp(angles.X + _pitch * GamepadSensitivityY * (InvertGamepad ? -1 : 1), MinPitch, MaxPitch);
+                rot.FromEulerAngles(angles.X, angles.Y, 0);
                 cameraNode.WorldRotation = rot;
             }
         }
@@ -197,8 +198,8 @@ namespace Urho3DNet.InputEvents
             var rot = node.WorldRotation;
             var angles = rot.EulerAngles;
             angles.Y += args.Dx * MouseSensitivityX;
-            angles.X = Clamp(angles.X + args.Dy * MouseSensitivityY * (InvertMouse ? -1 : 1), -179.9f, 179.9f);
-            rot.FromEulerAngles(angles.X, angles.Y, angles.Z);
+            angles.X = Clamp(angles.X + args.Dy * MouseSensitivityY * (InvertMouse ? -1 : 1), MinPitch, MaxPitch);
+            rot.FromEulerAngles(angles.X, angles.Y, 0);
             node.WorldRotation = rot;
         }
 
