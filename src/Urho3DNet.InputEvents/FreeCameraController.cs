@@ -21,8 +21,14 @@ namespace Urho3DNet.InputEvents
         private readonly AxisAction _yaw = new AxisAction();
         private readonly AxisAction _pitch = new AxisAction();
 
-        public FreeCameraController(Camera camera)
+        public FreeCameraController(Camera camera): this (camera.Context, camera)
         {
+
+        }
+        public FreeCameraController(Context context, Camera camera = null)
+        {
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
             var keyActionCollection = new KeyActionCollection<KeyActionType>
             {
                 {KeyActionType.Forward, _forward},
@@ -57,7 +63,8 @@ namespace Urho3DNet.InputEvents
             };
 
             _camera = camera;
-            _subscriptionObject = new Object(_camera.Value.Context);
+            Context = context;
+            _subscriptionObject = new Object(context);
             _coreEvents = new CoreEventsAdapter(_subscriptionObject);
             _coreEvents.Update += UpdateCameraPosition;
             FallbackInputListener = new InputDemultiplexer(keyMappings, axisMappings);
@@ -89,14 +96,17 @@ namespace Urho3DNet.InputEvents
         public float MouseSensitivityY { get; set; } = 0.2f;
         public bool InvertMouse { get; set; } = false;
 
-
-        public Camera Camera => _camera?.Value;
+        public Camera Camera
+        {
+            get { return _camera?.Value; }
+            set { _camera.Value = value; }
+        }
 
         public Scene Scene => Camera?.Scene;
 
         public Node CameraNode => Camera?.Node;
 
-        public Context Context => Camera?.Context;
+        public Context Context { get; private set; }
 
         public bool InvertGamepad { get; set; }
 
@@ -104,7 +114,7 @@ namespace Urho3DNet.InputEvents
 
         public float GamepadSensitivityX { get; set; } = 1.0f;
 
-        private MouseMode MouseMode => _camera.Value.Context.Input.GetMouseMode();
+        private MouseMode MouseMode => Context.Input.GetMouseMode();
 
         public override void OnMousePointerMoved(object sender, PointerEventArgs args)
         {
@@ -142,9 +152,11 @@ namespace Urho3DNet.InputEvents
             if (mouseMode == MouseMode.MmFree)
                 if (!_panMode)
                     return;
+            var cameraNode = _camera.Value?.Node;
+            if (cameraNode == null)
+                return;
 
             var direction = Vector3.Zero;
-            var cameraNode = _camera.Value.Node;
             var forward = cameraNode.LocalToWorld(new Vector4(Vector3.Forward, 0));
             var right = cameraNode.LocalToWorld(new Vector4(Vector3.Right, 0));
             float leftRightSpeed = 0;
@@ -180,6 +192,8 @@ namespace Urho3DNet.InputEvents
         private void RotateCamera(PointerEventArgs args)
         {
             var node = CameraNode;
+            if (node == null)
+                return;
             var rot = node.WorldRotation;
             var angles = rot.EulerAngles;
             angles.Y += args.Dx * MouseSensitivityX;
