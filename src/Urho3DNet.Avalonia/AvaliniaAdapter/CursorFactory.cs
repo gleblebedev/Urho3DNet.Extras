@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Avalonia;
 using Avalonia.Input;
 using Avalonia.Platform;
 
 namespace Urho3DNet.AvaliniaAdapter
 {
-    public class CursorFactory : IStandardCursorFactory
+    class CursorFactory : ICursorFactory
     {
-        public IPlatformHandle GetCursor(StandardCursorType cursorType)
+        public ICursorImpl GetCursor(StandardCursorType cursorType) => new CursorStub();
+        public ICursorImpl CreateCursor(IBitmapImpl cursor, PixelPoint hotSpot) => new CursorStub();
+
+        private class CursorStub : ICursorImpl
         {
-            return new PlatformHandle(IntPtr.Zero, "ZeroCursor");
+            public void Dispose() { }
         }
     }
 }

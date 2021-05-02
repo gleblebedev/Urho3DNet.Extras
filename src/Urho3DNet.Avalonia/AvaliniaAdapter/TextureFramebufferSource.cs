@@ -1,17 +1,22 @@
-﻿using System;
+﻿//#define MANAGED_BUFFER
+
+using System;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Platform;
-using Avalonia.Skia;
 using SkiaSharp;
 
 namespace Urho3DNet.AvaliniaAdapter
 {
-    public class TextureFramebufferSource
+    public class TextureFramebufferSource: IDisposable
     {
         private readonly AvaloniaUrhoContext _avaloniaContext;
         private LockedFramebuffer _lockedFramebuffer;
+#if MANAGED_BUFFER
         private byte[] _data = Array.Empty<byte>();
+#else
+        private UnmanagedArray _data = UnmanagedArray.Empty;
+#endif
         private Texture2D _texture;
         private PixelSize _size;
         private TextureUsage _textureUsage = TextureUsage.TextureDynamic;
@@ -62,10 +67,18 @@ namespace Urho3DNet.AvaliniaAdapter
                         RowBytes = width * 4;
                         if (RowBytes * height > _data.Length)
                         {
+#if MANAGED_BUFFER
                             _data = new byte[RowBytes * height];
+#else
+                            _data?.Dispose();
+                            _data = new UnmanagedArray(RowBytes * height);
+#endif
                         }
 
-                        _texture.SetSize(width, height, GetFormat(Format), _textureUsage);
+                        if (!_texture.SetSize(width, height, GetFormat(Format), _textureUsage))
+                        {
+                            throw new InvalidOperationException("Can't resize texture");
+                        }
                     }
                 }
             }
@@ -85,7 +98,9 @@ namespace Urho3DNet.AvaliniaAdapter
         class LockedFramebuffer: ILockedFramebuffer
         {
             private readonly TextureFramebufferSource _source;
+#if MANAGED_BUFFER
             private GCHandle _pinnedArray;
+#endif
 
             public LockedFramebuffer(TextureFramebufferSource source)
             {
@@ -96,8 +111,10 @@ namespace Urho3DNet.AvaliniaAdapter
             {
                 var texture = _source._texture;
                 texture.SetData(0, 0, 0, texture.Width, texture.Height, Address);
+#if MANAGED_BUFFER
                 _pinnedArray.Free();
                 _pinnedArray = default;
+#endif
             }
 
             public IntPtr Address { get; private set; }
@@ -105,13 +122,19 @@ namespace Urho3DNet.AvaliniaAdapter
             public PixelSize Size => _source.Size;
 
             public int RowBytes => _source.RowBytes;
+            
             public Vector Dpi => _source.Dpi;
+            
             public PixelFormat Format => _source.Format;
 
             public void Lock()
             {
+#if MANAGED_BUFFER
                 _pinnedArray = GCHandle.Alloc(_source._data, GCHandleType.Pinned);
                 Address = _pinnedArray.AddrOfPinnedObject();
+#else
+                Address = _source._data.Addr;
+#endif
             }
         }
 
@@ -122,5 +145,13 @@ namespace Urho3DNet.AvaliniaAdapter
         public Vector Dpi { get; set; }
 
         public Texture2D Texture => _texture;
+        
+        public void Dispose()
+        {
+#if MANAGED_BUFFER
+#else
+            _data?.Dispose();
+#endif
+        }
     }
 }

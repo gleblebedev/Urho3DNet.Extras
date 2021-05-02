@@ -31,6 +31,7 @@ namespace Urho3DNet.AvaliniaAdapter
         public virtual void Dispose()
         {
             UrhoContext.RemoveWindow(this);
+            _framebufferSource.Dispose();
         }
 
         public IRenderer CreateRenderer(IRenderRoot root)
@@ -71,9 +72,13 @@ namespace Urho3DNet.AvaliniaAdapter
             return PixelPoint.FromPoint(point, RenderScaling) + position;
         }
 
-        public void SetCursor(IPlatformHandle cursor)
+        public void SetCursor(ICursorImpl cursor)
         {
         }
+
+        //public void SetCursor(IPlatformHandle cursor)
+        //{
+        //}
 
         public IPopupImpl CreatePopup()
         {

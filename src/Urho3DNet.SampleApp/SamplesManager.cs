@@ -16,7 +16,6 @@ namespace Urho3DNet.Samples
 
         public SamplesManager(Context context) : base(context)
         {
-            context.RegisterFactory<SliderTest>();
             context.RegisterFactory<AvaloniaElement>();
             context.RegisterFactory<SkiaElement>();
         }
@@ -70,6 +69,7 @@ namespace Urho3DNet.Samples
             RegisterSample<SkiaSample>();
             RegisterSample<AvaloniaSample>();
             RegisterSample<FreeCameraSample>();
+            RegisterSample<EditorSample>();
 
             base.Start();
         }
@@ -169,6 +169,10 @@ namespace Urho3DNet.Samples
                 case nameof(FreeCameraSample):
                     _currentSample.Listener = new FreeCameraSample(Context);
                     break;
+                case nameof(EditorSample):
+                    _currentSample.Listener = new EditorSample(Context);
+                    break;
+                    
             }
         }
 

@@ -5,11 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.280" />
+    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.291" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Urho3DNet.Avalonia\Urho3DNet.Avalonia.csproj" />
+    <ProjectReference Include="..\Urho3DNet.Editor\Urho3DNet.Editor.csproj" />
     <ProjectReference Include="..\Urho3DNet.InputEvents\Urho3DNet.InputEvents.csproj" />
     <ProjectReference Include="..\Urho3DNet.Skia\Urho3DNet.Skia.csproj" />
   </ItemGroup>

@@ -35,11 +35,12 @@ namespace Urho3DNet
         private void HandleResized(object sender, UIEventsAdapter.ResizedEventArgs e)
         {
             var size = this.Size;
-            var clientSize = new Avalonia.Size(size.X, size.Y);
+            var clientSize = new Avalonia.Size(size.X / _windowImpl.RenderScaling, size.Y / _windowImpl.RenderScaling);
             if (_windowImpl.ClientSize != clientSize)
             {
                 _windowImpl.Resize(clientSize);
             }
+            ImageRect = new IntRect(0, 0, size.X, size.Y);
         }
 
         private void HandleUpdate(object sender, CoreEventsAdapter.UpdateEventArgs e)

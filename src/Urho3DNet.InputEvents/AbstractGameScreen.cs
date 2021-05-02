@@ -130,6 +130,7 @@ namespace Urho3DNet.InputEvents
                 return;
             var uiRoot = _uiRoot.Value;
             if (uiRoot.GetParent() == null) Context.UI.Root.AddChild(_uiRoot);
+
             var graphicsSize = Graphics.Size;
             if (_lastKnownGraphicsSize != graphicsSize)
             {
@@ -138,7 +139,6 @@ namespace Urho3DNet.InputEvents
                 uiRoot.Size = graphicsSize;
                 OnResize(graphicsSize);
             }
-
             OnUpdate(args);
         }
 
@@ -265,6 +265,7 @@ namespace Urho3DNet.InputEvents
 
         private void HandleRenderUpdate(object sender, CoreEventsAdapter.RenderUpdateEventArgs e)
         {
+    
             OnRenderUpdate(e);
         }
 

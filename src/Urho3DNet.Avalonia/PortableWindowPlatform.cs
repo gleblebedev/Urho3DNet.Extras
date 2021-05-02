@@ -23,7 +23,7 @@ namespace Urho3DNet
             _context = context;
             AvaloniaLocator.CurrentMutable
                 .Bind<IPlatformSettings>().ToConstant(s_instance)
-                .Bind<IStandardCursorFactory>().ToTransient<CursorFactory>()
+                .Bind<ICursorFactory>().ToTransient<CursorFactory>()
                 .Bind<IPlatformThreadingInterface>().ToConstant(s_instance)
                 .Bind<IRenderLoop>().ToConstant(new RenderLoop())
                 .Bind<IRenderTimer>().ToConstant(new DefaultRenderTimer(60))

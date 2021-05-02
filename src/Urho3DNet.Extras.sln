@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.Skia", "Urho3DNet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.Samples", "Urho3DNet.Samples\Urho3DNet.Samples.csproj", "{8FD2602B-FC45-462D-82DC-1537DCD27E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.SampleApp", "Urho3DNet.SampleApp\Urho3DNet.SampleApp.csproj", "{E0633BAC-1478-4EA2-871C-0E27357812A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.SampleApp", "Urho3DNet.SampleApp\Urho3DNet.SampleApp.csproj", "{E0633BAC-1478-4EA2-871C-0E27357812A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.AndroidSamples", "Urho3DNet.AndroidSamples\Urho3DNet.AndroidSamples.csproj", "{42E9BE33-B506-4105-8523-F16094994FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.Avalonia", "Urho3DNet.Avalonia\Urho3DNet.Avalonia.csproj", "{4CFEA06B-D621-4F43-892F-C642A1338092}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Urho3DNet.Avalonia", "Urho3DNet.Avalonia\Urho3DNet.Avalonia.csproj", "{4CFEA06B-D621-4F43-892F-C642A1338092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Urho3DNet.Editor", "Urho3DNet.Editor\Urho3DNet.Editor.csproj", "{45B9DCB0-4951-4EF9-BCF0-84737C6DC843}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{4CFEA06B-D621-4F43-892F-C642A1338092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CFEA06B-D621-4F43-892F-C642A1338092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CFEA06B-D621-4F43-892F-C642A1338092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45B9DCB0-4951-4EF9-BCF0-84737C6DC843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B9DCB0-4951-4EF9-BCF0-84737C6DC843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B9DCB0-4951-4EF9-BCF0-84737C6DC843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B9DCB0-4951-4EF9-BCF0-84737C6DC843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
