@@ -126,12 +126,6 @@ namespace Urho3DNet.Editor
             _staticModel.IsEnabled = false;
         }
 
-        public void Show(Camera camera)
-        {
-            Show(camera.Scene);
-            ResizeGizmo(camera);
-        }
-
         public void Show(Scene scene)
         {
             _staticModel.IsEnabled = true;
@@ -236,10 +230,12 @@ namespace Urho3DNet.Editor
             return vb;
         }
 
-        public virtual void Select(bool @select)
+        public virtual void Highlight(bool highlight)
         {
 
         }
+
+        public Node Node => _gizmoNode.Value;
 
         protected unsafe void UpdateVertexBuffer(VertexBuffer vb, PositionColor[] vertices)
         {

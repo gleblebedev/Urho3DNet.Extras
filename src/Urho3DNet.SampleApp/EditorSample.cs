@@ -34,7 +34,8 @@ namespace Urho3DNet.Samples
             IsMouseVisible = true;
 
             _moveGizmo = new MoveGizmo(Context);
-            _moveGizmo.Show(_camera);
+            _moveGizmo.Show(_camera.Scene);
+            _moveGizmo.ResizeGizmo(_camera);
 
             _inputEventAdapter = new InputEventsAdapter(_subscription);
             _inputEventAdapter.MouseMove += HandleMouseMove;
@@ -56,9 +57,9 @@ namespace Urho3DNet.Samples
             var gizmo = raycast.Gizmo;
             if (gizmo != _currentGizmo)
             {
-                _currentGizmo?.Select(false);
+                _currentGizmo?.Highlight(false);
                 _currentGizmo = gizmo;
-                _currentGizmo?.Select(true);
+                _currentGizmo?.Highlight(true);
             }
         }
 

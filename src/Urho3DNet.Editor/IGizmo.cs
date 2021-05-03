@@ -2,14 +2,14 @@
 {
     public interface IGizmo
     {
-        void Show(Camera camera);
+        void Show(Scene scene);
         
         void Hide();
 
-        void ResizeGizmo(Camera camera);
-
         void Raycast(ref GizmoRaycast result);
         
-        void Select(bool select);
+        void Highlight(bool highlight);
+        
+        Node Node { get; }
     }
 }

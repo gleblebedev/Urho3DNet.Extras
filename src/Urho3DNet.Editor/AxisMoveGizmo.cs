@@ -5,30 +5,32 @@ namespace Urho3DNet.Editor
 {
     public class AxisMoveGizmo : AbstractGizmo
     {
-        private readonly Color _selectedColor;
-        private readonly Color _unselectedColor;
+        private readonly Color _highlightedColor;
+        private readonly Color _tonedDownColor;
 
-        public AxisMoveGizmo(Node parent, Color unselectedColor, Color selectedColor) : base(parent)
+        public AxisMoveGizmo(Context context, Color tonedDownColor, Color highlightedColor) : base(context)
         {
-            _selectedColor = selectedColor;
-            _unselectedColor = unselectedColor;
-            Color = _unselectedColor;
+            _highlightedColor = highlightedColor;
+            _tonedDownColor = tonedDownColor;
+            Color = _tonedDownColor;
             CreateModel(new Vector3[]
             {
-                new Vector3(0,0,0),
-                new Vector3(1,0,0),
-            }, PrimitiveType.LineList, new ushort[]{0,1});
+                Vector3.Zero,
+                Vector3.Forward,
+                Vector3.Forward *0.9f + (Vector3.Right)*0.025f,
+                Vector3.Forward *0.9f - (Vector3.Right)*0.025f,
+            }, PrimitiveType.LineList, new ushort[]{0,1,1,2,1,3});
         }
 
-        public override void Select(bool @select)
+        public override void Highlight(bool highlight)
         {
-            if (@select)
+            if (highlight)
             {
-                Color = _selectedColor;
+                Color = _highlightedColor;
             }
             else
             {
-                Color = _unselectedColor;
+                Color = _tonedDownColor;
             }
         }
 
@@ -38,7 +40,7 @@ namespace Urho3DNet.Editor
             var clipSpaceTo = result.ViewProj * result.Contact;
             
             var clipSpacePivot = result.ViewProj * LocalToWorld(new Vector3(0,0,0));
-            var clipSpaceTip = result.ViewProj * LocalToWorld(new Vector3(1, 0, 0));
+            var clipSpaceTip = result.ViewProj * LocalToWorld(new Vector3(0, 0, 1));
 
             var bbox = new BoundingBox();
             bbox.Clear();

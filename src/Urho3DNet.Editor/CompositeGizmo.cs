@@ -4,22 +4,28 @@ namespace Urho3DNet.Editor
 {
     public class CompositeGizmo : IGizmo
     {
+        private readonly SharedPtr<Node> _gizmoNode;
+        private Context _context;
+        
         private readonly List<IGizmo> _gismos = new List<IGizmo>();
         
-        public CompositeGizmo()
+        protected CompositeGizmo(Context context)
         {
+            _context = context;
+            _gizmoNode = new Node(context);
         }
 
         protected void Add(IGizmo gizmo)
         {
+            gizmo.Node.Parent = _gizmoNode;
             _gismos.Add(gizmo);
         }
 
-        public void Show(Camera camera)
+        public void Show(Scene scene)
         {
             foreach (var gismo in _gismos)
             {
-                gismo.Show(camera);
+                gismo.Show(scene);
             }
         }
 
@@ -31,13 +37,24 @@ namespace Urho3DNet.Editor
             }
         }
 
-        public void ResizeGizmo(Camera camera)
+        public virtual void ResizeGizmo(Camera camera)
         {
-            foreach (var gismo in _gismos)
-            {
-                gismo.ResizeGizmo(camera);
-            }
+            float scale = 0.1f / camera.Zoom;
+
+            if (camera.IsOrthographic)
+                scale *= camera.OrthoSize;
+            else
+                scale *= (camera.View * _gizmoNode.Value.Position).Z;
+
+            _gizmoNode.Value.SetScale(new Vector3(scale, scale, scale));
         }
+        //public void ResizeGizmo(Camera camera)
+        //{
+        //    foreach (var gismo in _gismos)
+        //    {
+        //        gismo.ResizeGizmo(camera);
+        //    }
+        //}
 
         public void Raycast(ref GizmoRaycast result)
         {
@@ -47,12 +64,14 @@ namespace Urho3DNet.Editor
             }
         }
 
-        public void Select(bool @select)
+        public void Highlight(bool highlight)
         {
             foreach (var gismo in _gismos)
             {
-                gismo.Select(@select);
+                gismo.Highlight(highlight);
             }
         }
+
+        public Node Node => _gizmoNode;
     }
 }
