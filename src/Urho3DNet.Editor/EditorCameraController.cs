@@ -138,7 +138,7 @@ namespace Urho3DNet.Editor
                 if (toggle)
                     _selection.Toggle(node);
                 else
-                    _selection.Add(node);
+                    _selection.Set(node);
             }
         }
 

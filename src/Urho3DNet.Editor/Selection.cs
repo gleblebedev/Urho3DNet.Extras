@@ -54,7 +54,33 @@ namespace Urho3DNet.Editor
                 }
             }
         }
+        private class ClearCommand : IEditorCommand
+        {
+            private readonly Selection _selection;
+            private readonly Node[] _nodes;
+            private readonly Node _newSelection;
 
+            public ClearCommand(Selection selection, Node[] nodes, Node newSelection)
+            {
+                _selection = selection;
+                _nodes = nodes;
+                _newSelection = newSelection;
+            }
+
+            public void Dispose()
+            {
+            }
+
+            public void Undo()
+            {
+                _selection._nodes.Clear();
+                foreach (var node in _nodes)
+                {
+                    _selection._nodes.Add(node);
+                }
+                _selection.RaiseSelectionChanged();
+            }
+        }
         public int Count => _nodes.Count;
 
         public bool IsEmpty => _nodes.Count == 0;
@@ -104,8 +130,8 @@ namespace Urho3DNet.Editor
         {
             if (_nodes.Count > 0)
             {
+                _undoStack?.Push(new ClearCommand(this, _nodes.ToArray(), null));
                 _nodes.Clear();
-                // TODO: add command to undo stack
                 RaiseSelectionChanged();
             }
         }
@@ -172,6 +198,17 @@ namespace Urho3DNet.Editor
                 return _nodes.First().Parent.WorldRotation;
             }
             return Quaternion.IDENTITY;
+        }
+
+        public void Set(Node node)
+        {
+            if (_nodes.Count == 1 && _nodes.First() == node)
+                return;
+
+            _undoStack?.Push(new ClearCommand(this, _nodes.ToArray(), node));
+            _nodes.Clear();
+            _nodes.Add(node);
+            RaiseSelectionChanged();
         }
     }
 }
