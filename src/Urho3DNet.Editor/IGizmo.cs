@@ -11,5 +11,9 @@
         void Highlight(bool highlight);
         
         Node Node { get; }
+        
+        IEditorCommand Start(Selection selection);
+        
+        void Preview(ref GizmoRaycast raycast);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace Urho3DNet.Editor
+namespace Urho3DNet.Editor.Gizmos
 {
     public class AbstractGizmo : IDisposable, IGizmo
     {
@@ -161,7 +160,36 @@ namespace Urho3DNet.Editor
 
         }
 
+        protected bool GetClosestPointOnXYPlane(Ray ray, out Vector3 contact)
+        {
+            contact = Vector3.Zero;
+            var speed = ray.Direction.Z;
+            if (Math.Abs(speed) < 1e-6f)
+                return false;
+            var distance = ray.Origin.Z;
+            contact = ray.Origin - ray.Direction * (distance / speed);
+            return true;
+        }
 
+        protected bool GetClosestPointOnZAxis(Ray rayA, out Vector3 contact)
+        {
+            contact = Vector3.Zero;
+            var up = Vector3.Forward.CrossProduct(rayA.Direction);
+            var normalLength = up.Length;
+            if (normalLength < 1e-6f)
+                return false;
+            up *= 1.0f / normalLength;
+           
+            var right = up.CrossProduct(Vector3.Forward).Normalized;
+
+            var speed = rayA.Direction.DotProduct(right);
+            var distance = (rayA.Origin).DotProduct(right);
+            contact = rayA.Origin - rayA.Direction * (distance/ speed);
+
+            contact = new Vector3(0, 0, contact.Z);
+
+            return true;
+        }
 
         protected unsafe VertexBuffer CreateModel(Vector3[] vertices, PrimitiveType primitiveType,
             ushort[] indexData)
@@ -236,6 +264,15 @@ namespace Urho3DNet.Editor
         }
 
         public Node Node => _gizmoNode.Value;
+
+        public virtual IEditorCommand Start(Selection selection)
+        {
+            return null;
+        }
+
+        public virtual void Preview(ref GizmoRaycast raycast)
+        {
+        }
 
         protected unsafe void UpdateVertexBuffer(VertexBuffer vb, PositionColor[] vertices)
         {

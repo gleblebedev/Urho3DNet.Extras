@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Urho3DNet.Editor
+namespace Urho3DNet.Editor.Gizmos
 {
     public class CompositeGizmo : IGizmo
     {
@@ -73,5 +73,22 @@ namespace Urho3DNet.Editor
         }
 
         public Node Node => _gizmoNode;
+
+        public IEditorCommand Start(Selection selection)
+        {
+            return null;
+        }
+
+        public void Apply()
+        {
+        }
+
+        public void Cancel()
+        {
+        }
+
+        public void Preview(ref GizmoRaycast raycast)
+        {
+        }
     }
 }
