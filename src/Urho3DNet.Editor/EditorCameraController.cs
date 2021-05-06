@@ -130,7 +130,7 @@ namespace Urho3DNet.Editor
         {
             var octree = _scene.GetComponent<Octree>();
             var queryResultList = new RayQueryResultList();
-            var rayOctreeQuery = new RayOctreeQuery(queryResultList, _screenRay, RayQueryLevel.RayTriangle, _camera.FarClip);
+            var rayOctreeQuery = new RayOctreeQuery(queryResultList, _screenRay, RayQueryLevel.RayTriangle, _camera.FarClip, DrawableFlags.DrawableGeometry);
             octree.RaycastSingle(rayOctreeQuery);
             if (queryResultList.Count > 0)
             {
