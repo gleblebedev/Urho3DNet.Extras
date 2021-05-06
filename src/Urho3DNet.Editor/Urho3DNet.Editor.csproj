@@ -9,4 +9,8 @@
     <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.291" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Urho3DNet.InputEvents\Urho3DNet.InputEvents.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -201,6 +201,16 @@ namespace Urho3DNet.InputEvents
                 Scene = scene ?? camera?.Node?.Scene
             });
         }
+        
+        public Viewport GetViewport(uint index)
+        {
+            if (_viewports.TryGetValue(index, out var viewportAndScene))
+            {
+                return viewportAndScene.Viewport;
+            }
+
+            return null;
+        }
 
         public void Dispose()
         {

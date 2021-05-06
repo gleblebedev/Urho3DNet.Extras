@@ -7,17 +7,52 @@ namespace Urho3DNet.Editor
 {
     public class Selection : IEnumerable<Node>
     {
+        private readonly UndoStack _undoStack;
+        
         private HashSet<Node> _nodes = new HashSet<Node>();
 
         public event EventHandler SelectionChanged;
         
-        public Selection()
+        public Selection(UndoStack undoStack = null)
         {
+            _undoStack = undoStack;
         }
 
         private void RaiseSelectionChanged()
         {
             SelectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private class SelectCommand : IEditorCommand
+        {
+            private readonly Selection _selection;
+            private readonly Node _node;
+            private readonly bool _add;
+
+            public SelectCommand(Selection selection, Node node, bool add)
+            {
+                _selection = selection;
+                _node = node;
+                _add = add;
+            }
+            
+            public void Dispose()
+            {
+            }
+
+            public void Undo()
+            {
+                if (_add)
+                {
+                    if (_selection._nodes.Remove(_node))
+                        _selection.RaiseSelectionChanged();
+                }
+                else
+                {
+                    if (_selection._nodes.Add(_node))
+                        _selection.RaiseSelectionChanged();
+                }
+            }
         }
 
         public int Count => _nodes.Count;
@@ -48,6 +83,7 @@ namespace Urho3DNet.Editor
 
             if (_nodes.Add(node))
             {
+                _undoStack?.Push(new SelectCommand(this, node, true));
                 RaiseSelectionChanged();
             }
         }
@@ -59,6 +95,7 @@ namespace Urho3DNet.Editor
 
             if (_nodes.Remove(node))
             {
+                _undoStack?.Push(new SelectCommand(this, node, false));
                 RaiseSelectionChanged();
             }
         }
@@ -68,6 +105,7 @@ namespace Urho3DNet.Editor
             if (_nodes.Count > 0)
             {
                 _nodes.Clear();
+                // TODO: add command to undo stack
                 RaiseSelectionChanged();
             }
         }
@@ -89,12 +127,14 @@ namespace Urho3DNet.Editor
 
             if (_nodes.Remove(node))
             {
+                _undoStack?.Push(new SelectCommand(this, node, false));
                 RaiseSelectionChanged();
             }
             else
             {
                 if (_nodes.Add(node))
                 {
+                    _undoStack?.Push(new SelectCommand(this, node, true));
                     RaiseSelectionChanged();
                 }
             }
