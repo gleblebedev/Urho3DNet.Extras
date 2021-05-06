@@ -6,12 +6,6 @@ using Urho3DNet.InputEvents;
 
 namespace Urho3DNet.Samples
 {
-    public enum GizmoMode
-    {
-        Local,
-        Parent,
-        World
-    }
     public class EditorSample:Sample
     {
         private readonly FreeCameraController _cameraController;
