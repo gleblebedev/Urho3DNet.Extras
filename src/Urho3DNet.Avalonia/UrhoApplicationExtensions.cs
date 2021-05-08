@@ -11,12 +11,10 @@ namespace Urho3DNet
         /// <typeparam name="T">Builder type.</typeparam>
         /// <param name="builder">Builder.</param>
         /// <returns>Configure builder.</returns>
-        public static T UsePortablePlatfrom<T>(this T builder, Context context) where T : AppBuilderBase<T>, new()
+        public static T UsePortablePlatfrom<T>(this T builder, AvaloniaUrhoContext context) where T : AppBuilderBase<T>, new()
         {
             return builder.UseWindowingSubsystem(
-                () => PortableWindowPlatform.Initialize(
-                    AvaloniaLocator.Current.GetService<AvaloniaUrhoContext>() ??
-                    new AvaloniaUrhoContext(context)),
+                () => PortableWindowPlatform.Initialize(context),
                 "PortableUrho3DPlatform");
         }
     }

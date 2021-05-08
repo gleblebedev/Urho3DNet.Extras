@@ -29,6 +29,8 @@ namespace Urho3DNet
             var eventObject = new Object(context);
             _coreEvents = new CoreEventsAdapter(eventObject);
             _coreEvents.BeginFrame += ProcessWindows;
+            
+            
         }
 
         public Context Context { get; }

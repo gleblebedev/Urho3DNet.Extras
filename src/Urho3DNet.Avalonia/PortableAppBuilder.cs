@@ -9,9 +9,5 @@ namespace Urho3DNet
             builder => StandardRuntimePlatformServices.Register(builder.Instance?.GetType()?.Assembly))
         {
         }
-
-        public void UseContext(AvaloniaUrhoContext avaloniaUrhoContext)
-        {
-        }
     }
 }

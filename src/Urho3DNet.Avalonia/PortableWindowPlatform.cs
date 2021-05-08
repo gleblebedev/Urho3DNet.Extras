@@ -19,7 +19,6 @@ namespace Urho3DNet
 
         public static void Initialize(AvaloniaUrhoContext context)
         {
-            
             _context = context;
             AvaloniaLocator.CurrentMutable
                 .Bind<IPlatformSettings>().ToConstant(s_instance)

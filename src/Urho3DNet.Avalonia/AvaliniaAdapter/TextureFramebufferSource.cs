@@ -17,15 +17,17 @@ namespace Urho3DNet.AvaliniaAdapter
 #else
         private UnmanagedArray _data = UnmanagedArray.Empty;
 #endif
-        private Texture2D _texture;
+        private readonly SharedPtr<Texture2D> _texture;
         private PixelSize _size;
         private TextureUsage _textureUsage = TextureUsage.TextureDynamic;
+
+        public Texture2D Texture => _texture.Value;
 
         public TextureFramebufferSource(AvaloniaUrhoContext avaloniaContext)
         {
             _avaloniaContext = avaloniaContext;
             _texture = new Texture2D(avaloniaContext.Context);
-            _texture.SetNumLevels(1);
+            _texture.Value.SetNumLevels(1);
             _lockedFramebuffer = new LockedFramebuffer(this);
             switch (SKImageInfo.PlatformColorType)
             {
@@ -62,7 +64,8 @@ namespace Urho3DNet.AvaliniaAdapter
 
                     var width = MathDefs.NextPowerOfTwo(_size.Width);
                     var height = MathDefs.NextPowerOfTwo(_size.Height);
-                    if (width != _texture.Width || height != _texture.Height)
+                    var texture2D = Texture;
+                    if (width != texture2D.Width || height != texture2D.Height)
                     {
                         RowBytes = width * 4;
                         if (RowBytes * height > _data.Length)
@@ -75,7 +78,7 @@ namespace Urho3DNet.AvaliniaAdapter
 #endif
                         }
 
-                        if (!_texture.SetSize(width, height, GetFormat(Format), _textureUsage))
+                        if (!texture2D.SetSize(width, height, GetFormat(Format), _textureUsage))
                         {
                             throw new InvalidOperationException("Can't resize texture");
                         }
@@ -109,7 +112,7 @@ namespace Urho3DNet.AvaliniaAdapter
 
             public void Dispose()
             {
-                var texture = _source._texture;
+                var texture = _source.Texture;
                 texture.SetData(0, 0, 0, texture.Width, texture.Height, Address);
 #if MANAGED_BUFFER
                 _pinnedArray.Free();
@@ -144,14 +147,13 @@ namespace Urho3DNet.AvaliniaAdapter
 
         public Vector Dpi { get; set; }
 
-        public Texture2D Texture => _texture;
-        
         public void Dispose()
         {
 #if MANAGED_BUFFER
 #else
             _data?.Dispose();
 #endif
+            _texture.Dispose();
         }
     }
 }

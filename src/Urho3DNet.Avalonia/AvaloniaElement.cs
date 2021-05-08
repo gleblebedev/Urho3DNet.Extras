@@ -32,6 +32,11 @@ namespace Urho3DNet
             //_eventAdapter.HoverEnd += HandleHoverEnd;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
+
         private void HandleResized(object sender, UIEventsAdapter.ResizedEventArgs e)
         {
             var size = this.Size;
