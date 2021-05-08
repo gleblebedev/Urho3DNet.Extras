@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
-    <PackageReference Include="unofficial.Urho3DNet" Version="0.3.7.291" />
+    <PackageReference Include="unofficial.Urho3DNet" Version="$(Urho3DNetVersion)" />
   </ItemGroup>
 
 </Project>
