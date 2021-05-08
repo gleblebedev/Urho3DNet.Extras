@@ -10,7 +10,7 @@ namespace Urho3DNet.InputEvents
         private readonly Dictionary<Scene, MusicPerScene> _musicSoundSources = new Dictionary<Scene, MusicPerScene>();
 
         private readonly SharedPtr<UIElement> _uiRoot;
-        private readonly SharedPtr<Object> _subscriptionObject;
+        private readonly SharedPtr<ManagedEventDispatcher> _subscriptionObject;
 
         private IntVector2 _lastKnownGraphicsSize;
         private Color _defaultFogColor;
@@ -21,11 +21,13 @@ namespace Urho3DNet.InputEvents
         private CoreEventsAdapter _coreEventsAdapter;
         private float _musicGain = 0.2f;
 
+        public ManagedEventDispatcher SubscriptionObject => _subscriptionObject.Value;
+
         public AbstractGameScreen(Context context)
         {
             Context = context;
             _uiRoot = new SharedPtr<UIElement>(new UIElement(context));
-            _subscriptionObject = new Object(Context);
+            _subscriptionObject = new ManagedEventDispatcher(Context);
             _coreEventsAdapter = new CoreEventsAdapter(_subscriptionObject);
             if (ResourceCache.Exists("UI/DefaultStyle.xml"))
             {

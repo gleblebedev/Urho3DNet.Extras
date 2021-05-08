@@ -35,6 +35,8 @@ namespace Urho3DNet.InputEvents
             _inputAdapter.TouchBegin += TranslateTouchBegin;
             _inputAdapter.TouchEnd += TranslateTouchEnd;
             _inputAdapter.TouchMove += TranslateTouchMove;
+
+            
         }
 
         public float AxisDeadZone { get; set; } = 0.1f;
