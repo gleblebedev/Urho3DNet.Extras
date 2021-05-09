@@ -14,13 +14,13 @@ namespace Urho3DNet
         private readonly object _windowsCollectionLock = new object();
         private readonly HashSet<UrhoTopLevelImpl> _windows = new HashSet<UrhoTopLevelImpl>();
 
-        private MainLoopDispatcher _mainLoopDispatcher;
-        HashSet<UrhoTopLevelImpl> _windowsToPaint = new HashSet<UrhoTopLevelImpl>();
-        private CoreEventsAdapter _coreEvents;
+        private readonly MainLoopDispatcher _mainLoopDispatcher;
+        readonly HashSet<UrhoTopLevelImpl> _windowsToPaint = new HashSet<UrhoTopLevelImpl>();
+        private readonly CoreEventsAdapter _coreEvents;
+        private readonly InputEventsAdapter _inputEvents;
 
         public AvaloniaUrhoContext(Context context)
         {
-            //typeof(Avalonia.Controls.DataGrid.)
             Context = context;
             _mainLoopDispatcher = new MainLoopDispatcher(context);
             MouseDevice = new MouseDevice();
@@ -29,8 +29,12 @@ namespace Urho3DNet
             var eventObject = new Object(context);
             _coreEvents = new CoreEventsAdapter(eventObject);
             _coreEvents.BeginFrame += ProcessWindows;
-            
-            
+            _inputEvents = new InputEventsAdapter(eventObject);
+            _inputEvents.ExitRequested += OnExitRequested;
+        }
+
+        private void OnExitRequested(object sender, InputEventsAdapter.ExitRequestedEventArgs e)
+        {
         }
 
         public Context Context { get; }
@@ -70,6 +74,7 @@ namespace Urho3DNet
         {
             _mainLoopDispatcher.Dispose();
             _coreEvents.Dispose();
+            _inputEvents.Dispose();
         }
 
         public void RunLoop(CancellationToken cancellationToken)
