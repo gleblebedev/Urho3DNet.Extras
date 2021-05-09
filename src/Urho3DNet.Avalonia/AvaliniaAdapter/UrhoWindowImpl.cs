@@ -11,7 +11,6 @@ namespace Urho3DNet.AvaliniaAdapter
         private Size _minSize;
         private Size _maxSize;
         private WindowState _windowState;
-        private PixelPoint _position;
 
         public UrhoWindowImpl(AvaloniaUrhoContext avaloniaUrhoContext) : base(avaloniaUrhoContext)
         {
@@ -36,19 +35,7 @@ namespace Urho3DNet.AvaliniaAdapter
 
         public virtual double DesktopScaling { get; }
         
-        public virtual PixelPoint Position
-        {
-            get => _position;
-            set
-            {
-                if (_position != value)
-                {
-                    _position = value;
-                    PositionChanged?.Invoke(_position);
-                }
-            }
-        }
-        public Action<PixelPoint> PositionChanged { get; set; }
+
         public Action Deactivated { get; set; }
         public Action Activated { get; set; }
         public IPlatformHandle Handle { get; }

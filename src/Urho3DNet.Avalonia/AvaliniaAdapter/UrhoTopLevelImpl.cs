@@ -12,107 +12,37 @@ namespace Urho3DNet.AvaliniaAdapter
 {
     public class UrhoTopLevelImpl : ITopLevelImpl, IFramebufferPlatformSurface
     {
+        private PixelPoint _position;
+        public readonly SharedPtr<AvaloniaElement> _urhoUIElement = new SharedPtr<AvaloniaElement>();
+
+        public AvaloniaElement UrhoUIElement
+        {
+            get
+            {
+                return _urhoUIElement;
+            }
+            private set
+            {
+                _urhoUIElement.Value = value;
+            }
+        }
+
         private Avalonia.Rect _invalidRegion = Avalonia.Rect.Empty;
-        private double _dpi = 0;
+        private double _dpi;
         private TextureFramebufferSource _framebufferSource;
         private bool _hasActualSize;
         private Size _clientSizeCache;
-        public UrhoTopLevelImpl(AvaloniaUrhoContext avaloniaUrhoContext)
+        public UrhoTopLevelImpl(AvaloniaUrhoContext context)
         {
-            UrhoContext = avaloniaUrhoContext;
-            avaloniaUrhoContext.AddWindow(this);
-            _framebufferSource = new TextureFramebufferSource(avaloniaUrhoContext);
+            UrhoContext = context;
+            UrhoContext.AddWindow(this);
             Dpi = 96.0;
             Invalidate(new Avalonia.Rect(0, 0, double.MaxValue, double.MaxValue));
         }
 
         public AvaloniaUrhoContext UrhoContext { get; set; }
-        
-        public virtual void Dispose()
-        {
-            UrhoContext.RemoveWindow(this);
-            _framebufferSource.Dispose();
-        }
-
-        public IRenderer CreateRenderer(IRenderRoot root)
-        {
-            return new ImmediateRenderer(root);
-        }
-
-        /// <summary>Invalidates a rect on the toplevel.</summary>
-        public virtual void Invalidate(Avalonia.Rect rect)
-        {
-            _invalidRegion = _invalidRegion.Union(rect);
-            SchedulePaint();
-        }
-
-        private void SchedulePaint()
-        {
-            UrhoContext.SchedulePaint(this);
-        }
-
-        public void SetInputRoot(IInputRoot inputRoot)
-        {
-            InputRoot = inputRoot;
-        }
 
         public IInputRoot InputRoot { get; private set; }
-
-        public Point PointToClient(PixelPoint point)
-        {
-            //var position = IsFullscreen ? new PixelPoint(0, 0) : Position;
-            var position = new PixelPoint(0, 0);
-            return (point - position).ToPoint(RenderScaling);
-        }
-
-        public PixelPoint PointToScreen(Point point)
-        {
-            //var position = IsFullscreen ? new PixelPoint(0, 0) : Position;
-            var position = new PixelPoint(0, 0);
-            return PixelPoint.FromPoint(point, RenderScaling) + position;
-        }
-
-        public void SetCursor(ICursorImpl cursor)
-        {
-        }
-
-        //public void SetCursor(IPlatformHandle cursor)
-        //{
-        //}
-
-        public IPopupImpl CreatePopup()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetTransparencyLevelHint(WindowTransparencyLevel transparencyLevel)
-        {
-        }
-
-        /// <summary>
-        ///     Gets the client size of the toplevel.
-        /// </summary>
-        public virtual Size ClientSize
-        {
-            get
-            {
-                var framebufferSize = _framebufferSource.Size;
-                return new Size(framebufferSize.Width / RenderScaling, framebufferSize.Height / RenderScaling);
-            }
-        }
-        
-        /// <summary>
-        ///     Gets the scaling factor for the toplevel.
-        /// </summary>
-        public virtual double RenderScaling
-        {
-            get => _dpi / 96.0;
-            set
-            {
-                var scaling = RenderScaling;
-                if (scaling != value) Dpi = 96.0 * value;
-            }
-        }
 
         public double Dpi
         {
@@ -130,6 +60,59 @@ namespace Urho3DNet.AvaliniaAdapter
                 }
             }
         }
+        public Action<PixelPoint> PositionChanged { get; set; }
+
+        public virtual PixelPoint Position
+        {
+            get => _position;
+            set
+            {
+                if (_position != value)
+                {
+                    _position = value;
+                    PositionChanged?.Invoke(_position);
+                    UrhoUIElement.Position = new Vector2(_position.X, _position.Y);
+                }
+            }
+        }
+
+        public Texture2D Texture => _framebufferSource?.Texture;
+        public IntVector2 VisibleSize => new IntVector2(FramebufferSource.Size.Width, FramebufferSource.Size.Height);
+
+        public bool TrySetTargetTexture(Texture2D texture)
+        {
+            if (texture == null)
+                return false;
+            if (_framebufferSource != null)
+                return false;
+            _framebufferSource = new TextureFramebufferSource(UrhoContext, texture);
+            return true;
+        }
+
+        /// <summary>
+        ///     Gets the client size of the toplevel.
+        /// </summary>
+        public virtual Size ClientSize
+        {
+            get
+            {
+                var framebufferSize = FramebufferSource.Size;
+                return new Size(framebufferSize.Width / RenderScaling, framebufferSize.Height / RenderScaling);
+            }
+        }
+
+        /// <summary>
+        ///     Gets the scaling factor for the toplevel.
+        /// </summary>
+        public virtual double RenderScaling
+        {
+            get => _dpi / 96.0;
+            set
+            {
+                var scaling = RenderScaling;
+                if (scaling != value) Dpi = 96.0 * value;
+            }
+        }
 
         /// <summary>
         ///     The list of native platform's surfaces that can be consumed by rendering subsystems.
@@ -145,7 +128,9 @@ namespace Urho3DNet.AvaliniaAdapter
         {
             get { yield return this; }
         }
-        
+
+        public virtual IMouseDevice MouseDevice => UrhoContext.MouseDevice;
+
         public Action<RawInputEventArgs> Input { get; set; }
         public Action<Avalonia.Rect> Paint { get; set; }
         public Action<Size> Resized { get; set; }
@@ -153,35 +138,106 @@ namespace Urho3DNet.AvaliniaAdapter
         public Action<WindowTransparencyLevel> TransparencyLevelChanged { get; set; }
         public Action Closed { get; set; }
         public Action LostFocus { get; set; }
-        public virtual IMouseDevice MouseDevice => UrhoContext.MouseDevice;
         public WindowTransparencyLevel TransparencyLevel { get; } = WindowTransparencyLevel.None;
-        public AcrylicPlatformCompensationLevels AcrylicCompensationLevels { get; } = new AcrylicPlatformCompensationLevels(1, 1, 1);
-        public Texture2D Texture => _framebufferSource.Texture;
-        public IntVector2 VisibleSize => new IntVector2(_framebufferSource.Size.Width, _framebufferSource.Size.Height);
 
-        public ILockedFramebuffer Lock()
-        {
-            return _framebufferSource.Lock();
-        }
+        public AcrylicPlatformCompensationLevels AcrylicCompensationLevels { get; } =
+            new AcrylicPlatformCompensationLevels(1, 1, 1);
 
         public virtual void Resize(Size clientSize)
         {
-            _hasActualSize = true;
             var scaling = RenderScaling;
-            _framebufferSource.Size = new PixelSize((int) (clientSize.Width * scaling), (int) (clientSize.Height * scaling));
+            var pixelSize = new PixelSize((int)(clientSize.Width * scaling), (int)(clientSize.Height * scaling));
+            _hasActualSize = true;
+            FramebufferSource.Size = pixelSize;
             FireResizedIfNecessary();
         }
 
-        private void FireResizedIfNecessary()
+        public TextureFramebufferSource FramebufferSource
         {
-            var size = ClientSize;
-            if (_clientSizeCache != size)
+            get
             {
-                _clientSizeCache = size;
-                Resized?.Invoke(size);
+                return _framebufferSource ?? CreateFramebuffer();
             }
         }
-        
+
+        public UIElement ParentUIElement
+        {
+            get
+            {
+                if (_urhoUIElement.Value != null)
+                    return _urhoUIElement.Value.GetParent();
+                return UrhoContext.Context.UI.Root;
+            }
+        }
+
+        private TextureFramebufferSource CreateFramebuffer()
+        {
+            _framebufferSource = new TextureFramebufferSource(UrhoContext);
+
+            var parentUiElement = ParentUIElement;
+            var element = new AvaloniaElement(UrhoContext.Context);
+            element.Canvas = this;
+            element.SetParent(parentUiElement);
+            this.UrhoUIElement = element;
+            
+            return _framebufferSource;
+            
+        }
+
+        public virtual void Dispose()
+        {
+            UrhoContext.RemoveWindow(this);
+            _framebufferSource?.Dispose();
+            _urhoUIElement.Dispose();
+        }
+
+        public ILockedFramebuffer Lock()
+        {
+            return FramebufferSource.Lock();
+        }
+
+        /// <summary>Invalidates a rect on the toplevel.</summary>
+        public virtual void Invalidate(Avalonia.Rect rect)
+        {
+            _invalidRegion = _invalidRegion.Union(rect);
+            SchedulePaint();
+        }
+
+        public IRenderer CreateRenderer(IRenderRoot root)
+        {
+            return new ImmediateRenderer(root);
+        }
+
+        public void SetInputRoot(IInputRoot inputRoot)
+        {
+            InputRoot = inputRoot;
+        }
+
+        public Point PointToClient(PixelPoint point)
+        {
+            var position = Position;
+            return (point - position).ToPoint(RenderScaling);
+        }
+
+        public PixelPoint PointToScreen(Point point)
+        {
+            var position = Position;
+            return PixelPoint.FromPoint(point, RenderScaling) + position;
+        }
+
+        public void SetCursor(ICursorImpl cursor)
+        {
+        }
+
+        public IPopupImpl CreatePopup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetTransparencyLevelHint(WindowTransparencyLevel transparencyLevel)
+        {
+        }
+
         internal void PaintImpl()
         {
             var paint = Paint;
@@ -196,6 +252,26 @@ namespace Urho3DNet.AvaliniaAdapter
                 if (paintArea.Width * paintArea.Height > 0)
                     paint?.Invoke(paintArea);
                 //_hasUpdatedImage = true;
+            }
+        }
+
+        private void SchedulePaint()
+        {
+            UrhoContext.SchedulePaint(this);
+        }
+
+        private void FireResizedIfNecessary()
+        {
+            var size = ClientSize;
+            if (_clientSizeCache != size)
+            {
+                _clientSizeCache = size;
+                Resized?.Invoke(size);
+            }
+
+            if (UrhoUIElement != null)
+            {
+                UrhoUIElement.Size = VisibleSize;
             }
         }
     }

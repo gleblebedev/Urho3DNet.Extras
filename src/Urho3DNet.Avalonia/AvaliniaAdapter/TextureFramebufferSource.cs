@@ -22,11 +22,23 @@ namespace Urho3DNet.AvaliniaAdapter
         private TextureUsage _textureUsage = TextureUsage.TextureDynamic;
 
         public Texture2D Texture => _texture.Value;
+        private bool _externalTexture;
 
-        public TextureFramebufferSource(AvaloniaUrhoContext avaloniaContext)
+        public bool RenderToExternalTexture => _externalTexture;
+
+        public TextureFramebufferSource(AvaloniaUrhoContext avaloniaContext, Texture2D targetTexture = null)
         {
             _avaloniaContext = avaloniaContext;
-            _texture = new Texture2D(avaloniaContext.Context);
+            if (targetTexture != null)
+            {
+                _texture = targetTexture;
+                _externalTexture = true;
+            }
+            else
+            {
+                _texture = new Texture2D(avaloniaContext.Context);
+                _externalTexture = false;
+            }
             _texture.Value.SetNumLevels(1);
             _lockedFramebuffer = new LockedFramebuffer(this);
             switch (SKImageInfo.PlatformColorType)

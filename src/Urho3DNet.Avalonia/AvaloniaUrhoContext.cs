@@ -96,5 +96,6 @@ namespace Urho3DNet
                 _windows.Remove(window);
             }
         }
+
     }
 }

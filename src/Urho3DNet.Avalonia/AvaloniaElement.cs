@@ -9,7 +9,6 @@ namespace Urho3DNet
 {
     public class AvaloniaElement : Sprite
     {
-        private Avalonia.Controls.Window _window;
         private UrhoTopLevelImpl _windowImpl;
 
         public AvaloniaElement(Context context) : base(context)
@@ -123,24 +122,25 @@ namespace Urho3DNet
             }
         }
 
-        public Avalonia.Controls.Window Canvas
+        public UrhoTopLevelImpl Canvas
         {
             get
             {
-                return _window;
+                return _windowImpl;
             }
             set
             {
-                if (_window != value)
+                if (_windowImpl != value)
                 {
-                    _window = value;
-                    _windowImpl = _window.PlatformImpl as UrhoTopLevelImpl;
+                    _windowImpl = value;
                     if (_windowImpl != null)
                     {
                         var size = _windowImpl.VisibleSize;
                         ImageRect = new IntRect(0, 0, size.X, size.Y);
                         Size = size;
                         Texture = _windowImpl.Texture;
+                        var pointToScreen = _windowImpl.PointToScreen(new Point(0, 0));
+                        Position = new Vector2(pointToScreen.X, pointToScreen.Y);
                     }
                 }
             }
