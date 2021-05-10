@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Avalonia;
-using Avalonia.Dialogs;
 using Urho3DNet.InputEvents;
 using Urho3DNet.SampleApp.View;
 
@@ -13,6 +11,7 @@ namespace Urho3DNet.Samples
         private StatefulInputSource _currentSample;
         private bool isClosing_;
         private SampleList _list;
+        private AvaloniaUrhoContext _avalonia;
 
         public SamplesManager(Context context) : base(context)
         {
@@ -40,11 +39,7 @@ namespace Urho3DNet.Samples
 
         public override void Start()
         {
-            PortableAppBuilder.Configure<AvaloniaApp>()
-                .UsePortablePlatfrom(Context)
-                .UseSkia()
-                .UseManagedSystemDialogs()
-                .SetupWithoutStarting();
+            _avalonia =  Context.ConfigureAvalonia<AvaloniaApp>();
 
             //new SampleAvaloniaWindow().Show();
 
