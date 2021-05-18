@@ -40,7 +40,7 @@ namespace Urho3DNet.Actions
         {
         }
 
-        private static void ValueAction(string parameter, float from, float to, float duration, Material material)
+        private new static void ValueAction(string parameter, float from, float to, float duration, Material material)
         {
             material.SetShaderParameter(parameter, from + (to - from) * duration);
         }
@@ -53,7 +53,7 @@ namespace Urho3DNet.Actions
         {
         }
 
-        private static void ValueAction(string parameter, Vector2 from, Vector2 to, float duration, Material material)
+        private new static void ValueAction(string parameter, Vector2 from, Vector2 to, float duration, Material material)
         {
             material.SetShaderParameter(parameter, from + (to - from) * duration);
         }
@@ -66,7 +66,7 @@ namespace Urho3DNet.Actions
         {
         }
 
-        private static void ValueAction(string parameter, Vector3 from, Vector3 to, float duration, Material material)
+        private new static void ValueAction(string parameter, Vector3 from, Vector3 to, float duration, Material material)
         {
             material.SetShaderParameter(parameter, from + (to - from) * duration);
         }
@@ -79,7 +79,7 @@ namespace Urho3DNet.Actions
         {
         }
 
-        private static void ValueAction(string parameter, Vector4 from, Vector4 to, float duration, Material material)
+        private new static void ValueAction(string parameter, Vector4 from, Vector4 to, float duration, Material material)
         {
             material.SetShaderParameter(parameter, from + (to - from) * duration);
         }
@@ -92,7 +92,7 @@ namespace Urho3DNet.Actions
         {
         }
 
-        private static void ValueAction(string parameter, Color from, Color to, float duration, Material material)
+        private new static void ValueAction(string parameter, Color from, Color to, float duration, Material material)
         {
             material.SetShaderParameter(parameter, from + (to - from) * duration);
         }

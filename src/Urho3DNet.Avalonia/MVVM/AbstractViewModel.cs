@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using Avalonia.Input;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Urho3DNet.MVVM
 {
@@ -14,11 +15,20 @@ namespace Urho3DNet.MVVM
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Changed property name.</param>
-        protected virtual void RaisePropertyChanged(string propertyName)
+        protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
             var eventHandler = PropertyChanged;
 
             eventHandler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (!EqualityComparer<T>.Default.Equals(field, value))
+            {
+                field = value;
+                RaisePropertyChanged(propertyName);
+            }
         }
     }
 }

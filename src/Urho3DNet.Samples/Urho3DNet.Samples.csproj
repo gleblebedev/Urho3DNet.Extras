@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.3" />
+    <PackageReference Include="Avalonia" Version="0.10.4" />
     <PackageReference Include="CargoBay.Urho3DNet.Asset" Version="0.0.2" />
     <PackageReference Include="DefaultUI.Urho3DNet.Asset" Version="0.0.1" />
     <PackageReference Include="unofficial.Urho3DNet" Version="$(Urho3DNetVersion)" />

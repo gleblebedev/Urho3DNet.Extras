@@ -293,9 +293,11 @@ namespace Urho3DNet.InputEvents
             var soundSourceNode = scene.GetChild("MusicSoundSource", false);
             if (soundSourceNode == null) soundSourceNode = scene.CreateChild("MusicSoundSource", CreateMode.Local);
 
+            var source = soundSourceNode.GetOrCreateComponent<SoundSource>();
+            source.SoundType = "Music";
             soundSource = new MusicPerScene
             {
-                SoundSource = soundSourceNode.GetOrCreateComponent<SoundSource>()
+                SoundSource = source
             };
             _musicSoundSources.Add(scene, soundSource);
             return soundSource;
