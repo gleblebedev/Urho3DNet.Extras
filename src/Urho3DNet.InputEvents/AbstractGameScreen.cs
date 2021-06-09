@@ -218,7 +218,7 @@ namespace Urho3DNet.InputEvents
         {
             FallbackInputListener = null;
             _uiRoot.Dispose();
-            _coreEventsAdapter.Dispose();
+            _coreEventsAdapter?.Dispose();
             _coreEventsAdapter = null;
             _subscriptionObject.Dispose();
             foreach (var viewport in _viewports) viewport.Value.Dispose();

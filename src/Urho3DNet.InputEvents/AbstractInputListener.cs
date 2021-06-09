@@ -13,8 +13,11 @@ namespace Urho3DNet.InputEvents
             get => _inputProxy?.Listener;
             set
             {
-                if (FallbackInputListener != value)
-                    (_inputProxy ?? (_inputProxy = new StatefulInputSource())).Listener = value;
+                if (_inputProxy?.Listener != value)
+                {
+                    var inputProxy = (_inputProxy ?? (_inputProxy = new StatefulInputSource()));
+                    inputProxy.Listener = value;
+                }
             }
         }
 
