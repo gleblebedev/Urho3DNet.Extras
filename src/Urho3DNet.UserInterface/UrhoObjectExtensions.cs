@@ -10,7 +10,7 @@ using Urho3DNet.MVVM.Reactive;
 namespace Urho3DNet.MVVM
 {
     /// <summary>
-    /// Provides extension methods for <see cref="UrhoObject"/> and related classes.
+    /// Provides extension methods for <see cref="ObjectView"/> and related classes.
     /// </summary>
     public static class UrhoObjectExtensions
     {
@@ -575,7 +575,7 @@ namespace Urho3DNet.MVVM
         public static IDisposable AddClassHandler<TTarget>(
             this IObservable<UrhoPropertyChangedEventArgs> observable,
             Action<TTarget, UrhoPropertyChangedEventArgs> action)
-            where TTarget : UrhoObject
+            where TTarget : ObjectView
         {
             return observable.Subscribe(e =>
             {

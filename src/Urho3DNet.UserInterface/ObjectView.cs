@@ -15,7 +15,7 @@ namespace Urho3DNet.MVVM
     /// <remarks>
     /// This class is analogous to DependencyObject in WPF.
     /// </remarks>
-    public class UrhoObject : IUrhoObject, IUrhoObjectDebug, INotifyPropertyChanged, IValueSink
+    public class ObjectView : IUrhoObject, IUrhoObjectDebug, INotifyPropertyChanged, IValueSink
     {
         private IUrhoObject _inheritanceParent;
         private List<IDisposable> _directBindings;
@@ -26,9 +26,9 @@ namespace Urho3DNet.MVVM
         private bool _batchUpdate;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoObject"/> class.
+        /// Initializes a new instance of the <see cref="ObjectView"/> class.
         /// </summary>
-        public UrhoObject()
+        public ObjectView()
         {
             VerifyAccess();
         }
@@ -563,7 +563,7 @@ namespace Urho3DNet.MVVM
         {
             var oldValue = oldParent switch
             {
-                UrhoObject o => o.GetValueOrInheritedOrDefault(property),
+                ObjectView o => o.GetValueOrInheritedOrDefault(property),
                 null => property.GetDefaultValue(GetType()),
                 _ => oldParent.GetValue(property)
             };
@@ -713,7 +713,7 @@ namespace Urho3DNet.MVVM
 
         private T GetInheritedOrDefault<T>(StyledPropertyBase<T> property)
         {
-            if (property.Inherits && InheritanceParent is UrhoObject o)
+            if (property.Inherits && InheritanceParent is ObjectView o)
             {
                 return o.GetValueOrInheritedOrDefault(property);
             }
@@ -743,7 +743,7 @@ namespace Urho3DNet.MVVM
                     break;
                 }
 
-                o = o.InheritanceParent as UrhoObject;
+                o = o.InheritanceParent as ObjectView;
             }
 
             return property.GetDefaultValue(GetType());
@@ -906,12 +906,12 @@ namespace Urho3DNet.MVVM
 
         private class DirectBindingSubscription<T> : IObserver<BindingValue<T>>, IDisposable
         {
-            private readonly UrhoObject _owner;
+            private readonly ObjectView _owner;
             private readonly DirectPropertyBase<T> _property;
             private readonly IDisposable _subscription;
 
             public DirectBindingSubscription(
-                UrhoObject owner,
+                ObjectView owner,
                 DirectPropertyBase<T> property,
                 IObservable<BindingValue<T>> source)
             {

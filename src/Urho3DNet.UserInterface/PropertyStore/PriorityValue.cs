@@ -14,7 +14,7 @@ namespace Urho3DNet.MVVM.PropertyStore
     /// <typeparam name="T">The property type.</typeparam>
     /// <remarks>
     /// When more than a single value or binding is applied to a property in an
-    /// <see cref="UrhoObject"/>, the entry in the <see cref="ValueStore"/> is converted into
+    /// <see cref="ObjectView"/>, the entry in the <see cref="ValueStore"/> is converted into
     /// a <see cref="PriorityValue{T}"/>. This class holds any number of
     /// <see cref="IPriorityValueEntry{T}"/> entries (sorted first by priority and then in the order
     /// they were added) plus a local value.

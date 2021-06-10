@@ -96,7 +96,7 @@ namespace Urho3DNet.MVVM
             TValue unsetValue = default(TValue),
             BindingMode defaultBindingMode = BindingMode.Default,
             bool enableDataValidation = false)
-                where TNewOwner : UrhoObject
+                where TNewOwner : ObjectView
         {
             var metadata = new DirectPropertyMetadata<TValue>(
                 unsetValue: unsetValue,
@@ -135,7 +135,7 @@ namespace Urho3DNet.MVVM
             TValue unsetValue = default(TValue),
             BindingMode defaultBindingMode = BindingMode.Default,
             bool enableDataValidation = false)
-                where TNewOwner : UrhoObject
+                where TNewOwner : ObjectView
         {
             var metadata = new DirectPropertyMetadata<TValue>(
                 unsetValue: unsetValue,

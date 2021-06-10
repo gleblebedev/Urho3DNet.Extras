@@ -179,7 +179,7 @@ namespace Urho3DNet.MVVM.Binding
             return o.Bind<TValue>(this, adapter);
         }
 
-        internal override void RouteInheritanceParentChanged(UrhoObject o, IUrhoObject oldParent)
+        internal override void RouteInheritanceParentChanged(ObjectView o, IUrhoObject oldParent)
         {
             throw new NotSupportedException("Direct properties do not support inheritance.");
         }
