@@ -1,14 +1,15 @@
 using System;
 using System.Runtime.CompilerServices;
+
 //using JetBrains.Annotations;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// A stub of Code Contract's Contract class.
     /// </summary>
     /// <remarks>
-    /// It would be nice to use Code Contracts on UrhoUI but last time I tried it slowed things
+    /// It would be nice to use Code Contracts on Urho but last time I tried it slowed things
     /// to a crawl and often crashed. Instead use the same signature for checking preconditions
     /// in the hope that it might become usable at some point.
     /// </remarks>

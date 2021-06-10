@@ -1,6 +1,6 @@
 ﻿#nullable enable
 
-namespace Urho3DNet.UserInterface.PropertyStore
+namespace Urho3DNet.MVVM.PropertyStore
 {
     /// <summary>
     /// Represents an untyped interface to <see cref="IPriorityValueEntry{T}"/>.

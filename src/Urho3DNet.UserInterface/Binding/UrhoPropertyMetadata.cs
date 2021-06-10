@@ -1,19 +1,19 @@
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Base class for avalonia property metadata.
     /// </summary>
-    public class UrhoUIPropertyMetadata
+    public class UrhoPropertyMetadata
     {
         private BindingMode _defaultBindingMode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIPropertyMetadata"/> class.
+        /// Initializes a new instance of the <see cref="UrhoPropertyMetadata"/> class.
         /// </summary>
         /// <param name="defaultBindingMode">The default binding mode.</param>
-        public UrhoUIPropertyMetadata(
+        public UrhoPropertyMetadata(
             BindingMode defaultBindingMode = BindingMode.Default)
         {
             _defaultBindingMode = defaultBindingMode;
@@ -37,8 +37,8 @@ namespace Urho3DNet.UserInterface
         /// <param name="baseMetadata">The base metadata to merge.</param>
         /// <param name="property">The property to which the metadata is being applied.</param>
         public virtual void Merge(
-            UrhoUIPropertyMetadata baseMetadata, 
-            UrhoUIProperty property)
+            UrhoPropertyMetadata baseMetadata, 
+            UrhoProperty property)
         {
             if (_defaultBindingMode == BindingMode.Default)
             {

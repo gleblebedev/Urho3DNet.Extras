@@ -1,16 +1,17 @@
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Urho3DNet.UserInterface.Reactive;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Reactive;
 
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     public static class BindingOperations
     {
         public static readonly object DoNothing = new DoNothingType();
 
         /// <summary>
-        /// Applies an <see cref="InstancedBinding"/> a property on an <see cref="IUrhoUIObject"/>.
+        /// Applies an <see cref="InstancedBinding"/> a property on an <see cref="IUrhoObject"/>.
         /// </summary>
         /// <param name="target">The target object.</param>
         /// <param name="property">The property to bind.</param>
@@ -23,8 +24,8 @@ namespace Urho3DNet.UserInterface.Data
         /// </param>
         /// <returns>An <see cref="IDisposable"/> which can be used to cancel the binding.</returns>
         public static IDisposable Apply(
-            IUrhoUIObject target,
-            UrhoUIProperty property,
+            IUrhoObject target,
+            UrhoProperty property,
             InstancedBinding binding,
             object anchor)
         {
@@ -59,7 +60,7 @@ namespace Urho3DNet.UserInterface.Data
                         var bindingCopy = binding;
 
                         return source
-                            .Where(x => BindingNotification.ExtractValue(x) != UrhoUIProperty.UnsetValue)
+                            .Where(x => BindingNotification.ExtractValue(x) != UrhoProperty.UnsetValue)
                             .Take(1)
                             .Subscribe(x => targetCopy.SetValue(
                                 propertyCopy,

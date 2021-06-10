@@ -1,7 +1,8 @@
 ﻿using System;
-using Urho3DNet.UserInterface.Threading;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Threading;
 
-namespace Urho3DNet.UserInterface.Reactive
+namespace Urho3DNet.MVVM.Reactive
 {
     public abstract class SingleSubscriberObservableBase<T> : IObservable<T>, IDisposable
     {

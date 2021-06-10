@@ -2,47 +2,47 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
-    /// Tracks registered <see cref="UrhoUIProperty"/> instances.
+    /// Tracks registered <see cref="UrhoProperty"/> instances.
     /// </summary>
-    public class UrhoUIPropertyRegistry
+    public class UrhoPropertyRegistry
     {
-        private readonly Dictionary<int, UrhoUIProperty> _properties =
-            new Dictionary<int, UrhoUIProperty>();
-        private readonly Dictionary<Type, Dictionary<int, UrhoUIProperty>> _registered =
-            new Dictionary<Type, Dictionary<int, UrhoUIProperty>>();
-        private readonly Dictionary<Type, Dictionary<int, UrhoUIProperty>> _attached =
-            new Dictionary<Type, Dictionary<int, UrhoUIProperty>>();
-        private readonly Dictionary<Type, Dictionary<int, UrhoUIProperty>> _direct =
-            new Dictionary<Type, Dictionary<int, UrhoUIProperty>>();
-        private readonly Dictionary<Type, List<UrhoUIProperty>> _registeredCache =
-            new Dictionary<Type, List<UrhoUIProperty>>();
-        private readonly Dictionary<Type, List<UrhoUIProperty>> _attachedCache =
-            new Dictionary<Type, List<UrhoUIProperty>>();
-        private readonly Dictionary<Type, List<UrhoUIProperty>> _directCache =
-            new Dictionary<Type, List<UrhoUIProperty>>();
-        private readonly Dictionary<Type, List<UrhoUIProperty>> _inheritedCache =
-            new Dictionary<Type, List<UrhoUIProperty>>();
+        private readonly Dictionary<int, UrhoProperty> _properties =
+            new Dictionary<int, UrhoProperty>();
+        private readonly Dictionary<Type, Dictionary<int, UrhoProperty>> _registered =
+            new Dictionary<Type, Dictionary<int, UrhoProperty>>();
+        private readonly Dictionary<Type, Dictionary<int, UrhoProperty>> _attached =
+            new Dictionary<Type, Dictionary<int, UrhoProperty>>();
+        private readonly Dictionary<Type, Dictionary<int, UrhoProperty>> _direct =
+            new Dictionary<Type, Dictionary<int, UrhoProperty>>();
+        private readonly Dictionary<Type, List<UrhoProperty>> _registeredCache =
+            new Dictionary<Type, List<UrhoProperty>>();
+        private readonly Dictionary<Type, List<UrhoProperty>> _attachedCache =
+            new Dictionary<Type, List<UrhoProperty>>();
+        private readonly Dictionary<Type, List<UrhoProperty>> _directCache =
+            new Dictionary<Type, List<UrhoProperty>>();
+        private readonly Dictionary<Type, List<UrhoProperty>> _inheritedCache =
+            new Dictionary<Type, List<UrhoProperty>>();
 
         /// <summary>
-        /// Gets the <see cref="UrhoUIPropertyRegistry"/> instance
+        /// Gets the <see cref="UrhoPropertyRegistry"/> instance
         /// </summary>
-        public static UrhoUIPropertyRegistry Instance { get; }
-            = new UrhoUIPropertyRegistry();
+        public static UrhoPropertyRegistry Instance { get; }
+            = new UrhoPropertyRegistry();
 
         /// <summary>
         /// Gets a list of all registered properties.
         /// </summary>
-        internal IReadOnlyCollection<UrhoUIProperty> Properties => _properties.Values;
+        internal IReadOnlyCollection<UrhoProperty> Properties => _properties.Values;
 
         /// <summary>
-        /// Gets all non-attached <see cref="UrhoUIProperty"/>s registered on a type.
+        /// Gets all non-attached <see cref="UrhoProperty"/>s registered on a type.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns>A collection of <see cref="UrhoUIProperty"/> definitions.</returns>
-        public IReadOnlyList<UrhoUIProperty> GetRegistered(Type type)
+        /// <returns>A collection of <see cref="UrhoProperty"/> definitions.</returns>
+        public IReadOnlyList<UrhoProperty> GetRegistered(Type type)
         {
             Contract.Requires<ArgumentNullException>(type != null);
 
@@ -52,7 +52,7 @@ namespace Urho3DNet.UserInterface
             }
 
             var t = type;
-            result = new List<UrhoUIProperty>();
+            result = new List<UrhoProperty>();
 
             while (t != null)
             {
@@ -72,11 +72,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets all attached <see cref="UrhoUIProperty"/>s registered on a type.
+        /// Gets all attached <see cref="UrhoProperty"/>s registered on a type.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns>A collection of <see cref="UrhoUIProperty"/> definitions.</returns>
-        public IReadOnlyList<UrhoUIProperty> GetRegisteredAttached(Type type)
+        /// <returns>A collection of <see cref="UrhoProperty"/> definitions.</returns>
+        public IReadOnlyList<UrhoProperty> GetRegisteredAttached(Type type)
         {
             Contract.Requires<ArgumentNullException>(type != null);
 
@@ -86,7 +86,7 @@ namespace Urho3DNet.UserInterface
             }
 
             var t = type;
-            result = new List<UrhoUIProperty>();
+            result = new List<UrhoProperty>();
 
             while (t != null)
             {
@@ -103,11 +103,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets all direct <see cref="UrhoUIProperty"/>s registered on a type.
+        /// Gets all direct <see cref="UrhoProperty"/>s registered on a type.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns>A collection of <see cref="UrhoUIProperty"/> definitions.</returns>
-        public IReadOnlyList<UrhoUIProperty> GetRegisteredDirect(Type type)
+        /// <returns>A collection of <see cref="UrhoProperty"/> definitions.</returns>
+        public IReadOnlyList<UrhoProperty> GetRegisteredDirect(Type type)
         {
             Contract.Requires<ArgumentNullException>(type != null);
 
@@ -117,7 +117,7 @@ namespace Urho3DNet.UserInterface
             }
 
             var t = type;
-            result = new List<UrhoUIProperty>();
+            result = new List<UrhoProperty>();
 
             while (t != null)
             {
@@ -134,11 +134,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets all inherited <see cref="UrhoUIProperty"/>s registered on a type.
+        /// Gets all inherited <see cref="UrhoProperty"/>s registered on a type.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns>A collection of <see cref="UrhoUIProperty"/> definitions.</returns>
-        public IReadOnlyList<UrhoUIProperty> GetRegisteredInherited(Type type)
+        /// <returns>A collection of <see cref="UrhoProperty"/> definitions.</returns>
+        public IReadOnlyList<UrhoProperty> GetRegisteredInherited(Type type)
         {
             Contract.Requires<ArgumentNullException>(type != null);
 
@@ -147,8 +147,8 @@ namespace Urho3DNet.UserInterface
                 return result;
             }
 
-            result = new List<UrhoUIProperty>();
-            var visited = new HashSet<UrhoUIProperty>();
+            result = new List<UrhoProperty>();
+            var visited = new HashSet<UrhoProperty>();
 
             var registered = GetRegistered(type);
             var registeredCount = registered.Count;
@@ -185,11 +185,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets all <see cref="UrhoUIProperty"/>s registered on a object.
+        /// Gets all <see cref="UrhoProperty"/>s registered on a object.
         /// </summary>
         /// <param name="o">The object.</param>
-        /// <returns>A collection of <see cref="UrhoUIProperty"/> definitions.</returns>
-        public IReadOnlyList<UrhoUIProperty> GetRegistered(IUrhoUIObject o)
+        /// <returns>A collection of <see cref="UrhoProperty"/> definitions.</returns>
+        public IReadOnlyList<UrhoProperty> GetRegistered(IUrhoObject o)
         {
             Contract.Requires<ArgumentNullException>(o != null);
 
@@ -205,7 +205,7 @@ namespace Urho3DNet.UserInterface
         /// The registered property or null if no matching property found.
         /// </returns>
         public DirectPropertyBase<T> GetRegisteredDirect<T>(
-            IUrhoUIObject o,
+            IUrhoObject o,
             DirectPropertyBase<T> property)
         {
             return FindRegisteredDirect(o, property) ??
@@ -223,7 +223,7 @@ namespace Urho3DNet.UserInterface
         /// <exception cref="InvalidOperationException">
         /// The property name contains a '.'.
         /// </exception>
-        public UrhoUIProperty FindRegistered(Type type, string name)
+        public UrhoProperty FindRegistered(Type type, string name)
         {
             Contract.Requires<ArgumentNullException>(type != null);
             Contract.Requires<ArgumentNullException>(name != null);
@@ -238,7 +238,7 @@ namespace Urho3DNet.UserInterface
 
             for (var i = 0; i < registeredCount; i++)
             {
-                UrhoUIProperty x = registered[i];
+                UrhoProperty x = registered[i];
 
                 if (x.Name == name)
                 {
@@ -260,7 +260,7 @@ namespace Urho3DNet.UserInterface
         /// <exception cref="InvalidOperationException">
         /// The property name contains a '.'.
         /// </exception>
-        public UrhoUIProperty FindRegistered(IUrhoUIObject o, string name)
+        public UrhoProperty FindRegistered(IUrhoObject o, string name)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(name != null);
@@ -277,7 +277,7 @@ namespace Urho3DNet.UserInterface
         /// The registered property or null if no matching property found.
         /// </returns>
         public DirectPropertyBase<T> FindRegisteredDirect<T>(
-            IUrhoUIObject o,
+            IUrhoObject o,
             DirectPropertyBase<T> property)
         {
             if (property.Owner == o.GetType())
@@ -306,23 +306,23 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <param name="id">The property Id.</param>
         /// <returns>The registered property or null if no matching property found.</returns>
-        internal UrhoUIProperty FindRegistered(int id)
+        internal UrhoProperty FindRegistered(int id)
         {
             return id < _properties.Count ? _properties[id] : null;
         }
 
         /// <summary>
-        /// Checks whether a <see cref="UrhoUIProperty"/> is registered on a type.
+        /// Checks whether a <see cref="UrhoProperty"/> is registered on a type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="property">The property.</param>
         /// <returns>True if the property is registered, otherwise false.</returns>
-        public bool IsRegistered(Type type, UrhoUIProperty property)
+        public bool IsRegistered(Type type, UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(type != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
-            static bool ContainsProperty(IReadOnlyList<UrhoUIProperty> properties, UrhoUIProperty property)
+            static bool ContainsProperty(IReadOnlyList<UrhoProperty> properties, UrhoProperty property)
             {
                 var propertiesCount = properties.Count;
 
@@ -342,12 +342,12 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Checks whether a <see cref="UrhoUIProperty"/> is registered on a object.
+        /// Checks whether a <see cref="UrhoProperty"/> is registered on a object.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <param name="property">The property.</param>
         /// <returns>True if the property is registered, otherwise false.</returns>
-        public bool IsRegistered(object o, UrhoUIProperty property)
+        public bool IsRegistered(object o, UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(property != null);
@@ -356,23 +356,23 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Registers a <see cref="UrhoUIProperty"/> on a type.
+        /// Registers a <see cref="UrhoProperty"/> on a type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="property">The property.</param>
         /// <remarks>
         /// You won't usually want to call this method directly, instead use the
-        /// <see cref="UrhoUIProperty.Register{TOwner, TValue}(string, TValue, bool, Data.BindingMode, Func{TValue, bool}, Func{IUrhoUIObject, TValue, TValue}, Action{IUrhoUIObject, bool})"/>
+        /// <see cref="UrhoProperty.Register{TOwner, TValue}(string, TValue, bool, Data.BindingMode, Func{TValue, bool}, Func{IUrhoObject, TValue, TValue}, Action{IUrhoObject, bool})"/>
         /// method.
         /// </remarks>
-        public void Register(Type type, UrhoUIProperty property)
+        public void Register(Type type, UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(type != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
             if (!_registered.TryGetValue(type, out var inner))
             {
-                inner = new Dictionary<int, UrhoUIProperty>();
+                inner = new Dictionary<int, UrhoProperty>();
                 inner.Add(property.Id, property);
                 _registered.Add(type, inner);
             }
@@ -385,7 +385,7 @@ namespace Urho3DNet.UserInterface
             {
                 if (!_direct.TryGetValue(type, out inner))
                 {
-                    inner = new Dictionary<int, UrhoUIProperty>();
+                    inner = new Dictionary<int, UrhoProperty>();
                     inner.Add(property.Id, property);
                     _direct.Add(type, inner);
                 }
@@ -407,16 +407,16 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Registers an attached <see cref="UrhoUIProperty"/> on a type.
+        /// Registers an attached <see cref="UrhoProperty"/> on a type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="property">The property.</param>
         /// <remarks>
         /// You won't usually want to call this method directly, instead use the
-        /// <see cref="UrhoUIProperty.RegisterAttached{THost, TValue}(string, Type, TValue, bool, Data.BindingMode, Func{TValue, bool}, Func{IUrhoUIObject, TValue, TValue})"/>
+        /// <see cref="UrhoProperty.RegisterAttached{THost, TValue}(string, Type, TValue, bool, Data.BindingMode, Func{TValue, bool}, Func{IUrhoObject, TValue, TValue})"/>
         /// method.
         /// </remarks>
-        public void RegisterAttached(Type type, UrhoUIProperty property)
+        public void RegisterAttached(Type type, UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(type != null);
             Contract.Requires<ArgumentNullException>(property != null);
@@ -429,7 +429,7 @@ namespace Urho3DNet.UserInterface
 
             if (!_attached.TryGetValue(type, out var inner))
             {
-                inner = new Dictionary<int, UrhoUIProperty>();
+                inner = new Dictionary<int, UrhoProperty>();
                 inner.Add(property.Id, property);
                 _attached.Add(type, inner);
             }

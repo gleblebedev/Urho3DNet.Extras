@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.Reactive
+namespace Urho3DNet.MVVM.Reactive
 {
-    internal class UrhoUIPropertyBindingObservable<T> : LightweightObservableBase<BindingValue<T>>, IDescription
+    internal class UrhoPropertyBindingObservable<T> : LightweightObservableBase<BindingValue<T>>, IDescription
     {
-        private readonly WeakReference<IUrhoUIObject> _target;
-        private readonly UrhoUIProperty _property;
+        private readonly WeakReference<IUrhoObject> _target;
+        private readonly UrhoProperty _property;
         private T _value;
 
 #nullable disable
-        public UrhoUIPropertyBindingObservable(
-            IUrhoUIObject target,
-            UrhoUIProperty property)
+        public UrhoPropertyBindingObservable(
+            IUrhoObject target,
+            UrhoProperty property)
         {
-            _target = new WeakReference<IUrhoUIObject>(target);
+            _target = new WeakReference<IUrhoObject>(target);
             _property = property;
         }
 #nullable enable
@@ -46,11 +47,11 @@ namespace Urho3DNet.UserInterface.Reactive
             observer.OnNext(new BindingValue<T>(_value));
         }
 
-        private void PropertyChanged(object sender, UrhoUIPropertyChangedEventArgs e)
+        private void PropertyChanged(object sender, UrhoPropertyChangedEventArgs e)
         {
             if (e.Property == _property)
             {
-                if (e is UrhoUIPropertyChangedEventArgs<T> typedArgs)
+                if (e is UrhoPropertyChangedEventArgs<T> typedArgs)
                 {
                     var newValue = e.Sender.GetValue(typedArgs.Property);
 

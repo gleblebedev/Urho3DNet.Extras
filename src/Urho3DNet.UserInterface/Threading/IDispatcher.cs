@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Urho3DNet.UserInterface.Threading
+namespace Urho3DNet.MVVM.Threading
 {
     /// <summary>
     /// Dispatches jobs to a thread.

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.PropertyStore;
-using Urho3DNet.UserInterface.Utilities;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.PropertyStore;
+using Urho3DNet.MVVM.Utilities;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
-    /// Stores styled property values for an <see cref="UrhoUIObject"/>.
+    /// Stores styled property values for an <see cref="UrhoObject"/>.
     /// </summary>
     /// <remarks>
-    /// At its core this class consists of an <see cref="UrhoUIProperty"/> to 
+    /// At its core this class consists of an <see cref="UrhoProperty"/> to 
     /// <see cref="IValue"/> mapping which holds the current values for each set property. This
     /// <see cref="IValue"/> can be in one of 4 states:
     /// 
@@ -25,15 +24,15 @@ namespace Urho3DNet.UserInterface
     /// </remarks>
     internal class ValueStore : IValueSink
     {
-        private readonly UrhoUIObject _owner;
+        private readonly UrhoObject _owner;
         private readonly IValueSink _sink;
-        private readonly UrhoUIPropertyValueStore<IValue> _values;
+        private readonly UrhoPropertyValueStore<IValue> _values;
         private BatchUpdate? _batchUpdate;
 
-        public ValueStore(UrhoUIObject owner)
+        public ValueStore(UrhoObject owner)
         {
             _sink = _owner = owner;
-            _values = new UrhoUIPropertyValueStore<IValue>();
+            _values = new UrhoPropertyValueStore<IValue>();
         }
 
         public void BeginBatchUpdate()
@@ -55,7 +54,7 @@ namespace Urho3DNet.UserInterface
             }
         }
 
-        public bool IsAnimating(UrhoUIProperty property)
+        public bool IsAnimating(UrhoProperty property)
         {
             if (TryGetValue(property, out var slot))
             {
@@ -65,7 +64,7 @@ namespace Urho3DNet.UserInterface
             return false;
         }
 
-        public bool IsSet(UrhoUIProperty property)
+        public bool IsSet(UrhoProperty property)
         {
             if (TryGetValue(property, out var slot))
             {
@@ -208,14 +207,14 @@ namespace Urho3DNet.UserInterface
             }
         }
 
-        public Diagnostics.UrhoUIPropertyValue? GetDiagnostic(UrhoUIProperty property)
+        public Diagnostics.UrhoPropertyValue? GetDiagnostic(UrhoProperty property)
         {
             if (TryGetValue(property, out var slot))
             {
                 var slotValue = slot.GetValue();
-                return new Diagnostics.UrhoUIPropertyValue(
+                return new Diagnostics.UrhoPropertyValue(
                     property,
-                    slotValue.HasValue ? slotValue.Value : UrhoUIProperty.UnsetValue,
+                    slotValue.HasValue ? slotValue.Value : UrhoProperty.UnsetValue,
                     slot.Priority,
                     null);
             }
@@ -223,7 +222,7 @@ namespace Urho3DNet.UserInterface
             return null;
         }
 
-        void IValueSink.ValueChanged<T>(UrhoUIPropertyChangedEventArgs<T> change)
+        void IValueSink.ValueChanged<T>(UrhoPropertyChangedEventArgs<T> change)
         {
             if (_batchUpdate is object)
             {
@@ -337,7 +336,7 @@ namespace Urho3DNet.UserInterface
             return binding;
         }
 
-        private void AddValue(UrhoUIProperty property, IValue value)
+        private void AddValue(UrhoProperty property, IValue value)
         {
             _values.AddValue(property, value);
             if (IsBatchUpdating() && value is IBatchUpdate batch)
@@ -346,14 +345,14 @@ namespace Urho3DNet.UserInterface
         }
 
         private void NotifyValueChanged<T>(
-            UrhoUIProperty<T> property,
+            UrhoProperty<T> property,
             Optional<T> oldValue,
             BindingValue<T> newValue,
             BindingPriority priority)
         {
             if (_batchUpdate is null)
             {
-                _sink.ValueChanged(new UrhoUIPropertyChangedEventArgs<T>(
+                _sink.ValueChanged(new UrhoPropertyChangedEventArgs<T>(
                     _owner,
                     property,
                     oldValue,
@@ -368,7 +367,7 @@ namespace Urho3DNet.UserInterface
 
         private bool IsBatchUpdating() => _batchUpdate?.IsBatchUpdating == true;
 
-        private bool TryGetValue(UrhoUIProperty property, /*[MaybeNullWhen(false)]*/ out IValue value)
+        private bool TryGetValue(UrhoProperty property, /*[MaybeNullWhen(false)]*/ out IValue value)
         {
             return _values.TryGetValue(property, out value) && !IsRemoveSentinel(value);
         }
@@ -451,7 +450,7 @@ namespace Urho3DNet.UserInterface
                                 oldValue = newValue,
                             };
 
-                            // Call _sink.ValueChanged with an appropriately typed UrhoUIPropertyChangedEventArgs<T>.
+                            // Call _sink.ValueChanged with an appropriately typed UrhoPropertyChangedEventArgs<T>.
                             slot.RaiseValueChanged(_owner._sink, _owner._owner, entry.property, oldValue, newValue);
 
                             // During batch update values can't be removed immediately because they're needed to raise
@@ -466,7 +465,7 @@ namespace Urho3DNet.UserInterface
                         }
                         else
                         {
-                            throw new UrhoUIInternalException("Value could not be found at the end of batch update.");
+                            throw new UrhoInternalException("Value could not be found at the end of batch update.");
                         }
 
                         // If a new batch update was started while ending this one, abort.
@@ -479,7 +478,7 @@ namespace Urho3DNet.UserInterface
                 return true;
             }
 
-            public void ValueChanged(UrhoUIProperty property, Optional<object> oldValue)
+            public void ValueChanged(UrhoProperty property, Optional<object> oldValue)
             {
                 _notifications ??= new List<Notification>();
 
@@ -505,7 +504,7 @@ namespace Urho3DNet.UserInterface
 
             private struct Notification
             {
-                public UrhoUIProperty property;
+                public UrhoProperty property;
                 public Optional<object> oldValue;
             }
         }

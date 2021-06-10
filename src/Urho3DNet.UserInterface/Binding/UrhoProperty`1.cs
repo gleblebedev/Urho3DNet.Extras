@@ -1,60 +1,60 @@
 using System;
 using System.Reactive.Subjects;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Utilities;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Utilities;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// A typed avalonia property.
     /// </summary>
     /// <typeparam name="TValue">The value type of the property.</typeparam>
-    public abstract class UrhoUIProperty<TValue> : UrhoUIProperty
+    public abstract class UrhoProperty<TValue> : UrhoProperty
     {
-        private readonly Subject<UrhoUIPropertyChangedEventArgs<TValue>> _changed;
+        private readonly Subject<UrhoPropertyChangedEventArgs<TValue>> _changed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIProperty{TValue}"/> class.
+        /// Initializes a new instance of the <see cref="UrhoProperty{TValue}"/> class.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="ownerType">The type of the class that registers the property.</param>
         /// <param name="metadata">The property metadata.</param>
-        /// <param name="notifying">A <see cref="UrhoUIProperty.Notifying"/> callback.</param>
-        protected UrhoUIProperty(
+        /// <param name="notifying">A <see cref="UrhoProperty.Notifying"/> callback.</param>
+        protected UrhoProperty(
             string name,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata,
-            Action<IUrhoUIObject, bool> notifying = null)
+            UrhoPropertyMetadata metadata,
+            Action<IUrhoObject, bool> notifying = null)
             : base(name, typeof(TValue), ownerType, metadata, notifying)
         {
-            _changed = new Subject<UrhoUIPropertyChangedEventArgs<TValue>>();
+            _changed = new Subject<UrhoPropertyChangedEventArgs<TValue>>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIProperty{TValue}"/> class.
+        /// Initializes a new instance of the <see cref="UrhoProperty{TValue}"/> class.
         /// </summary>
         /// <param name="source">The property to copy.</param>
         /// <param name="ownerType">The new owner type.</param>
         /// <param name="metadata">Optional overridden metadata.</param>
-        [Obsolete("Use constructor with UrhoUIProperty<TValue> instead.", true)]
-        protected UrhoUIProperty(
-            UrhoUIProperty source,
+        [Obsolete("Use constructor with UrhoProperty<TValue> instead.", true)]
+        protected UrhoProperty(
+            UrhoProperty source,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata)
-            : this(source as UrhoUIProperty<TValue> ?? throw new InvalidOperationException(), ownerType, metadata)
+            UrhoPropertyMetadata metadata)
+            : this(source as UrhoProperty<TValue> ?? throw new InvalidOperationException(), ownerType, metadata)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIProperty{TValue}"/> class.
+        /// Initializes a new instance of the <see cref="UrhoProperty{TValue}"/> class.
         /// </summary>
         /// <param name="source">The property to copy.</param>
         /// <param name="ownerType">The new owner type.</param>
         /// <param name="metadata">Optional overridden metadata.</param>
-        protected UrhoUIProperty(
-            UrhoUIProperty<TValue> source,
+        protected UrhoProperty(
+            UrhoProperty<TValue> source,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata)
+            UrhoPropertyMetadata metadata)
             : base(source, ownerType, metadata)
         {
             _changed = source._changed;
@@ -62,25 +62,25 @@ namespace Urho3DNet.UserInterface
 
         /// <summary>
         /// Gets an observable that is fired when this property changes on any
-        /// <see cref="UrhoUIObject"/> instance.
+        /// <see cref="UrhoObject"/> instance.
         /// </summary>
         /// <value>
         /// An observable that is fired when this property changes on any
-        /// <see cref="UrhoUIObject"/> instance.
+        /// <see cref="UrhoObject"/> instance.
         /// </value>
 
-        public new IObservable<UrhoUIPropertyChangedEventArgs<TValue>> Changed => _changed;
+        public new IObservable<UrhoPropertyChangedEventArgs<TValue>> Changed => _changed;
 
         /// <summary>
         /// Notifies the <see cref="Changed"/> observable.
         /// </summary>
         /// <param name="e">The observable arguments.</param>
-        internal void NotifyChanged(UrhoUIPropertyChangedEventArgs<TValue> e)
+        internal void NotifyChanged(UrhoPropertyChangedEventArgs<TValue> e)
         {
             _changed.OnNext(e);
         }
 
-        protected override IObservable<UrhoUIPropertyChangedEventArgs> GetChanged() => Changed;
+        protected override IObservable<UrhoPropertyChangedEventArgs> GetChanged() => Changed;
 
         protected BindingValue<object> TryConvert(object value)
         {

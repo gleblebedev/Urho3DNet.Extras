@@ -1,4 +1,4 @@
-﻿namespace Urho3DNet.UserInterface.PropertyStore
+﻿namespace Urho3DNet.MVVM.PropertyStore
 {
     internal interface IBatchUpdate
     {

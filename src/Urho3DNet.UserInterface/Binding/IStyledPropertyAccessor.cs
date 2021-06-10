@@ -1,6 +1,6 @@
 using System;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Provides a runtime interface for interfacing with <see cref="StyledProperty{TValue}"/>.

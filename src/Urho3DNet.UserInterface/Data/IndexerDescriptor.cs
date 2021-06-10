@@ -1,10 +1,11 @@
 using System;
 using System.Reactive;
+using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
-    /// Holds a description of a binding for <see cref="UrhoUIObject"/>'s [] operator.
+    /// Holds a description of a binding for <see cref="UrhoObject"/>'s [] operator.
     /// </summary>
     public class IndexerDescriptor : ObservableBase<object>, IDescription
     {
@@ -29,7 +30,7 @@ namespace Urho3DNet.UserInterface.Data
         /// <summary>
         /// Gets or sets the source property.
         /// </summary>
-        public UrhoUIProperty Property
+        public UrhoProperty Property
         {
             get;
             set;
@@ -38,7 +39,7 @@ namespace Urho3DNet.UserInterface.Data
         /// <summary>
         /// Gets or sets the source object.
         /// </summary>
-        public UrhoUIObject Source
+        public UrhoObject Source
         {
             get;
             set;

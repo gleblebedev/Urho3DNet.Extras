@@ -1,23 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Urho3DNet.MVVM.Binding;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.Utilities
+namespace Urho3DNet.MVVM.Utilities
 {
     /// <summary>
-    /// Stores values with <see cref="UrhoUIProperty"/> as key.
+    /// Stores values with <see cref="UrhoProperty"/> as key.
     /// </summary>
     /// <typeparam name="TValue">Stored value type.</typeparam>
-    internal sealed class UrhoUIPropertyValueStore<TValue>
+    internal sealed class UrhoPropertyValueStore<TValue>
     {
         // The last item in the list is always int.MaxValue.
         private static readonly Entry[] s_emptyEntries = { new Entry { PropertyId = int.MaxValue, Value = default! } };
         
         private Entry[] _entries;
 
-        public UrhoUIPropertyValueStore()
+        public UrhoPropertyValueStore()
         {
             _entries = s_emptyEntries;
         }
@@ -94,7 +95,7 @@ namespace Urho3DNet.UserInterface.Utilities
             return (0, false);
         }
 
-        public bool TryGetValue(UrhoUIProperty property, /*[MaybeNullWhen(false)]*/ out TValue value)
+        public bool TryGetValue(UrhoProperty property, /*[MaybeNullWhen(false)]*/ out TValue value)
         {
             (int index, bool found) = TryFindEntry(property.Id);
             if (!found)
@@ -107,7 +108,7 @@ namespace Urho3DNet.UserInterface.Utilities
             return true;
         }
 
-        public void AddValue(UrhoUIProperty property, TValue value)
+        public void AddValue(UrhoProperty property, TValue value)
         {
             Entry[] entries = new Entry[_entries.Length + 1];
 
@@ -129,12 +130,12 @@ namespace Urho3DNet.UserInterface.Utilities
             _entries = entries;
         }
 
-        public void SetValue(UrhoUIProperty property, TValue value)
+        public void SetValue(UrhoProperty property, TValue value)
         {
             _entries[TryFindEntry(property.Id).Item1].Value = value;
         }
 
-        public void Remove(UrhoUIProperty property)
+        public void Remove(UrhoProperty property)
         {
             var (index, found) = TryFindEntry(property.Id);
 

@@ -3,8 +3,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Utilities
+namespace Urho3DNet.MVVM.Utilities
 {
     /// <summary>
     /// Provides utilities for working with types at runtime.
@@ -109,7 +110,7 @@ namespace Urho3DNet.UserInterface.Utilities
                 return AcceptsNull(to);
             }
 
-            if (value == UrhoUIProperty.UnsetValue)
+            if (value == UrhoProperty.UnsetValue)
             {
                 result = value;
                 return true;
@@ -228,7 +229,7 @@ namespace Urho3DNet.UserInterface.Utilities
                 return AcceptsNull(to);
             }
 
-            if (value == UrhoUIProperty.UnsetValue)
+            if (value == UrhoProperty.UnsetValue)
             {
                 result = value;
                 return true;

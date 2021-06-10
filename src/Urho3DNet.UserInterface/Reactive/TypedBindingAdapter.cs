@@ -1,22 +1,23 @@
 ﻿using System;
-using Urho3DNet.UserInterface.Data;
-//using Urho3DNet.UserInterface.Logging;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
+//using Urho3DNet.MVVM.Logging;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.Reactive
+namespace Urho3DNet.MVVM.Reactive
 {
     internal class TypedBindingAdapter<T> : SingleSubscriberObservableBase<BindingValue<T>>,
         IObserver<BindingValue<object>>
     {
-        private readonly IUrhoUIObject _target;
-        private readonly UrhoUIProperty<T> _property;
+        private readonly IUrhoObject _target;
+        private readonly UrhoProperty<T> _property;
         private readonly IObservable<BindingValue<object>> _source;
         private IDisposable? _subscription;
 
         public TypedBindingAdapter(
-            IUrhoUIObject target,
-            UrhoUIProperty<T> property,
+            IUrhoObject target,
+            UrhoProperty<T> property,
             IObservable<BindingValue<object>> source)
         {
             _target = target;
@@ -47,8 +48,8 @@ namespace Urho3DNet.UserInterface.Reactive
         public void OnError(Exception error) => PublishError(error);
 
         public static IObservable<BindingValue<T>> Create(
-            IUrhoUIObject target,
-            UrhoUIProperty<T> property,
+            IUrhoObject target,
+            UrhoProperty<T> property,
             IObservable<BindingValue<object>> source)
         {
             return source is IObservable<BindingValue<T>> result ?

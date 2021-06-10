@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Data.Core;
-using Urho3DNet.UserInterface.Utilities;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Data.Core;
+using Urho3DNet.MVVM.Utilities;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Base class for avalonia properties.
     /// </summary>
-    public abstract class UrhoUIProperty : IEquatable<UrhoUIProperty>, IPropertyInfo
+    public abstract class UrhoProperty : IEquatable<UrhoProperty>, IPropertyInfo
     {
         /// <summary>
         /// Represents an unset property value.
@@ -17,26 +17,26 @@ namespace Urho3DNet.UserInterface
         public static readonly object UnsetValue = new UnsetValueType();
 
         private static int s_nextId;
-        private readonly UrhoUIPropertyMetadata _defaultMetadata;
-        private readonly Dictionary<Type, UrhoUIPropertyMetadata> _metadata;
-        private readonly Dictionary<Type, UrhoUIPropertyMetadata> _metadataCache = new Dictionary<Type, UrhoUIPropertyMetadata>();
+        private readonly UrhoPropertyMetadata _defaultMetadata;
+        private readonly Dictionary<Type, UrhoPropertyMetadata> _metadata;
+        private readonly Dictionary<Type, UrhoPropertyMetadata> _metadataCache = new Dictionary<Type, UrhoPropertyMetadata>();
 
         private bool _hasMetadataOverrides;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIProperty"/> class.
+        /// Initializes a new instance of the <see cref="UrhoProperty"/> class.
         /// </summary>
         /// <param name="name">The name of the property.</param>
         /// <param name="valueType">The type of the property's value.</param>
         /// <param name="ownerType">The type of the class that registers the property.</param>
         /// <param name="metadata">The property metadata.</param>
         /// <param name="notifying">A <see cref="Notifying"/> callback.</param>
-        protected UrhoUIProperty(
+        protected UrhoProperty(
             string name,
             Type valueType,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata,
-            Action<IUrhoUIObject, bool> notifying = null)
+            UrhoPropertyMetadata metadata,
+            Action<IUrhoObject, bool> notifying = null)
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentNullException>(valueType != null);
@@ -48,7 +48,7 @@ namespace Urho3DNet.UserInterface
                 throw new ArgumentException("'name' may not contain periods.");
             }
 
-            _metadata = new Dictionary<Type, UrhoUIPropertyMetadata>();
+            _metadata = new Dictionary<Type, UrhoPropertyMetadata>();
 
             Name = name;
             PropertyType = valueType;
@@ -61,20 +61,20 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIProperty"/> class.
+        /// Initializes a new instance of the <see cref="UrhoProperty"/> class.
         /// </summary>
         /// <param name="source">The direct property to copy.</param>
         /// <param name="ownerType">The new owner type.</param>
         /// <param name="metadata">Optional overridden metadata.</param>
-        protected UrhoUIProperty(
-            UrhoUIProperty source,
+        protected UrhoProperty(
+            UrhoProperty source,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata)
+            UrhoPropertyMetadata metadata)
         {
             Contract.Requires<ArgumentNullException>(source != null);
             Contract.Requires<ArgumentNullException>(ownerType != null);
 
-            _metadata = new Dictionary<Type, UrhoUIPropertyMetadata>();
+            _metadata = new Dictionary<Type, UrhoPropertyMetadata>();
 
             Name = source.Name;
             PropertyType = source.PropertyType;
@@ -129,13 +129,13 @@ namespace Urho3DNet.UserInterface
 
         /// <summary>
         /// Gets an observable that is fired when this property changes on any
-        /// <see cref="UrhoUIObject"/> instance.
+        /// <see cref="UrhoObject"/> instance.
         /// </summary>
         /// <value>
         /// An observable that is fired when this property changes on any
-        /// <see cref="UrhoUIObject"/> instance.
+        /// <see cref="UrhoObject"/> instance.
         /// </value>
-        public IObservable<UrhoUIPropertyChangedEventArgs> Changed => GetChanged();
+        public IObservable<UrhoPropertyChangedEventArgs> Changed => GetChanged();
 
         /// <summary>
         /// Gets a method that gets called before and after the property starts being notified on an
@@ -143,13 +143,13 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <remarks>
         /// When a property changes, change notifications are sent to all property subscribers;
-        /// for example via the <see cref="UrhoUIProperty.Changed"/> observable and and the
-        /// <see cref="UrhoUIObject.PropertyChanged"/> event. If this callback is set for a property,
+        /// for example via the <see cref="UrhoProperty.Changed"/> observable and and the
+        /// <see cref="UrhoObject.PropertyChanged"/> event. If this callback is set for a property,
         /// then it will be called before and after these notifications take place. The bool argument
         /// will be true before the property change notifications are sent and false afterwards. This
         /// callback is intended to support Control.IsDataContextChanging.
         /// </remarks>
-        public Action<IUrhoUIObject, bool> Notifying { get; }
+        public Action<IUrhoObject, bool> Notifying { get; }
 
         /// <summary>
         /// Gets the integer ID that represents this property.
@@ -157,12 +157,12 @@ namespace Urho3DNet.UserInterface
         internal int Id { get; }
 
         /// <summary>
-        /// Provides access to a property's binding via the <see cref="UrhoUIObject"/>
+        /// Provides access to a property's binding via the <see cref="UrhoObject"/>
         /// indexer.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>A <see cref="IndexerDescriptor"/> describing the binding.</returns>
-        public static IndexerDescriptor operator !(UrhoUIProperty property)
+        public static IndexerDescriptor operator !(UrhoProperty property)
         {
             return new IndexerDescriptor
             {
@@ -172,12 +172,12 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Provides access to a property's template binding via the <see cref="UrhoUIObject"/>
+        /// Provides access to a property's template binding via the <see cref="UrhoObject"/>
         /// indexer.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>A <see cref="IndexerDescriptor"/> describing the binding.</returns>
-        public static IndexerDescriptor operator ~(UrhoUIProperty property)
+        public static IndexerDescriptor operator ~(UrhoProperty property)
         {
             return new IndexerDescriptor
             {
@@ -187,12 +187,12 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Tests two <see cref="UrhoUIProperty"/>s for equality.
+        /// Tests two <see cref="UrhoProperty"/>s for equality.
         /// </summary>
         /// <param name="a">The first property.</param>
         /// <param name="b">The second property.</param>
         /// <returns>True if the properties are equal, otherwise false.</returns>
-        public static bool operator ==(UrhoUIProperty a, UrhoUIProperty b)
+        public static bool operator ==(UrhoProperty a, UrhoProperty b)
         {
             if (object.ReferenceEquals(a, b))
             {
@@ -209,18 +209,18 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Tests two <see cref="UrhoUIProperty"/>s for inequality.
+        /// Tests two <see cref="UrhoProperty"/>s for inequality.
         /// </summary>
         /// <param name="a">The first property.</param>
         /// <param name="b">The second property.</param>
         /// <returns>True if the properties are equal, otherwise false.</returns>
-        public static bool operator !=(UrhoUIProperty a, UrhoUIProperty b)
+        public static bool operator !=(UrhoProperty a, UrhoProperty b)
         {
             return !(a == b);
         }
 
         /// <summary>
-        /// Registers a <see cref="UrhoUIProperty"/>.
+        /// Registers a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="TOwner">The type of the class that is registering the property.</typeparam>
         /// <typeparam name="TValue">The type of the property's value.</typeparam>
@@ -242,9 +242,9 @@ namespace Urho3DNet.UserInterface
             bool inherits = false,
             BindingMode defaultBindingMode = BindingMode.OneWay,
             Func<TValue, bool> validate = null,
-            Func<IUrhoUIObject, TValue, TValue> coerce = null,
-            Action<IUrhoUIObject, bool> notifying = null)
-                where TOwner : IUrhoUIObject
+            Func<IUrhoObject, TValue, TValue> coerce = null,
+            Action<IUrhoObject, bool> notifying = null)
+                where TOwner : IUrhoObject
         {
             Contract.Requires<ArgumentNullException>(name != null);
 
@@ -260,12 +260,12 @@ namespace Urho3DNet.UserInterface
                 inherits,
                 validate,
                 notifying);
-            UrhoUIPropertyRegistry.Instance.Register(typeof(TOwner), result);
+            UrhoPropertyRegistry.Instance.Register(typeof(TOwner), result);
             return result;
         }
 
         /// <summary>
-        /// Registers an attached <see cref="UrhoUIProperty"/>.
+        /// Registers an attached <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="TOwner">The type of the class that is registering the property.</typeparam>
         /// <typeparam name="THost">The type of the class that the property is to be registered on.</typeparam>
@@ -276,15 +276,15 @@ namespace Urho3DNet.UserInterface
         /// <param name="defaultBindingMode">The default binding mode for the property.</param>
         /// <param name="validate">A value validation callback.</param>
         /// <param name="coerce">A value coercion callback.</param>
-        /// <returns>A <see cref="UrhoUIProperty{TValue}"/></returns>
+        /// <returns>A <see cref="UrhoProperty{TValue}"/></returns>
         public static AttachedProperty<TValue> RegisterAttached<TOwner, THost, TValue>(
             string name,
             TValue defaultValue = default(TValue),
             bool inherits = false,
             BindingMode defaultBindingMode = BindingMode.OneWay,
             Func<TValue, bool> validate = null,
-            Func<IUrhoUIObject, TValue, TValue> coerce = null)
-                where THost : IUrhoUIObject
+            Func<IUrhoObject, TValue, TValue> coerce = null)
+                where THost : IUrhoObject
         {
             Contract.Requires<ArgumentNullException>(name != null);
 
@@ -294,14 +294,14 @@ namespace Urho3DNet.UserInterface
                 coerce: coerce);
 
             var result = new AttachedProperty<TValue>(name, typeof(TOwner), metadata, inherits, validate);
-            var registry = UrhoUIPropertyRegistry.Instance;
+            var registry = UrhoPropertyRegistry.Instance;
             registry.Register(typeof(TOwner), result);
             registry.RegisterAttached(typeof(THost), result);
             return result;
         }
 
         /// <summary>
-        /// Registers an attached <see cref="UrhoUIProperty"/>.
+        /// Registers an attached <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="THost">The type of the class that the property is to be registered on.</typeparam>
         /// <typeparam name="TValue">The type of the property's value.</typeparam>
@@ -312,7 +312,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="defaultBindingMode">The default binding mode for the property.</param>
         /// <param name="validate">A value validation callback.</param>
         /// <param name="coerce">A value coercion callback.</param>
-        /// <returns>A <see cref="UrhoUIProperty{TValue}"/></returns>
+        /// <returns>A <see cref="UrhoProperty{TValue}"/></returns>
         public static AttachedProperty<TValue> RegisterAttached<THost, TValue>(
             string name,
             Type ownerType,
@@ -320,8 +320,8 @@ namespace Urho3DNet.UserInterface
             bool inherits = false,
             BindingMode defaultBindingMode = BindingMode.OneWay,
             Func<TValue, bool> validate = null,
-            Func<IUrhoUIObject, TValue, TValue> coerce = null)
-                where THost : IUrhoUIObject
+            Func<IUrhoObject, TValue, TValue> coerce = null)
+                where THost : IUrhoObject
         {
             Contract.Requires<ArgumentNullException>(name != null);
 
@@ -331,14 +331,14 @@ namespace Urho3DNet.UserInterface
                 coerce: coerce);
 
             var result = new AttachedProperty<TValue>(name, ownerType, metadata, inherits, validate);
-            var registry = UrhoUIPropertyRegistry.Instance;
+            var registry = UrhoPropertyRegistry.Instance;
             registry.Register(ownerType, result);
             registry.RegisterAttached(typeof(THost), result);
             return result;
         }
 
         /// <summary>
-        /// Registers a direct <see cref="UrhoUIProperty"/>.
+        /// Registers a direct <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="TOwner">The type of the class that is registering the property.</typeparam>
         /// <typeparam name="TValue">The type of the property's value.</typeparam>
@@ -350,7 +350,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="enableDataValidation">
         /// Whether the property is interested in data validation.
         /// </param>
-        /// <returns>A <see cref="UrhoUIProperty{TValue}"/></returns>
+        /// <returns>A <see cref="UrhoProperty{TValue}"/></returns>
         public static DirectProperty<TOwner, TValue> RegisterDirect<TOwner, TValue>(
             string name,
             Func<TOwner, TValue> getter,
@@ -358,7 +358,7 @@ namespace Urho3DNet.UserInterface
             TValue unsetValue = default(TValue),
             BindingMode defaultBindingMode = BindingMode.OneWay,
             bool enableDataValidation = false)
-                where TOwner : IUrhoUIObject
+                where TOwner : IUrhoObject
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentNullException>(getter != null);
@@ -373,12 +373,12 @@ namespace Urho3DNet.UserInterface
                 getter,
                 setter,
                 metadata);
-            UrhoUIPropertyRegistry.Instance.Register(typeof(TOwner), result);
+            UrhoPropertyRegistry.Instance.Register(typeof(TOwner), result);
             return result;
         }
 
         /// <summary>
-        /// Returns a binding accessor that can be passed to <see cref="UrhoUIObject"/>'s []
+        /// Returns a binding accessor that can be passed to <see cref="UrhoObject"/>'s []
         /// operator to initiate a binding.
         /// </summary>
         /// <returns>A <see cref="IndexerDescriptor"/>.</returns>
@@ -396,12 +396,12 @@ namespace Urho3DNet.UserInterface
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            var p = obj as UrhoUIProperty;
+            var p = obj as UrhoProperty;
             return p != null && Equals(p);
         }
 
         /// <inheritdoc/>
-        public bool Equals(UrhoUIProperty other)
+        public bool Equals(UrhoProperty other)
         {
             return other != null && Id == other.Id;
         }
@@ -419,7 +419,7 @@ namespace Urho3DNet.UserInterface
         /// <returns>
         /// The property metadata.
         /// </returns>
-        public UrhoUIPropertyMetadata GetMetadata<T>() where T : IUrhoUIObject
+        public UrhoPropertyMetadata GetMetadata<T>() where T : IUrhoObject
         {
             return GetMetadata(typeof(T));
         }
@@ -432,7 +432,7 @@ namespace Urho3DNet.UserInterface
         /// The property metadata.
         /// </returns>
         ///
-        public UrhoUIPropertyMetadata GetMetadata(Type type)
+        public UrhoPropertyMetadata GetMetadata(Type type)
         {
             if (!_hasMetadataOverrides)
             {
@@ -467,27 +467,27 @@ namespace Urho3DNet.UserInterface
         /// <typeparam name="TData">The type of user data passed.</typeparam>
         /// <param name="vistor">The visitor which will accept the typed property.</param>
         /// <param name="data">The user data to pass.</param>
-        public abstract void Accept<TData>(IUrhoUIPropertyVisitor<TData> vistor, ref TData data)
+        public abstract void Accept<TData>(IUrhoPropertyVisitor<TData> vistor, ref TData data)
             where TData : struct;
 
         /// <summary>
         /// Routes an untyped ClearValue call to a typed call.
         /// </summary>
         /// <param name="o">The object instance.</param>
-        internal abstract void RouteClearValue(IUrhoUIObject o);
+        internal abstract void RouteClearValue(IUrhoObject o);
 
         /// <summary>
         /// Routes an untyped GetValue call to a typed call.
         /// </summary>
         /// <param name="o">The object instance.</param>
-        internal abstract object RouteGetValue(IUrhoUIObject o);
+        internal abstract object RouteGetValue(IUrhoObject o);
 
         /// <summary>
         /// Routes an untyped GetBaseValue call to a typed call.
         /// </summary>
         /// <param name="o">The object instance.</param>
         /// <param name="maxPriority">The maximum priority for the value.</param>
-        internal abstract object RouteGetBaseValue(IUrhoUIObject o, BindingPriority maxPriority);
+        internal abstract object RouteGetBaseValue(IUrhoObject o, BindingPriority maxPriority);
 
         /// <summary>
         /// Routes an untyped SetValue call to a typed call.
@@ -499,7 +499,7 @@ namespace Urho3DNet.UserInterface
         /// An <see cref="IDisposable"/> if setting the property can be undone, otherwise null.
         /// </returns>
         internal abstract IDisposable RouteSetValue(
-            IUrhoUIObject o,
+            IUrhoObject o,
             object value,
             BindingPriority priority);
 
@@ -510,18 +510,18 @@ namespace Urho3DNet.UserInterface
         /// <param name="source">The binding source.</param>
         /// <param name="priority">The priority.</param>
         internal abstract IDisposable RouteBind(
-            IUrhoUIObject o,
+            IUrhoObject o,
             IObservable<BindingValue<object>> source,
             BindingPriority priority);
 
-        internal abstract void RouteInheritanceParentChanged(UrhoUIObject o, IUrhoUIObject oldParent);
+        internal abstract void RouteInheritanceParentChanged(UrhoObject o, IUrhoObject oldParent);
 
         /// <summary>
         /// Overrides the metadata for the property on the specified type.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="metadata">The metadata.</param>
-        protected void OverrideMetadata(Type type, UrhoUIPropertyMetadata metadata)
+        protected void OverrideMetadata(Type type, UrhoPropertyMetadata metadata)
         {
             Contract.Requires<ArgumentNullException>(type != null);
             Contract.Requires<ArgumentNullException>(metadata != null);
@@ -540,16 +540,16 @@ namespace Urho3DNet.UserInterface
             _hasMetadataOverrides = true;
         }
 
-        protected abstract IObservable<UrhoUIPropertyChangedEventArgs> GetChanged();
+        protected abstract IObservable<UrhoPropertyChangedEventArgs> GetChanged();
 
-        private UrhoUIPropertyMetadata GetMetadataWithOverrides(Type type)
+        private UrhoPropertyMetadata GetMetadataWithOverrides(Type type)
         {
             if (type is null)
             {
                 throw new ArgumentNullException(nameof(type));
             }
 
-            if (_metadataCache.TryGetValue(type, out UrhoUIPropertyMetadata result))
+            if (_metadataCache.TryGetValue(type, out UrhoPropertyMetadata result))
             {
                 return result;
             }
@@ -575,19 +575,19 @@ namespace Urho3DNet.UserInterface
 
         bool IPropertyInfo.CanGet => true;
         bool IPropertyInfo.CanSet => true;
-        object IPropertyInfo.Get(object target) => ((UrhoUIObject)target).GetValue(this);
-        void IPropertyInfo.Set(object target, object value) => ((UrhoUIObject)target).SetValue(this, value);
+        object IPropertyInfo.Get(object target) => ((UrhoObject)target).GetValue(this);
+        void IPropertyInfo.Set(object target, object value) => ((UrhoObject)target).SetValue(this, value);
     }
 
     /// <summary>
-    /// Class representing the <see cref="UrhoUIProperty.UnsetValue"/>.
+    /// Class representing the <see cref="UrhoProperty.UnsetValue"/>.
     /// </summary>
     public sealed class UnsetValueType
     {
         internal UnsetValueType() { }
 
         /// <summary>
-        /// Returns the string representation of the <see cref="UrhoUIProperty.UnsetValue"/>.
+        /// Returns the string representation of the <see cref="UrhoProperty.UnsetValue"/>.
         /// </summary>
         /// <returns>The string "(unset)".</returns>
         public override string ToString() => "(unset)";

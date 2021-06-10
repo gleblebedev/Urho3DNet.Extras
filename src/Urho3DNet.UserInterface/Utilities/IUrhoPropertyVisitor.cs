@@ -1,18 +1,20 @@
-﻿#nullable enable
+﻿using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Utilities
+#nullable enable
+
+namespace Urho3DNet.MVVM.Utilities
 {
     /// <summary>
-    /// A visitor to resolve an untyped <see cref="UrhoUIProperty"/> to a typed property.
+    /// A visitor to resolve an untyped <see cref="UrhoProperty"/> to a typed property.
     /// </summary>
     /// <typeparam name="TData">The type of user data passed.</typeparam>
     /// <remarks>
     /// Pass an instance that implements this interface to
-    /// <see cref="UrhoUIProperty.Accept{TData}(IUrhoUIPropertyVisitor{TData}, ref TData)"/>
-    /// in order to resolve un untyped <see cref="UrhoUIProperty"/> to a typed
+    /// <see cref="UrhoProperty.Accept{TData}(IUrhoPropertyVisitor{TData}, ref TData)"/>
+    /// in order to resolve un untyped <see cref="UrhoProperty"/> to a typed
     /// <see cref="StyledPropertyBase{TValue}"/> or <see cref="DirectPropertyBase{TValue}"/>.
     /// </remarks>
-    public interface IUrhoUIPropertyVisitor<TData>
+    public interface IUrhoPropertyVisitor<TData>
         where TData : struct
     {
         /// <summary>

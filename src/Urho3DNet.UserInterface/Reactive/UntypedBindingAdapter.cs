@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reactive.Subjects;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Data;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.Reactive
+namespace Urho3DNet.MVVM.Reactive
 {
     internal class UntypedBindingAdapter<T> : SingleSubscriberObservableBase<object?>,
         IObserver<BindingValue<T>>

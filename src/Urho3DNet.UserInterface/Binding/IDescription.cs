@@ -1,4 +1,4 @@
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Interface for objects with a <see cref="Description"/>.

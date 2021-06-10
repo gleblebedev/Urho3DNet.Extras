@@ -1,14 +1,15 @@
 using System;
+using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Diagnostics
+namespace Urho3DNet.MVVM.Diagnostics
 {
     /// <summary>
-    /// Provides a debug interface into <see cref="UrhoUIObject"/>.
+    /// Provides a debug interface into <see cref="UrhoObject"/>.
     /// </summary>
-    public interface IUrhoUIObjectDebug
+    public interface IUrhoObjectDebug
     {
         /// <summary>
-        /// Gets the subscriber list for the <see cref="IUrhoUIObject.PropertyChanged"/>
+        /// Gets the subscriber list for the <see cref="IUrhoObject.PropertyChanged"/>
         /// event.
         /// </summary>
         /// <returns>

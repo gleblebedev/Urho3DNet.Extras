@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Urho3DNet.UserInterface.Utilities;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Utilities;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
     /// Describes the type of a <see cref="BindingValue{T}"/>.
@@ -65,7 +66,7 @@ namespace Urho3DNet.UserInterface.Data
     /// - <see cref="BindingValueType.Value"/>: a simple value
     /// - <see cref="BindingValueType.UnsetValue"/>: the target property will revert to its unbound
     ///   state until a new binding value is produced. Represented by
-    ///   <see cref="UrhoUIProperty.UnsetValue"/> in an untyped context
+    ///   <see cref="UrhoProperty.UnsetValue"/> in an untyped context
     /// - <see cref="BindingValueType.DoNothing"/>: the binding value will be ignored. Represented
     ///   by <see cref="BindingOperations.DoNothing"/> in an untyped context
     /// - <see cref="BindingValueType.BindingError"/>: a binding error, such as a missing source
@@ -143,7 +144,7 @@ namespace Urho3DNet.UserInterface.Data
         public override string ToString() => HasError ? $"Error: {Error!.Message}" : _value?.ToString() ?? "(null)";
 
         /// <summary>
-        /// Converts the value to untyped representation, using <see cref="UrhoUIProperty.UnsetValue"/>,
+        /// Converts the value to untyped representation, using <see cref="UrhoProperty.UnsetValue"/>,
         /// <see cref="BindingOperations.DoNothing"/> and <see cref="BindingNotification"/> where
         /// appropriate.
         /// </summary>
@@ -152,7 +153,7 @@ namespace Urho3DNet.UserInterface.Data
         {
             return Type switch
             {
-                BindingValueType.UnsetValue => UrhoUIProperty.UnsetValue,
+                BindingValueType.UnsetValue => UrhoProperty.UnsetValue,
                 BindingValueType.DoNothing => BindingOperations.DoNothing,
                 BindingValueType.Value => _value,
                 BindingValueType.BindingError =>
@@ -235,7 +236,7 @@ namespace Urho3DNet.UserInterface.Data
 
         /// <summary>
         /// Creates a <see cref="BindingValue{T}"/> from an object, handling the special values
-        /// <see cref="UrhoUIProperty.UnsetValue"/> and <see cref="BindingOperations.DoNothing"/>.
+        /// <see cref="UrhoProperty.UnsetValue"/> and <see cref="BindingOperations.DoNothing"/>.
         /// </summary>
         /// <param name="value">The untyped value.</param>
         /// <returns>The typed binding value.</returns>
@@ -362,7 +363,7 @@ namespace Urho3DNet.UserInterface.Data
         {
             if (value is UnsetValueType)
             {
-                throw new InvalidOperationException("UrhoUIValue.UnsetValue is not a valid value for BindingValue<>.");
+                throw new InvalidOperationException("UrhoValue.UnsetValue is not a valid value for BindingValue<>.");
             }
 
             if (value is DoNothingType)

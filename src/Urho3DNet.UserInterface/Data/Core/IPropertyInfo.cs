@@ -1,6 +1,6 @@
 using System;
 
-namespace Urho3DNet.UserInterface.Data.Core
+namespace Urho3DNet.MVVM.Data.Core
 {
     public interface IPropertyInfo
     {

@@ -1,11 +1,11 @@
 ﻿using System;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Reactive;
-using Urho3DNet.UserInterface.Utilities;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Reactive;
+using Urho3DNet.MVVM.Utilities;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Base class for direct properties.
@@ -15,7 +15,7 @@ namespace Urho3DNet.UserInterface
     /// Whereas <see cref="DirectProperty{TOwner, TValue}"/> is typed on the owner type, this base
     /// class provides a non-owner-typed interface to a direct poperty.
     /// </remarks>
-    public abstract class DirectPropertyBase<TValue> : UrhoUIProperty<TValue>
+    public abstract class DirectPropertyBase<TValue> : UrhoProperty<TValue>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectPropertyBase{TValue}"/> class.
@@ -26,7 +26,7 @@ namespace Urho3DNet.UserInterface
         protected DirectPropertyBase(
             string name,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata)
+            UrhoPropertyMetadata metadata)
             : base(name, ownerType, metadata)
         {
         }
@@ -39,9 +39,9 @@ namespace Urho3DNet.UserInterface
         /// <param name="metadata">Optional overridden metadata.</param>
         [Obsolete("Use constructor with DirectPropertyBase<TValue> instead.", true)]
         protected DirectPropertyBase(
-            UrhoUIProperty source,
+            UrhoProperty source,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata)
+            UrhoPropertyMetadata metadata)
             : this(source as DirectPropertyBase<TValue> ?? throw new InvalidOperationException(), ownerType, metadata)
         {
         }
@@ -55,7 +55,7 @@ namespace Urho3DNet.UserInterface
         protected DirectPropertyBase(
             DirectPropertyBase<TValue> source,
             Type ownerType,
-            UrhoUIPropertyMetadata metadata)
+            UrhoPropertyMetadata metadata)
             : base(source, ownerType, metadata)
         {
         }
@@ -70,14 +70,14 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns>The property value.</returns>
-        internal abstract TValue InvokeGetter(IUrhoUIObject instance);
+        internal abstract TValue InvokeGetter(IUrhoObject instance);
 
         /// <summary>
         /// Sets the value of the property on the instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="value">The value.</param>
-        internal abstract void InvokeSetter(IUrhoUIObject instance, BindingValue<TValue> value);
+        internal abstract void InvokeSetter(IUrhoObject instance, BindingValue<TValue> value);
 
         /// <summary>
         /// Gets the unset value for the property on the specified type.
@@ -107,7 +107,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <typeparam name="T">The type.</typeparam>
         /// <param name="metadata">The metadata.</param>
-        public void OverrideMetadata<T>(DirectPropertyMetadata<TValue> metadata) where T : IUrhoUIObject
+        public void OverrideMetadata<T>(DirectPropertyMetadata<TValue> metadata) where T : IUrhoObject
         {
             base.OverrideMetadata(typeof(T), metadata);
         }
@@ -123,31 +123,31 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <inheritdoc/>
-        public override void Accept<TData>(IUrhoUIPropertyVisitor<TData> vistor, ref TData data)
+        public override void Accept<TData>(IUrhoPropertyVisitor<TData> vistor, ref TData data)
         {
             vistor.Visit(this, ref data);
         }
 
         /// <inheritdoc/>
-        internal override void RouteClearValue(IUrhoUIObject o)
+        internal override void RouteClearValue(IUrhoObject o)
         {
             o.ClearValue<TValue>(this);
         }
 
         /// <inheritdoc/>
-        internal override object? RouteGetValue(IUrhoUIObject o)
+        internal override object? RouteGetValue(IUrhoObject o)
         {
             return o.GetValue<TValue>(this);
         }
 
-        internal override object? RouteGetBaseValue(IUrhoUIObject o, BindingPriority maxPriority)
+        internal override object? RouteGetBaseValue(IUrhoObject o, BindingPriority maxPriority)
         {
             return o.GetValue<TValue>(this);
         }
 
         /// <inheritdoc/>
         internal override IDisposable? RouteSetValue(
-            IUrhoUIObject o,
+            IUrhoObject o,
             object value,
             BindingPriority priority)
         {
@@ -171,7 +171,7 @@ namespace Urho3DNet.UserInterface
 
         /// <inheritdoc/>
         internal override IDisposable RouteBind(
-            IUrhoUIObject o,
+            IUrhoObject o,
             IObservable<BindingValue<object>> source,
             BindingPriority priority)
         {
@@ -179,7 +179,7 @@ namespace Urho3DNet.UserInterface
             return o.Bind<TValue>(this, adapter);
         }
 
-        internal override void RouteInheritanceParentChanged(UrhoUIObject o, IUrhoUIObject oldParent)
+        internal override void RouteInheritanceParentChanged(UrhoObject o, IUrhoObject oldParent)
         {
             throw new NotSupportedException("Direct properties do not support inheritance.");
         }

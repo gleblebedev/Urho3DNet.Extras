@@ -1,4 +1,4 @@
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
     /// The priority of a binding.

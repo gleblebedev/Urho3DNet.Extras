@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Threading;
-using Urho3DNet.UserInterface.Threading;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Threading;
 
-namespace Urho3DNet.UserInterface.Reactive
+namespace Urho3DNet.MVVM.Reactive
 {
     /// <summary>
     /// Lightweight base class for observable implementations.
@@ -14,7 +15,7 @@ namespace Urho3DNet.UserInterface.Reactive
     /// <remarks>
     /// <see cref="ObservableBase{T}"/> is rather heavyweight in terms of allocations and memory
     /// usage. This class provides a more lightweight base for some internal observable types
-    /// in the UrhoUI framework.
+    /// in the Urho framework.
     /// </remarks>
     public abstract class LightweightObservableBase<T> : IObservable<T>
     {

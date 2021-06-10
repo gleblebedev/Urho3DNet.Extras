@@ -1,4 +1,6 @@
-namespace Urho3DNet.UserInterface.Data
+using Urho3DNet.MVVM.Binding;
+
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
     /// Holds a binding that can be applied to a property on an object.
@@ -21,8 +23,8 @@ namespace Urho3DNet.UserInterface.Data
         /// A <see cref="InstancedBinding"/> or null if the binding could not be resolved.
         /// </returns>
         InstancedBinding Initiate(
-            IUrhoUIObject target, 
-            UrhoUIProperty targetProperty,
+            IUrhoObject target, 
+            UrhoProperty targetProperty,
             object anchor = null,
             bool enableDataValidation = false);
     }

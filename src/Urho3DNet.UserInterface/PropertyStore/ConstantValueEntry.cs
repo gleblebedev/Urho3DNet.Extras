@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.PropertyStore
+namespace Urho3DNet.MVVM.PropertyStore
 {
     /// <summary>
     /// Represents an untyped interface to <see cref="ConstantValueEntry{T}"/>.
@@ -57,14 +58,14 @@ namespace Urho3DNet.UserInterface.PropertyStore
 
         public void RaiseValueChanged(
             IValueSink sink,
-            IUrhoUIObject owner,
-            UrhoUIProperty property,
+            IUrhoObject owner,
+            UrhoProperty property,
             Optional<object> oldValue,
             Optional<object> newValue)
         {
-            sink.ValueChanged(new UrhoUIPropertyChangedEventArgs<T>(
+            sink.ValueChanged(new UrhoPropertyChangedEventArgs<T>(
                 owner,
-                (UrhoUIProperty<T>)property,
+                (UrhoProperty<T>)property,
                 oldValue.Cast<T>(),
                 newValue.Cast<T>(),
                 Priority));

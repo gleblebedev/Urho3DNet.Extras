@@ -1,7 +1,7 @@
 using System;
 using System.Reactive.Disposables;
 
-namespace Urho3DNet.UserInterface.Reactive
+namespace Urho3DNet.MVVM.Reactive
 {
     /// <summary>
     /// Provides common observable methods not found in standard Rx framework.

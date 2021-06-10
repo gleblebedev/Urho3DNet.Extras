@@ -1,14 +1,15 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Threading
+namespace Urho3DNet.MVVM.Threading
 {
     /// <summary>
     /// Provides services for managing work items on a thread.
     /// </summary>
     /// <remarks>
-    /// In UrhoUI, there is usually only a single <see cref="Dispatcher"/> in the application -
+    /// In Urho, there is usually only a single <see cref="Dispatcher"/> in the application -
     /// the one for the UI thread, retrieved via the <see cref="UIThread"/> property.
     /// </remarks>
     public class Dispatcher : IDispatcher

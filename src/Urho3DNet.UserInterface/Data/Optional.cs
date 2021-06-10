@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
     /// An optional typed value.

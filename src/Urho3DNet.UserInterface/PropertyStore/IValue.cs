@@ -1,8 +1,9 @@
-﻿using Urho3DNet.UserInterface.Data;
+﻿using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.PropertyStore
+namespace Urho3DNet.MVVM.PropertyStore
 {
     /// <summary>
     /// Represents an untyped interface to <see cref="IValue{T}"/>.
@@ -14,8 +15,8 @@ namespace Urho3DNet.UserInterface.PropertyStore
         void Start();
         void RaiseValueChanged(
             IValueSink sink,
-            IUrhoUIObject owner,
-            UrhoUIProperty property,
+            IUrhoObject owner,
+            UrhoProperty property,
             Optional<object> oldValue,
             Optional<object> newValue);
     }

@@ -1,7 +1,8 @@
 using System;
 using System.Reactive.Subjects;
+using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
     /// Holds the result of calling <see cref="IBinding.Initiate"/>.
@@ -9,7 +10,7 @@ namespace Urho3DNet.UserInterface.Data
     /// <remarks>
     /// Whereas an <see cref="IBinding"/> holds a description of a binding such as "Bind to the X
     /// property on a control's DataContext"; this class represents a binding that has been 
-    /// *instanced* by calling <see cref="IBinding.Initiate(IUrhoUIObject, UrhoUIProperty, object, bool)"/>
+    /// *instanced* by calling <see cref="IBinding.Initiate(IUrhoObject, UrhoProperty, object, bool)"/>
     /// on a target object.
     /// </remarks>
     public class InstancedBinding

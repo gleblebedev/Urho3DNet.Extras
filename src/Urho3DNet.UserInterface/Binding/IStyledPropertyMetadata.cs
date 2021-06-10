@@ -1,4 +1,4 @@
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Untyped interface to <see cref="StyledPropertyMetadata{TValue}"/>

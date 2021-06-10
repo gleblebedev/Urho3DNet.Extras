@@ -1,10 +1,11 @@
 ﻿using System;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Threading;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Threading;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.PropertyStore
+namespace Urho3DNet.MVVM.PropertyStore
 {
     /// <summary>
     /// Represents an untyped interface to <see cref="BindingEntry{T}"/>.
@@ -20,7 +21,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
     /// <typeparam name="T">The property type.</typeparam>
     internal class BindingEntry<T> : IBindingEntry, IPriorityValueEntry<T>, IObserver<BindingValue<T>>
     {
-        private readonly IUrhoUIObject _owner;
+        private readonly IUrhoObject _owner;
         private IValueSink _sink;
         private IDisposable? _subscription;
         private bool _isSubscribed;
@@ -28,7 +29,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
         private Optional<T> _value;
 
         public BindingEntry(
-            IUrhoUIObject owner,
+            IUrhoObject owner,
             StyledPropertyBase<T> property,
             IObservable<BindingValue<T>> source,
             BindingPriority priority,
@@ -119,14 +120,14 @@ namespace Urho3DNet.UserInterface.PropertyStore
 
         public void RaiseValueChanged(
             IValueSink sink,
-            IUrhoUIObject owner,
-            UrhoUIProperty property,
+            IUrhoObject owner,
+            UrhoProperty property,
             Optional<object> oldValue,
             Optional<object> newValue)
         {
-            sink.ValueChanged(new UrhoUIPropertyChangedEventArgs<T>(
+            sink.ValueChanged(new UrhoPropertyChangedEventArgs<T>(
                 owner,
-                (UrhoUIProperty<T>)property,
+                (UrhoProperty<T>)property,
                 oldValue.Cast<T>(),
                 newValue.Cast<T>(),
                 Priority));
@@ -151,7 +152,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
                 _value = value.ToOptional();
             }
 
-            _sink.ValueChanged(new UrhoUIPropertyChangedEventArgs<T>(_owner, Property, old, value, Priority));
+            _sink.ValueChanged(new UrhoPropertyChangedEventArgs<T>(_owner, Property, old, value, Priority));
         }
     }
 }

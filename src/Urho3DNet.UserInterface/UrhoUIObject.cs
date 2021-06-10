@@ -1,48 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Diagnostics;
-using Urho3DNet.UserInterface.PropertyStore;
-using Urho3DNet.UserInterface.Threading;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Diagnostics;
+using Urho3DNet.MVVM.PropertyStore;
+using Urho3DNet.MVVM.Threading;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM
 {
     /// <summary>
-    /// An object with <see cref="UrhoUIProperty"/> support.
+    /// An object with <see cref="UrhoProperty"/> support.
     /// </summary>
     /// <remarks>
     /// This class is analogous to DependencyObject in WPF.
     /// </remarks>
-    public class UrhoUIObject : IUrhoUIObject, IUrhoUIObjectDebug, INotifyPropertyChanged, IValueSink
+    public class UrhoObject : IUrhoObject, IUrhoObjectDebug, INotifyPropertyChanged, IValueSink
     {
-        private IUrhoUIObject _inheritanceParent;
+        private IUrhoObject _inheritanceParent;
         private List<IDisposable> _directBindings;
         private PropertyChangedEventHandler _inpcChanged;
-        private EventHandler<UrhoUIPropertyChangedEventArgs> _propertyChanged;
-        private List<IUrhoUIObject> _inheritanceChildren;
+        private EventHandler<UrhoPropertyChangedEventArgs> _propertyChanged;
+        private List<IUrhoObject> _inheritanceChildren;
         private ValueStore _values;
         private bool _batchUpdate;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIObject"/> class.
+        /// Initializes a new instance of the <see cref="UrhoObject"/> class.
         /// </summary>
-        public UrhoUIObject()
+        public UrhoObject()
         {
             VerifyAccess();
         }
 
         /// <summary>
-        /// Raised when a <see cref="UrhoUIProperty"/> value changes on this object.
+        /// Raised when a <see cref="UrhoProperty"/> value changes on this object.
         /// </summary>
-        public event EventHandler<UrhoUIPropertyChangedEventArgs> PropertyChanged
+        public event EventHandler<UrhoPropertyChangedEventArgs> PropertyChanged
         {
             add { _propertyChanged += value; }
             remove { _propertyChanged -= value; }
         }
 
         /// <summary>
-        /// Raised when a <see cref="UrhoUIProperty"/> value changes on this object.
+        /// Raised when a <see cref="UrhoProperty"/> value changes on this object.
         /// </summary>
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
@@ -51,13 +52,13 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets or sets the parent object that inherited <see cref="UrhoUIProperty"/> values
+        /// Gets or sets the parent object that inherited <see cref="UrhoProperty"/> values
         /// are inherited from.
         /// </summary>
         /// <value>
         /// The inheritance parent.
         /// </value>
-        protected IUrhoUIObject InheritanceParent
+        protected IUrhoObject InheritanceParent
         {
             get
             {
@@ -76,7 +77,7 @@ namespace Urho3DNet.UserInterface
                     _inheritanceParent?.RemoveInheritanceChild(this);
                     _inheritanceParent = value;
 
-                    var properties = UrhoUIPropertyRegistry.Instance.GetRegisteredInherited(GetType());
+                    var properties = UrhoPropertyRegistry.Instance.GetRegisteredInherited(GetType());
                     var propertiesCount = properties.Count;
 
                     for (var i = 0; i < propertiesCount; i++)
@@ -97,17 +98,17 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets or sets the value of a <see cref="UrhoUIProperty"/>.
+        /// Gets or sets the value of a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="property">The property.</param>
-        public object this[UrhoUIProperty property]
+        public object this[UrhoProperty property]
         {
             get { return GetValue(property); }
             set { SetValue(property, value); }
         }
 
         /// <summary>
-        /// Gets or sets a binding for a <see cref="UrhoUIProperty"/>.
+        /// Gets or sets a binding for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="binding">The binding information.</param>
         public IBinding this[IndexerDescriptor binding]
@@ -137,10 +138,10 @@ namespace Urho3DNet.UserInterface
         public void VerifyAccess() => Dispatcher.UIThread.VerifyAccess();
 
         /// <summary>
-        /// Clears a <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears a <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="property">The property.</param>
-        public void ClearValue(UrhoUIProperty property)
+        public void ClearValue(UrhoProperty property)
         {
             property = property ?? throw new ArgumentNullException(nameof(property));
 
@@ -148,10 +149,10 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Clears a <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears a <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="property">The property.</param>
-        public void ClearValue<T>(UrhoUIProperty<T> property)
+        public void ClearValue<T>(UrhoProperty<T> property)
         {
             property = property ?? throw new ArgumentNullException(nameof(property));
             VerifyAccess();
@@ -165,12 +166,12 @@ namespace Urho3DNet.UserInterface
                     ClearValue(direct);
                     break;
                 default:
-                    throw new NotSupportedException("Unsupported UrhoUIProperty type.");
+                    throw new NotSupportedException("Unsupported UrhoProperty type.");
             }
         }
 
         /// <summary>
-        /// Clears a <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears a <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="property">The property.</param>
         public void ClearValue<T>(StyledPropertyBase<T> property)
@@ -182,7 +183,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Clears a <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears a <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="property">The property.</param>
         public void ClearValue<T>(DirectPropertyBase<T> property)
@@ -190,7 +191,7 @@ namespace Urho3DNet.UserInterface
             property = property ?? throw new ArgumentNullException(nameof(property));
             VerifyAccess();
 
-            var p = UrhoUIPropertyRegistry.Instance.GetRegisteredDirect(this, property);
+            var p = UrhoPropertyRegistry.Instance.GetRegisteredDirect(this, property);
             p.InvokeSetter(this, p.GetUnsetValue(GetType()));
         }
 
@@ -199,13 +200,11 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <param name="obj">The object to compare.</param>
         /// <remarks>
-        /// Overriding Equals and GetHashCode on an UrhoUIObject is disallowed for two reasons:
+        /// Overriding Equals and GetHashCode on an UrhoObject is disallowed for two reasons:
         /// 
-        /// - UrhoUIObjects are by their nature mutable
+        /// - UrhoObjects are by their nature mutable
         /// - The presence of attached properties means that the semantics of equality are
         ///   difficult to define
-        /// 
-        /// See https://github.com/UrhoUIUI/UrhoUI/pull/2747 for the discussion that prompted
         /// this.
         /// </remarks>
         public sealed override bool Equals(object obj) => base.Equals(obj);
@@ -214,23 +213,21 @@ namespace Urho3DNet.UserInterface
         /// Gets the hash code for the object.
         /// </summary>
         /// <remarks>
-        /// Overriding Equals and GetHashCode on an UrhoUIObject is disallowed for two reasons:
+        /// Overriding Equals and GetHashCode on an UrhoObject is disallowed for two reasons:
         /// 
-        /// - UrhoUIObjects are by their nature mutable
+        /// - UrhoObjects are by their nature mutable
         /// - The presence of attached properties means that the semantics of equality are
         ///   difficult to define
-        /// 
-        /// See https://github.com/UrhoUIUI/UrhoUI/pull/2747 for the discussion that prompted
         /// this.
         /// </remarks>
         public sealed override int GetHashCode() => base.GetHashCode();
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>The value.</returns>
-        public object GetValue(UrhoUIProperty property)
+        public object GetValue(UrhoProperty property)
         {
             property = property ?? throw new ArgumentNullException(nameof(property));
 
@@ -238,7 +235,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -252,7 +249,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -262,7 +259,7 @@ namespace Urho3DNet.UserInterface
             property = property ?? throw new ArgumentNullException(nameof(property));
             VerifyAccess();
 
-            var registered = UrhoUIPropertyRegistry.Instance.GetRegisteredDirect(this, property);
+            var registered = UrhoPropertyRegistry.Instance.GetRegisteredDirect(this, property);
             return registered.InvokeGetter(this);
         }
 
@@ -282,11 +279,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Checks whether a <see cref="UrhoUIProperty"/> is animating.
+        /// Checks whether a <see cref="UrhoProperty"/> is animating.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>True if the property is animating, otherwise false.</returns>
-        public bool IsAnimating(UrhoUIProperty property)
+        public bool IsAnimating(UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(property != null);
             VerifyAccess();
@@ -295,15 +292,15 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Checks whether a <see cref="UrhoUIProperty"/> is set on this object.
+        /// Checks whether a <see cref="UrhoProperty"/> is set on this object.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>True if the property is set, otherwise false.</returns>
         /// <remarks>
         /// Checks whether a value is assigned to the property, or that there is a binding to the
-        /// property that is producing a value other than <see cref="UrhoUIProperty.UnsetValue"/>.
+        /// property that is producing a value other than <see cref="UrhoProperty.UnsetValue"/>.
         /// </remarks>
-        public bool IsSet(UrhoUIProperty property)
+        public bool IsSet(UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(property != null);
             VerifyAccess();
@@ -312,13 +309,13 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <param name="value">The value.</param>
         /// <param name="priority">The priority of the value.</param>
         public void SetValue(
-            UrhoUIProperty property,
+            UrhoProperty property,
             object value,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -328,7 +325,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -368,7 +365,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -383,7 +380,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -405,7 +402,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -421,7 +418,7 @@ namespace Urho3DNet.UserInterface
             source = source ?? throw new ArgumentNullException(nameof(source));
             VerifyAccess();
 
-            property = UrhoUIPropertyRegistry.Instance.GetRegisteredDirect(this, property);
+            property = UrhoPropertyRegistry.Instance.GetRegisteredDirect(this, property);
 
             if (property.IsReadOnly)
             {
@@ -440,7 +437,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Coerces the specified <see cref="UrhoUIProperty"/>.
+        /// Coerces the specified <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -472,20 +469,20 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <inheritdoc/>
-        void IUrhoUIObject.AddInheritanceChild(IUrhoUIObject child)
+        void IUrhoObject.AddInheritanceChild(IUrhoObject child)
         {
-            _inheritanceChildren ??= new List<IUrhoUIObject>();
+            _inheritanceChildren ??= new List<IUrhoObject>();
             _inheritanceChildren.Add(child);
         }
 
         /// <inheritdoc/>
-        void IUrhoUIObject.RemoveInheritanceChild(IUrhoUIObject child)
+        void IUrhoObject.RemoveInheritanceChild(IUrhoObject child)
         {
             _inheritanceChildren?.Remove(child);
         }
 
-        void IUrhoUIObject.InheritedPropertyChanged<T>(
-            UrhoUIProperty<T> property,
+        void IUrhoObject.InheritedPropertyChanged<T>(
+            UrhoProperty<T> property,
             Optional<T> oldValue,
             Optional<T> newValue)
         {
@@ -496,12 +493,12 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <inheritdoc/>
-        Delegate[] IUrhoUIObjectDebug.GetPropertyChangedSubscribers()
+        Delegate[] IUrhoObjectDebug.GetPropertyChangedSubscribers()
         {
             return _propertyChanged?.GetInvocationList();
         }
 
-        void IValueSink.ValueChanged<T>(UrhoUIPropertyChangedEventArgs<T> change)
+        void IValueSink.ValueChanged<T>(UrhoPropertyChangedEventArgs<T> change)
         {
             var property = (StyledPropertyBase<T>)change.Property;
 
@@ -545,7 +542,7 @@ namespace Urho3DNet.UserInterface
             IPriorityValueEntry entry,
             Optional<T> oldValue)
         {
-            var change = new UrhoUIPropertyChangedEventArgs<T>(
+            var change = new UrhoPropertyChangedEventArgs<T>(
                 this,
                 property,
                 oldValue,
@@ -562,11 +559,11 @@ namespace Urho3DNet.UserInterface
         /// <param name="oldParent">The old inheritance parent.</param>
         internal void InheritanceParentChanged<T>(
             StyledPropertyBase<T> property,
-            IUrhoUIObject oldParent)
+            IUrhoObject oldParent)
         {
             var oldValue = oldParent switch
             {
-                UrhoUIObject o => o.GetValueOrInheritedOrDefault(property),
+                UrhoObject o => o.GetValueOrInheritedOrDefault(property),
                 null => property.GetDefaultValue(GetType()),
                 _ => oldParent.GetValue(property)
             };
@@ -579,11 +576,11 @@ namespace Urho3DNet.UserInterface
             }
         }
 
-        internal UrhoUIPropertyValue GetDiagnosticInternal(UrhoUIProperty property)
+        internal UrhoPropertyValue GetDiagnosticInternal(UrhoProperty property)
         {
             if (property.IsDirect)
             {
-                return new UrhoUIPropertyValue(
+                return new UrhoPropertyValue(
                     property,
                     GetValue(property),
                     BindingPriority.Unset,
@@ -599,7 +596,7 @@ namespace Urho3DNet.UserInterface
                 }
             }
 
-            return new UrhoUIPropertyValue(
+            return new UrhoPropertyValue(
                 property,
                 GetValue(property),
                 BindingPriority.Unset,
@@ -611,7 +608,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <param name="property">The property that the error occurred on.</param>
         /// <param name="e">The binding error.</param>
-        protected internal virtual void LogBindingError(UrhoUIProperty property, Exception e)
+        protected internal virtual void LogBindingError(UrhoProperty property, Exception e)
         {
             //Logger.TryGet(LogEventLevel.Warning, LogArea.Binding)?.Log(
             //    this,
@@ -628,7 +625,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="property">The property.</param>
         /// <param name="value">The new binding value for the property.</param>
         protected virtual void UpdateDataValidation<T>(
-            UrhoUIProperty<T> property,
+            UrhoProperty<T> property,
             BindingValue<T> value)
         {
         }
@@ -637,7 +634,7 @@ namespace Urho3DNet.UserInterface
         /// Called when a avalonia property changes on the object.
         /// </summary>
         /// <param name="change">The property change details.</param>
-        protected virtual void OnPropertyChangedCore<T>(UrhoUIPropertyChangedEventArgs<T> change)
+        protected virtual void OnPropertyChangedCore<T>(UrhoPropertyChangedEventArgs<T> change)
         {
             if (change.IsEffectiveValueChange)
             {
@@ -649,7 +646,7 @@ namespace Urho3DNet.UserInterface
         /// Called when a avalonia property changes on the object.
         /// </summary>
         /// <param name="change">The property change details.</param>
-        protected virtual void OnPropertyChanged<T>(UrhoUIPropertyChangedEventArgs<T> change)
+        protected virtual void OnPropertyChanged<T>(UrhoPropertyChangedEventArgs<T> change)
         {
         }
 
@@ -661,12 +658,12 @@ namespace Urho3DNet.UserInterface
         /// <param name="newValue">The new property value.</param>
         /// <param name="priority">The priority of the binding that produced the value.</param>
         protected internal void RaisePropertyChanged<T>(
-            UrhoUIProperty<T> property,
+            UrhoProperty<T> property,
             Optional<T> oldValue,
             BindingValue<T> newValue,
             BindingPriority priority = BindingPriority.LocalValue)
         {
-            RaisePropertyChanged(new UrhoUIPropertyChangedEventArgs<T>(
+            RaisePropertyChanged(new UrhoPropertyChangedEventArgs<T>(
                 this,
                 property,
                 oldValue,
@@ -685,7 +682,7 @@ namespace Urho3DNet.UserInterface
         /// <returns>
         /// True if the value changed, otherwise false.
         /// </returns>
-        protected bool SetAndRaise<T>(UrhoUIProperty<T> property, ref T field, T value)
+        protected bool SetAndRaise<T>(UrhoProperty<T> property, ref T field, T value)
         {
             VerifyAccess();
 
@@ -700,7 +697,7 @@ namespace Urho3DNet.UserInterface
             return true;
         }
 
-        protected bool SetAndRaise<T>(UrhoUIProperty<T> property, T old, T value, Action<T> setter)
+        protected bool SetAndRaise<T>(UrhoProperty<T> property, T old, T value, Action<T> setter)
         {
             VerifyAccess();
 
@@ -716,7 +713,7 @@ namespace Urho3DNet.UserInterface
 
         private T GetInheritedOrDefault<T>(StyledPropertyBase<T> property)
         {
-            if (property.Inherits && InheritanceParent is UrhoUIObject o)
+            if (property.Inherits && InheritanceParent is UrhoObject o)
             {
                 return o.GetValueOrInheritedOrDefault(property);
             }
@@ -746,13 +743,13 @@ namespace Urho3DNet.UserInterface
                     break;
                 }
 
-                o = o.InheritanceParent as UrhoUIObject;
+                o = o.InheritanceParent as UrhoObject;
             }
 
             return property.GetDefaultValue(GetType());
         }
 
-        protected internal void RaisePropertyChanged<T>(UrhoUIPropertyChangedEventArgs<T> change)
+        protected internal void RaisePropertyChanged<T>(UrhoPropertyChangedEventArgs<T> change)
         {
             VerifyAccess();
 
@@ -804,7 +801,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="value">The value.</param>
         private void SetDirectValueUnchecked<T>(DirectPropertyBase<T> property, T value)
         {
-            var p = UrhoUIPropertyRegistry.Instance.GetRegisteredDirect(this, property);
+            var p = UrhoPropertyRegistry.Instance.GetRegisteredDirect(this, property);
 
             if (value is UnsetValueType)
             {
@@ -823,7 +820,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="value">The value.</param>
         private void SetDirectValueUnchecked<T>(DirectPropertyBase<T> property, BindingValue<T> value)
         {
-            var p = UrhoUIPropertyRegistry.Instance.FindRegisteredDirect(this, property);
+            var p = UrhoPropertyRegistry.Instance.FindRegisteredDirect(this, property);
 
             if (p == null)
             {
@@ -873,7 +870,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <param name="property">The property being bound.</param>
         /// <param name="value">The binding notification.</param>
-        private void LogIfError<T>(UrhoUIProperty property, BindingValue<T> value)
+        private void LogIfError<T>(UrhoProperty property, BindingValue<T> value)
         {
             if (value.HasError)
             {
@@ -897,7 +894,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="property">The property.</param>
         /// <param name="value">The new value.</param>
         /// <param name="priority">The priority.</param>
-        private void LogPropertySet<T>(UrhoUIProperty<T> property, T value, BindingPriority priority)
+        private void LogPropertySet<T>(UrhoProperty<T> property, T value, BindingPriority priority)
         {
             //Logger.TryGet(LogEventLevel.Verbose, LogArea.Property)?.Log(
             //    this,
@@ -909,12 +906,12 @@ namespace Urho3DNet.UserInterface
 
         private class DirectBindingSubscription<T> : IObserver<BindingValue<T>>, IDisposable
         {
-            private readonly UrhoUIObject _owner;
+            private readonly UrhoObject _owner;
             private readonly DirectPropertyBase<T> _property;
             private readonly IDisposable _subscription;
 
             public DirectBindingSubscription(
-                UrhoUIObject owner,
+                UrhoObject owner,
                 DirectPropertyBase<T> property,
                 IObservable<BindingValue<T>> source)
             {

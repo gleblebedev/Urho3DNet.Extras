@@ -1,14 +1,15 @@
-﻿using Urho3DNet.UserInterface.Data;
+﻿using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM
 {
-    public class Slider : UrhoUIControl
+    public class Slider : UrhoControl
     {
         /// <summary>
         ///     Defines the <see cref="Range" /> property.
         /// </summary>
         public static readonly DirectProperty<Slider, float> RangeProperty =
-            UrhoUIProperty.RegisterDirect<Slider, float>(
+            UrhoProperty.RegisterDirect<Slider, float>(
                 nameof(Range),
                 o => o.Range,
                 (o, v) => o.Range = v);
@@ -17,7 +18,7 @@ namespace Urho3DNet.UserInterface
         ///     Defines the <see cref="Value" /> property.
         /// </summary>
         public static readonly DirectProperty<Slider, float> ValueProperty =
-            UrhoUIProperty.RegisterDirect<Slider, float>(
+            UrhoProperty.RegisterDirect<Slider, float>(
                 nameof(Value),
                 o => o.Value,
                 (o, v) => o.Value = v,

@@ -3,15 +3,16 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Reactive;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Reactive;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM
 {
     /// <summary>
-    /// Provides extension methods for <see cref="UrhoUIObject"/> and related classes.
+    /// Provides extension methods for <see cref="UrhoObject"/> and related classes.
     /// </summary>
-    public static class UrhoUIObjectExtensions
+    public static class UrhoObjectExtensions
     {
         /// <summary>
         /// Converts an <see cref="IObservable{T}"/> to an <see cref="IBinding"/>.
@@ -25,7 +26,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets an observable for a <see cref="UrhoUIProperty"/>.
+        /// Gets an observable for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <param name="property">The property.</param>
@@ -36,16 +37,16 @@ namespace Urho3DNet.UserInterface
         /// <remarks>
         /// The subscription to <paramref name="o"/> is created using a weak reference.
         /// </remarks>
-        public static IObservable<object> GetObservable(this IUrhoUIObject o, UrhoUIProperty property)
+        public static IObservable<object> GetObservable(this IUrhoObject o, UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
-            return new UrhoUIPropertyObservable<object>(o, property);
+            return new UrhoPropertyObservable<object>(o, property);
         }
 
         /// <summary>
-        /// Gets an observable for a <see cref="UrhoUIProperty"/>.
+        /// Gets an observable for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <typeparam name="T">The property type.</typeparam>
@@ -57,16 +58,16 @@ namespace Urho3DNet.UserInterface
         /// <remarks>
         /// The subscription to <paramref name="o"/> is created using a weak reference.
         /// </remarks>
-        public static IObservable<T> GetObservable<T>(this IUrhoUIObject o, UrhoUIProperty<T> property)
+        public static IObservable<T> GetObservable<T>(this IUrhoObject o, UrhoProperty<T> property)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
-            return new UrhoUIPropertyObservable<T>(o, property);
+            return new UrhoPropertyObservable<T>(o, property);
         }
 
         /// <summary>
-        /// Gets an observable for a <see cref="UrhoUIProperty"/>.
+        /// Gets an observable for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <param name="property">The property.</param>
@@ -78,17 +79,17 @@ namespace Urho3DNet.UserInterface
         /// The subscription to <paramref name="o"/> is created using a weak reference.
         /// </remarks>
         public static IObservable<BindingValue<object>> GetBindingObservable(
-            this IUrhoUIObject o,
-            UrhoUIProperty property)
+            this IUrhoObject o,
+            UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
-            return new UrhoUIPropertyBindingObservable<object>(o, property);
+            return new UrhoPropertyBindingObservable<object>(o, property);
         }
 
         /// <summary>
-        /// Gets an observable for a <see cref="UrhoUIProperty"/>.
+        /// Gets an observable for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <typeparam name="T">The property type.</typeparam>
@@ -101,38 +102,38 @@ namespace Urho3DNet.UserInterface
         /// The subscription to <paramref name="o"/> is created using a weak reference.
         /// </remarks>
         public static IObservable<BindingValue<T>> GetBindingObservable<T>(
-            this IUrhoUIObject o,
-            UrhoUIProperty<T> property)
+            this IUrhoObject o,
+            UrhoProperty<T> property)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
-            return new UrhoUIPropertyBindingObservable<T>(o, property);
+            return new UrhoPropertyBindingObservable<T>(o, property);
         }
 
         /// <summary>
         /// Gets an observable that listens for property changed events for an
-        /// <see cref="UrhoUIProperty"/>.
+        /// <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <param name="property">The property.</param>
         /// <returns>
         /// An observable which when subscribed pushes the property changed event args
-        /// each time a <see cref="IUrhoUIObject.PropertyChanged"/> event is raised
+        /// each time a <see cref="IUrhoObject.PropertyChanged"/> event is raised
         /// for the specified property.
         /// </returns>
-        public static IObservable<UrhoUIPropertyChangedEventArgs> GetPropertyChangedObservable(
-            this IUrhoUIObject o,
-            UrhoUIProperty property)
+        public static IObservable<UrhoPropertyChangedEventArgs> GetPropertyChangedObservable(
+            this IUrhoObject o,
+            UrhoProperty property)
         {
             Contract.Requires<ArgumentNullException>(o != null);
             Contract.Requires<ArgumentNullException>(property != null);
 
-            return new UrhoUIPropertyChangedObservable(o, property);
+            return new UrhoPropertyChangedObservable(o, property);
         }
 
         /// <summary>
-        /// Gets a subject for a <see cref="UrhoUIProperty"/>.
+        /// Gets a subject for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <param name="property">The property.</param>
@@ -144,8 +145,8 @@ namespace Urho3DNet.UserInterface
         /// property.
         /// </returns>
         public static ISubject<object> GetSubject(
-            this IUrhoUIObject o,
-            UrhoUIProperty property,
+            this IUrhoObject o,
+            UrhoProperty property,
             BindingPriority priority = BindingPriority.LocalValue)
         {
             return Subject.Create<object>(
@@ -154,7 +155,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets a subject for a <see cref="UrhoUIProperty"/>.
+        /// Gets a subject for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="T">The property type.</typeparam>
         /// <param name="o">The object.</param>
@@ -167,8 +168,8 @@ namespace Urho3DNet.UserInterface
         /// property.
         /// </returns>
         public static ISubject<T> GetSubject<T>(
-            this IUrhoUIObject o,
-            UrhoUIProperty<T> property,
+            this IUrhoObject o,
+            UrhoProperty<T> property,
             BindingPriority priority = BindingPriority.LocalValue)
         {
             return Subject.Create<T>(
@@ -177,7 +178,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets a subject for a <see cref="UrhoUIProperty"/>.
+        /// Gets a subject for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <param name="o">The object.</param>
         /// <param name="property">The property.</param>
@@ -189,8 +190,8 @@ namespace Urho3DNet.UserInterface
         /// property.
         /// </returns>
         public static ISubject<BindingValue<object>> GetBindingSubject(
-            this IUrhoUIObject o,
-            UrhoUIProperty property,
+            this IUrhoObject o,
+            UrhoProperty property,
             BindingPriority priority = BindingPriority.LocalValue)
         {
             return Subject.Create<BindingValue<object>>(
@@ -205,7 +206,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets a subject for a <see cref="UrhoUIProperty"/>.
+        /// Gets a subject for a <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="T">The property type.</typeparam>
         /// <param name="o">The object.</param>
@@ -218,8 +219,8 @@ namespace Urho3DNet.UserInterface
         /// property.
         /// </returns>
         public static ISubject<BindingValue<T>> GetBindingSubject<T>(
-            this IUrhoUIObject o,
-            UrhoUIProperty<T> property,
+            this IUrhoObject o,
+            UrhoProperty<T> property,
             BindingPriority priority = BindingPriority.LocalValue)
         {
             return Subject.Create<BindingValue<T>>(
@@ -234,7 +235,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
@@ -244,8 +245,8 @@ namespace Urho3DNet.UserInterface
         /// A disposable which can be used to terminate the binding.
         /// </returns>
         public static IDisposable Bind(
-            this IUrhoUIObject target,
-            UrhoUIProperty property,
+            this IUrhoObject target,
+            UrhoProperty property,
             IObservable<BindingValue<object>> source,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -257,7 +258,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="target">The object.</param>
@@ -268,8 +269,8 @@ namespace Urho3DNet.UserInterface
         /// A disposable which can be used to terminate the binding.
         /// </returns>
         public static IDisposable Bind<T>(
-            this IUrhoUIObject target,
-            UrhoUIProperty<T> property,
+            this IUrhoObject target,
+            UrhoProperty<T> property,
             IObservable<BindingValue<T>> source,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -281,12 +282,12 @@ namespace Urho3DNet.UserInterface
             {
                 StyledPropertyBase<T> styled => target.Bind(styled, source, priority),
                 DirectPropertyBase<T> direct => target.Bind(direct, source),
-                _ => throw new NotSupportedException("Unsupported UrhoUIProperty type."),
+                _ => throw new NotSupportedException("Unsupported UrhoProperty type."),
             };
         }
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
@@ -296,8 +297,8 @@ namespace Urho3DNet.UserInterface
         /// A disposable which can be used to terminate the binding.
         /// </returns>
         public static IDisposable Bind(
-            this IUrhoUIObject target,
-            UrhoUIProperty property,
+            this IUrhoObject target,
+            UrhoProperty property,
             IObservable<object> source,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -312,7 +313,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
@@ -322,8 +323,8 @@ namespace Urho3DNet.UserInterface
         /// A disposable which can be used to terminate the binding.
         /// </returns>
         public static IDisposable Bind<T>(
-            this IUrhoUIObject target,
-            UrhoUIProperty<T> property,
+            this IUrhoObject target,
+            UrhoProperty<T> property,
             IObservable<T> source,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -338,7 +339,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Binds a property on an <see cref="IUrhoUIObject"/> to an <see cref="IBinding"/>.
+        /// Binds a property on an <see cref="IUrhoObject"/> to an <see cref="IBinding"/>.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property to bind.</param>
@@ -351,8 +352,8 @@ namespace Urho3DNet.UserInterface
         /// </param>
         /// <returns>An <see cref="IDisposable"/> which can be used to cancel the binding.</returns>
         public static IDisposable Bind(
-            this IUrhoUIObject target,
-            UrhoUIProperty property,
+            this IUrhoObject target,
+            UrhoProperty property,
             IBinding binding,
             object anchor = null)
         {
@@ -379,11 +380,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Clears a <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears a <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
-        public static void ClearValue(this IUrhoUIObject target, UrhoUIProperty property)
+        public static void ClearValue(this IUrhoObject target, UrhoProperty property)
         {
             target = target ?? throw new ArgumentNullException(nameof(target));
             property = property ?? throw new ArgumentNullException(nameof(property));
@@ -392,11 +393,11 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Clears a <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears a <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
-        public static void ClearValue<T>(this IUrhoUIObject target, UrhoUIProperty<T> property)
+        public static void ClearValue<T>(this IUrhoObject target, UrhoProperty<T> property)
         {
             target = target ?? throw new ArgumentNullException(nameof(target));
             property = property ?? throw new ArgumentNullException(nameof(property));
@@ -410,17 +411,17 @@ namespace Urho3DNet.UserInterface
                     target.ClearValue(direct);
                     break;
                 default:
-                    throw new NotSupportedException("Unsupported UrhoUIProperty type.");
+                    throw new NotSupportedException("Unsupported UrhoProperty type.");
             }
         }
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
         /// <returns>The value.</returns>
-        public static object GetValue(this IUrhoUIObject target, UrhoUIProperty property)
+        public static object GetValue(this IUrhoObject target, UrhoProperty property)
         {
             target = target ?? throw new ArgumentNullException(nameof(target));
             property = property ?? throw new ArgumentNullException(nameof(property));
@@ -429,13 +430,13 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
         /// <returns>The value.</returns>
-        public static T GetValue<T>(this IUrhoUIObject target, UrhoUIProperty<T> property)
+        public static T GetValue<T>(this IUrhoObject target, UrhoProperty<T> property)
         {
             target = target ?? throw new ArgumentNullException(nameof(target));
             property = property ?? throw new ArgumentNullException(nameof(property));
@@ -444,12 +445,12 @@ namespace Urho3DNet.UserInterface
             {
                 StyledPropertyBase<T> styled => target.GetValue(styled),
                 DirectPropertyBase<T> direct => target.GetValue(direct),
-                _ => throw new NotSupportedException("Unsupported UrhoUIProperty type.")
+                _ => throw new NotSupportedException("Unsupported UrhoProperty type.")
             };
         }
 
         /// <summary>
-        /// Gets an <see cref="UrhoUIProperty"/> base value.
+        /// Gets an <see cref="UrhoProperty"/> base value.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
@@ -457,14 +458,14 @@ namespace Urho3DNet.UserInterface
         /// <remarks>
         /// For styled properties, gets the value of the property if set on the object with a
         /// priority equal or lower to <paramref name="maxPriority"/>, otherwise
-        /// <see cref="UrhoUIProperty.UnsetValue"/>. Note that this method does not return
+        /// <see cref="UrhoProperty.UnsetValue"/>. Note that this method does not return
         /// property values that come from inherited or default values.
         /// 
-        /// For direct properties returns <see cref="GetValue(IUrhoUIObject, UrhoUIProperty)"/>.
+        /// For direct properties returns <see cref="GetValue(IUrhoObject, UrhoProperty)"/>.
         /// </remarks>
         public static object GetBaseValue(
-            this IUrhoUIObject target,
-            UrhoUIProperty property,
+            this IUrhoObject target,
+            UrhoProperty property,
             BindingPriority maxPriority)
         {
             target = target ?? throw new ArgumentNullException(nameof(target));
@@ -474,7 +475,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets an <see cref="UrhoUIProperty"/> base value.
+        /// Gets an <see cref="UrhoProperty"/> base value.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
@@ -486,11 +487,11 @@ namespace Urho3DNet.UserInterface
         /// that come from inherited or default values.
         /// 
         /// For direct properties returns
-        /// <see cref="IUrhoUIObject.GetValue{T}(DirectPropertyBase{T})"/>.
+        /// <see cref="IUrhoObject.GetValue{T}(DirectPropertyBase{T})"/>.
         /// </remarks>
         public static Optional<T> GetBaseValue<T>(
-            this IUrhoUIObject target,
-            UrhoUIProperty<T> property,
+            this IUrhoObject target,
+            UrhoProperty<T> property,
             BindingPriority maxPriority)
         {
             target = target ?? throw new ArgumentNullException(nameof(target));
@@ -503,12 +504,12 @@ namespace Urho3DNet.UserInterface
             {
                 StyledPropertyBase<T> styled => target.GetBaseValue(styled, maxPriority),
                 DirectPropertyBase<T> direct => target.GetValue(direct),
-                _ => throw new NotSupportedException("Unsupported UrhoUIProperty type.")
+                _ => throw new NotSupportedException("Unsupported UrhoProperty type.")
             };
         }
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <param name="target">The object.</param>
         /// <param name="property">The property.</param>
@@ -518,8 +519,8 @@ namespace Urho3DNet.UserInterface
         /// An <see cref="IDisposable"/> if setting the property can be undone, otherwise null.
         /// </returns>
         public static IDisposable SetValue(
-            this IUrhoUIObject target,
-            UrhoUIProperty property,
+            this IUrhoObject target,
+            UrhoProperty property,
             object value,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -530,7 +531,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="target">The object.</param>
@@ -541,8 +542,8 @@ namespace Urho3DNet.UserInterface
         /// An <see cref="IDisposable"/> if setting the property can be undone, otherwise null.
         /// </returns>
         public static IDisposable SetValue<T>(
-            this IUrhoUIObject target,
-            UrhoUIProperty<T> property,
+            this IUrhoObject target,
+            UrhoProperty<T> property,
             T value,
             BindingPriority priority = BindingPriority.LocalValue)
         {
@@ -557,7 +558,7 @@ namespace Urho3DNet.UserInterface
                     target.SetValue(direct, value);
                     return null;
                 default:
-                    throw new NotSupportedException("Unsupported UrhoUIProperty type.");
+                    throw new NotSupportedException("Unsupported UrhoProperty type.");
             }
         }
 
@@ -572,9 +573,9 @@ namespace Urho3DNet.UserInterface
         /// </param>
         /// <returns>A disposable that can be used to terminate the subscription.</returns>
         public static IDisposable AddClassHandler<TTarget>(
-            this IObservable<UrhoUIPropertyChangedEventArgs> observable,
-            Action<TTarget, UrhoUIPropertyChangedEventArgs> action)
-            where TTarget : UrhoUIObject
+            this IObservable<UrhoPropertyChangedEventArgs> observable,
+            Action<TTarget, UrhoPropertyChangedEventArgs> action)
+            where TTarget : UrhoObject
         {
             return observable.Subscribe(e =>
             {
@@ -593,10 +594,10 @@ namespace Urho3DNet.UserInterface
         /// <param name="observable">The property changed observable.</param>
         /// <param name="handler">Given a TTarget, returns the handler.</param>
         /// <returns>A disposable that can be used to terminate the subscription.</returns>
-        [Obsolete("Use overload taking Action<TTarget, UrhoUIPropertyChangedEventArgs>.")]
+        [Obsolete("Use overload taking Action<TTarget, UrhoPropertyChangedEventArgs>.")]
         public static IDisposable AddClassHandler<TTarget>(
-            this IObservable<UrhoUIPropertyChangedEventArgs> observable,
-            Func<TTarget, Action<UrhoUIPropertyChangedEventArgs>> handler)
+            this IObservable<UrhoPropertyChangedEventArgs> observable,
+            Func<TTarget, Action<UrhoPropertyChangedEventArgs>> handler)
             where TTarget : class
         {
             return observable.Subscribe(e => SubscribeAdapter(e, handler));
@@ -608,21 +609,21 @@ namespace Urho3DNet.UserInterface
         /// <param name="o">The object.</param>
         /// <param name="property">The property</param>
         /// <returns>The description.</returns>
-        private static string GetDescription(IUrhoUIObject o, UrhoUIProperty property)
+        private static string GetDescription(IUrhoObject o, UrhoProperty property)
         {
             return $"{o.GetType().Name}.{property.Name}";
         }
 
         /// <summary>
-        /// Observer method for <see cref="AddClassHandler{TTarget}(IObservable{UrhoUIPropertyChangedEventArgs},
-        /// Func{TTarget, Action{UrhoUIPropertyChangedEventArgs}})"/>.
+        /// Observer method for <see cref="AddClassHandler{TTarget}(IObservable{UrhoPropertyChangedEventArgs},
+        /// Func{TTarget, Action{UrhoPropertyChangedEventArgs}})"/>.
         /// </summary>
         /// <typeparam name="TTarget">The sender type to accept.</typeparam>
         /// <param name="e">The event args.</param>
         /// <param name="handler">Given a TTarget, returns the handler.</param>
         private static void SubscribeAdapter<TTarget>(
-            UrhoUIPropertyChangedEventArgs e,
-            Func<TTarget, Action<UrhoUIPropertyChangedEventArgs>> handler)
+            UrhoPropertyChangedEventArgs e,
+            Func<TTarget, Action<UrhoPropertyChangedEventArgs>> handler)
             where TTarget : class
         {
             if (e.Sender is TTarget target)
@@ -641,8 +642,8 @@ namespace Urho3DNet.UserInterface
             }
 
             public InstancedBinding Initiate(
-                IUrhoUIObject target,
-                UrhoUIProperty targetProperty,
+                IUrhoObject target,
+                UrhoProperty targetProperty,
                 object anchor = null,
                 bool enableDataValidation = false)
             {

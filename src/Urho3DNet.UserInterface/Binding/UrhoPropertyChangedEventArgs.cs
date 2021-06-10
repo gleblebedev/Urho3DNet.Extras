@@ -1,17 +1,17 @@
 using System;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Data;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Provides information for a avalonia property change.
     /// </summary>
-    public abstract class UrhoUIPropertyChangedEventArgs : EventArgs
+    public abstract class UrhoPropertyChangedEventArgs : EventArgs
     {
-        public UrhoUIPropertyChangedEventArgs(
-            IUrhoUIObject sender,
+        public UrhoPropertyChangedEventArgs(
+            IUrhoObject sender,
             BindingPriority priority)
         {
             Sender = sender;
@@ -20,10 +20,10 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets the <see cref="UrhoUIObject"/> that the property changed on.
+        /// Gets the <see cref="UrhoObject"/> that the property changed on.
         /// </summary>
         /// <value>The sender object.</value>
-        public IUrhoUIObject Sender { get; }
+        public IUrhoObject Sender { get; }
 
         /// <summary>
         /// Gets the property that changed.
@@ -31,7 +31,7 @@ namespace Urho3DNet.UserInterface
         /// <value>
         /// The property that changed.
         /// </value>
-        public UrhoUIProperty Property => GetProperty();
+        public UrhoProperty Property => GetProperty();
 
         /// <summary>
         /// Gets the old value of the property.
@@ -57,7 +57,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <remarks>
         /// This will usually be true, except in
-        /// <see cref="UrhoUIObject.OnPropertyChangedCore{T}(UrhoUIPropertyChangedEventArgs{T})"/>
+        /// <see cref="UrhoObject.OnPropertyChangedCore{T}(UrhoPropertyChangedEventArgs{T})"/>
         /// which recieves notifications for all changes to property values, whether a value with a higher
         /// priority is present or not. When this property is false, the change that is being signalled
         /// has not resulted in a change to the property value on the object.
@@ -65,7 +65,7 @@ namespace Urho3DNet.UserInterface
         public bool IsEffectiveValueChange { get; private set; }
 
         internal void MarkNonEffectiveValue() => IsEffectiveValueChange = false;
-        protected abstract UrhoUIProperty GetProperty();
+        protected abstract UrhoProperty GetProperty();
         protected abstract object? GetOldValue();
         protected abstract object? GetNewValue();
     }

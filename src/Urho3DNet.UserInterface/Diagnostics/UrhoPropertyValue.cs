@@ -1,22 +1,23 @@
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface.Diagnostics
+namespace Urho3DNet.MVVM.Diagnostics
 {
     /// <summary>
-    /// Holds diagnostic-related information about the value of a <see cref="UrhoUIProperty"/>
-    /// on a <see cref="UrhoUIObject"/>.
+    /// Holds diagnostic-related information about the value of a <see cref="UrhoProperty"/>
+    /// on a <see cref="UrhoObject"/>.
     /// </summary>
-    public class UrhoUIPropertyValue
+    public class UrhoPropertyValue
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIPropertyValue"/> class.
+        /// Initializes a new instance of the <see cref="UrhoPropertyValue"/> class.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <param name="value">The current property value.</param>
         /// <param name="priority">The priority of the current value.</param>
         /// <param name="diagnostic">A diagnostic string.</param>
-        public UrhoUIPropertyValue(
-            UrhoUIProperty property,
+        public UrhoPropertyValue(
+            UrhoProperty property,
             object value,
             BindingPriority priority,
             string diagnostic)
@@ -30,7 +31,7 @@ namespace Urho3DNet.UserInterface.Diagnostics
         /// <summary>
         /// Gets the property.
         /// </summary>
-        public UrhoUIProperty Property { get; }
+        public UrhoProperty Property { get; }
 
         /// <summary>
         /// Gets the current property value.

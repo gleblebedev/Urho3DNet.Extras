@@ -1,12 +1,12 @@
 using System;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Metadata for styled avalonia properties.
     /// </summary>
-    public class StyledPropertyMetadata<TValue> : UrhoUIPropertyMetadata, IStyledPropertyMetadata
+    public class StyledPropertyMetadata<TValue> : UrhoPropertyMetadata, IStyledPropertyMetadata
     {
         private Optional<TValue> _defaultValue;
 
@@ -19,7 +19,7 @@ namespace Urho3DNet.UserInterface
         public StyledPropertyMetadata(
             Optional<TValue> defaultValue = default,
             BindingMode defaultBindingMode = BindingMode.Default,
-            Func<IUrhoUIObject, TValue, TValue> coerce = null)
+            Func<IUrhoObject, TValue, TValue> coerce = null)
                 : base(defaultBindingMode)
         {
             _defaultValue = defaultValue;
@@ -34,12 +34,12 @@ namespace Urho3DNet.UserInterface
         /// <summary>
         /// Gets the value coercion callback, if any.
         /// </summary>
-        public Func<IUrhoUIObject, TValue, TValue> CoerceValue { get; private set; }
+        public Func<IUrhoObject, TValue, TValue> CoerceValue { get; private set; }
 
         object IStyledPropertyMetadata.DefaultValue => DefaultValue;
 
         /// <inheritdoc/>
-        public override void Merge(UrhoUIPropertyMetadata baseMetadata, UrhoUIProperty property)
+        public override void Merge(UrhoPropertyMetadata baseMetadata, UrhoProperty property)
         {
             base.Merge(baseMetadata, property);
 

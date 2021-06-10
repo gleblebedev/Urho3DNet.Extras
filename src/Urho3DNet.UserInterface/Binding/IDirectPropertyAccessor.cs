@@ -1,6 +1,6 @@
 using System;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Provides a runtime interface for getting and setting 
@@ -23,13 +23,13 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns>The property value.</returns>
-        object GetValue(IUrhoUIObject instance);
+        object GetValue(IUrhoObject instance);
 
         /// <summary>
         /// Sets the value of the property on the instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="value">The value.</param>
-        void SetValue(IUrhoUIObject instance, object value);
+        void SetValue(IUrhoObject instance, object value);
     }
 }

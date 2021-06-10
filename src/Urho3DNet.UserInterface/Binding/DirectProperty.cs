@@ -1,7 +1,8 @@
 using System;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM
 {
     /// <summary>
     /// A direct avalonia property.
@@ -10,11 +11,11 @@ namespace Urho3DNet.UserInterface
     /// <typeparam name="TValue">The type of the property's value.</typeparam>
     /// <remarks>
     /// Direct avalonia properties are backed by a field on the object, but exposed via the
-    /// <see cref="UrhoUIProperty"/> system. They hold a getter and an optional setter which
+    /// <see cref="UrhoProperty"/> system. They hold a getter and an optional setter which
     /// allows the avalonia property system to read and write the current value.
     /// </remarks>
     public class DirectProperty<TOwner, TValue> : DirectPropertyBase<TValue>, IDirectPropertyAccessor
-        where TOwner : IUrhoUIObject
+        where TOwner : IUrhoObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectProperty{TOwner, TValue}"/> class.
@@ -37,7 +38,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrhoUIProperty"/> class.
+        /// Initializes a new instance of the <see cref="UrhoProperty"/> class.
         /// </summary>
         /// <param name="source">The property to copy.</param>
         /// <param name="getter">Gets the current value of the property.</param>
@@ -82,7 +83,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="getter">Gets the current value of the property.</param>
         /// <param name="setter">Sets the value of the property.</param>
         /// <param name="unsetValue">
-        /// The value to use when the property is set to <see cref="UrhoUIProperty.UnsetValue"/>
+        /// The value to use when the property is set to <see cref="UrhoProperty.UnsetValue"/>
         /// </param>
         /// <param name="defaultBindingMode">The default binding mode for the property.</param>
         /// <param name="enableDataValidation">
@@ -95,7 +96,7 @@ namespace Urho3DNet.UserInterface
             TValue unsetValue = default(TValue),
             BindingMode defaultBindingMode = BindingMode.Default,
             bool enableDataValidation = false)
-                where TNewOwner : UrhoUIObject
+                where TNewOwner : UrhoObject
         {
             var metadata = new DirectPropertyMetadata<TValue>(
                 unsetValue: unsetValue,
@@ -110,7 +111,7 @@ namespace Urho3DNet.UserInterface
                 setter,
                 metadata);
 
-            UrhoUIPropertyRegistry.Instance.Register(typeof(TNewOwner), result);
+            UrhoPropertyRegistry.Instance.Register(typeof(TNewOwner), result);
             return result;
         }
 
@@ -121,7 +122,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="getter">Gets the current value of the property.</param>
         /// <param name="setter">Sets the value of the property.</param>
         /// <param name="unsetValue">
-        /// The value to use when the property is set to <see cref="UrhoUIProperty.UnsetValue"/>
+        /// The value to use when the property is set to <see cref="UrhoProperty.UnsetValue"/>
         /// </param>
         /// <param name="defaultBindingMode">The default binding mode for the property.</param>
         /// <param name="enableDataValidation">
@@ -134,7 +135,7 @@ namespace Urho3DNet.UserInterface
             TValue unsetValue = default(TValue),
             BindingMode defaultBindingMode = BindingMode.Default,
             bool enableDataValidation = false)
-                where TNewOwner : UrhoUIObject
+                where TNewOwner : UrhoObject
         {
             var metadata = new DirectPropertyMetadata<TValue>(
                 unsetValue: unsetValue,
@@ -149,18 +150,18 @@ namespace Urho3DNet.UserInterface
                 setter,
                 metadata);
 
-            UrhoUIPropertyRegistry.Instance.Register(typeof(TNewOwner), result);
+            UrhoPropertyRegistry.Instance.Register(typeof(TNewOwner), result);
             return result;
         }
 
         /// <inheritdoc/>
-        internal override TValue InvokeGetter(IUrhoUIObject instance)
+        internal override TValue InvokeGetter(IUrhoObject instance)
         {
             return Getter((TOwner)instance);
         }
 
         /// <inheritdoc/>
-        internal override void InvokeSetter(IUrhoUIObject instance, BindingValue<TValue> value)
+        internal override void InvokeSetter(IUrhoObject instance, BindingValue<TValue> value)
         {
             if (Setter == null)
             {
@@ -174,13 +175,13 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <inheritdoc/>
-        object IDirectPropertyAccessor.GetValue(IUrhoUIObject instance)
+        object IDirectPropertyAccessor.GetValue(IUrhoObject instance)
         {
             return Getter((TOwner)instance);
         }
 
         /// <inheritdoc/>
-        void IDirectPropertyAccessor.SetValue(IUrhoUIObject instance, object value)
+        void IDirectPropertyAccessor.SetValue(IUrhoObject instance, object value)
         {
             if (Setter == null)
             {

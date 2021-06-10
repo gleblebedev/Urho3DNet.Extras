@@ -1,17 +1,17 @@
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Metadata for direct avalonia properties.
     /// </summary>
-    public class DirectPropertyMetadata<TValue> : UrhoUIPropertyMetadata, IDirectPropertyMetadata
+    public class DirectPropertyMetadata<TValue> : UrhoPropertyMetadata, IDirectPropertyMetadata
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="StyledPropertyMetadata{TValue}"/> class.
         /// </summary>
         /// <param name="unsetValue">
-        /// The value to use when the property is set to <see cref="UrhoUIProperty.UnsetValue"/>
+        /// The value to use when the property is set to <see cref="UrhoProperty.UnsetValue"/>
         /// </param>
         /// <param name="defaultBindingMode">The default binding mode.</param>
         /// <param name="enableDataValidation">
@@ -28,7 +28,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <summary>
-        /// Gets the value to use when the property is set to <see cref="UrhoUIProperty.UnsetValue"/>.
+        /// Gets the value to use when the property is set to <see cref="UrhoProperty.UnsetValue"/>.
         /// </summary>
         public TValue UnsetValue { get; private set; }
 
@@ -47,7 +47,7 @@ namespace Urho3DNet.UserInterface
         object IDirectPropertyMetadata.UnsetValue => UnsetValue;
 
         /// <inheritdoc/>
-        public override void Merge(UrhoUIPropertyMetadata baseMetadata, UrhoUIProperty property)
+        public override void Merge(UrhoPropertyMetadata baseMetadata, UrhoProperty property)
         {
             base.Merge(baseMetadata, property);
 

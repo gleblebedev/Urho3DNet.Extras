@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Data;
 
 #nullable enable
 
-namespace Urho3DNet.UserInterface.PropertyStore
+namespace Urho3DNet.MVVM.PropertyStore
 {
     /// <summary>
     /// Stores a set of prioritized values and bindings in a <see cref="ValueStore"/>.
@@ -13,24 +14,24 @@ namespace Urho3DNet.UserInterface.PropertyStore
     /// <typeparam name="T">The property type.</typeparam>
     /// <remarks>
     /// When more than a single value or binding is applied to a property in an
-    /// <see cref="UrhoUIObject"/>, the entry in the <see cref="ValueStore"/> is converted into
+    /// <see cref="UrhoObject"/>, the entry in the <see cref="ValueStore"/> is converted into
     /// a <see cref="PriorityValue{T}"/>. This class holds any number of
     /// <see cref="IPriorityValueEntry{T}"/> entries (sorted first by priority and then in the order
     /// they were added) plus a local value.
     /// </remarks>
     internal class PriorityValue<T> : IValue<T>, IValueSink, IBatchUpdate
     {
-        private readonly IUrhoUIObject _owner;
+        private readonly IUrhoObject _owner;
         private readonly IValueSink _sink;
         private readonly List<IPriorityValueEntry<T>> _entries = new List<IPriorityValueEntry<T>>();
-        private readonly Func<IUrhoUIObject, T, T>? _coerceValue;
+        private readonly Func<IUrhoObject, T, T>? _coerceValue;
         private Optional<T> _localValue;
         private Optional<T> _value;
         private bool _isCalculatingValue;
         private bool _batchUpdate;
 
         public PriorityValue(
-            IUrhoUIObject owner,
+            IUrhoObject owner,
             StyledPropertyBase<T> property,
             IValueSink sink)
         {
@@ -46,7 +47,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
         }
 
         public PriorityValue(
-            IUrhoUIObject owner,
+            IUrhoObject owner,
             StyledPropertyBase<T> property,
             IValueSink sink,
             IPriorityValueEntry<T> existing)
@@ -77,7 +78,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
         }
 
         public PriorityValue(
-            IUrhoUIObject owner,
+            IUrhoObject owner,
             StyledPropertyBase<T> property,
             IValueSink sink,
             LocalValueEntry<T> existing)
@@ -116,7 +117,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
 
         public void ClearLocalValue()
         {
-            UpdateEffectiveValue(new UrhoUIPropertyChangedEventArgs<T>(
+            UpdateEffectiveValue(new UrhoPropertyChangedEventArgs<T>(
                 _owner,
                 Property,
                 default,
@@ -155,7 +156,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
                 result = entry;
             }
 
-            UpdateEffectiveValue(new UrhoUIPropertyChangedEventArgs<T>(
+            UpdateEffectiveValue(new UrhoPropertyChangedEventArgs<T>(
                 _owner,
                 Property,
                 default,
@@ -189,27 +190,27 @@ namespace Urho3DNet.UserInterface.PropertyStore
 
         public void RaiseValueChanged(
             IValueSink sink,
-            IUrhoUIObject owner,
-            UrhoUIProperty property,
+            IUrhoObject owner,
+            UrhoProperty property,
             Optional<object> oldValue,
             Optional<object> newValue)
         {
-            sink.ValueChanged(new UrhoUIPropertyChangedEventArgs<T>(
+            sink.ValueChanged(new UrhoPropertyChangedEventArgs<T>(
                 owner,
-                (UrhoUIProperty<T>)property,
+                (UrhoProperty<T>)property,
                 oldValue.Cast<T>(),
                 newValue.Cast<T>(),
                 Priority));
         }
 
-        void IValueSink.ValueChanged<TValue>(UrhoUIPropertyChangedEventArgs<TValue> change)
+        void IValueSink.ValueChanged<TValue>(UrhoPropertyChangedEventArgs<TValue> change)
         {
             if (change.Priority == BindingPriority.LocalValue)
             {
                 _localValue = default;
             }
 
-            if (!_isCalculatingValue && change is UrhoUIPropertyChangedEventArgs<T> c)
+            if (!_isCalculatingValue && change is UrhoPropertyChangedEventArgs<T> c)
             {
                 UpdateEffectiveValue(c);
             }
@@ -224,7 +225,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
 
             if (oldValue is Optional<T> o)
             {
-                UpdateEffectiveValue(new UrhoUIPropertyChangedEventArgs<T>(
+                UpdateEffectiveValue(new UrhoPropertyChangedEventArgs<T>(
                     _owner,
                     Property,
                     o,
@@ -294,7 +295,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
             }
         }
 
-        private void UpdateEffectiveValue(UrhoUIPropertyChangedEventArgs<T>? change)
+        private void UpdateEffectiveValue(UrhoPropertyChangedEventArgs<T>? change)
         {
             var (value, priority) = CalculateValue(BindingPriority.Animation);
 
@@ -310,7 +311,7 @@ namespace Urho3DNet.UserInterface.PropertyStore
                 var old = _value;
                 _value = value;
 
-                _sink.ValueChanged(new UrhoUIPropertyChangedEventArgs<T>(
+                _sink.ValueChanged(new UrhoPropertyChangedEventArgs<T>(
                     _owner,
                     Property,
                     old,

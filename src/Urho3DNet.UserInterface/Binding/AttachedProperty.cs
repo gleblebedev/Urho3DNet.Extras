@@ -1,6 +1,6 @@
 using System;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// An attached avalonia property.
@@ -34,9 +34,9 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <typeparam name="TOwner">The owner type.</typeparam>
         /// <returns>The property.</returns>
-        public new AttachedProperty<TValue> AddOwner<TOwner>() where TOwner : IUrhoUIObject
+        public new AttachedProperty<TValue> AddOwner<TOwner>() where TOwner : IUrhoObject
         {
-            UrhoUIPropertyRegistry.Instance.Register(typeof(TOwner), this);
+            UrhoPropertyRegistry.Instance.Register(typeof(TOwner), this);
             return this;
         }
     }

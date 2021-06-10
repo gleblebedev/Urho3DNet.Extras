@@ -1,6 +1,7 @@
 ﻿using System;
+using Urho3DNet.MVVM.Binding;
 
-namespace Urho3DNet.UserInterface.Data
+namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
     /// Defines the types of binding errors for a <see cref="BindingNotification"/>.
@@ -30,7 +31,7 @@ namespace Urho3DNet.UserInterface.Data
     /// <remarks>
     /// This class is very similar to <see cref="BindingValue{T}"/>, but where <see cref="BindingValue{T}"/>
     /// is used by typed bindings, this class is used to hold binding and data validation errors in
-    /// untyped bindings. As UrhoUI moves towards using typed bindings by default we may want to remove
+    /// untyped bindings. As Urho moves towards using typed bindings by default we may want to remove
     /// this class.
     /// </remarks>
     public class BindingNotification
@@ -42,10 +43,10 @@ namespace Urho3DNet.UserInterface.Data
             new BindingNotification(null);
 
         /// <summary>
-        /// A binding notification representing <see cref="UrhoUIProperty.UnsetValue"/>.
+        /// A binding notification representing <see cref="UrhoProperty.UnsetValue"/>.
         /// </summary>
         public static readonly BindingNotification UnsetValue =
-            new BindingNotification(UrhoUIProperty.UnsetValue);
+            new BindingNotification(UrhoProperty.UnsetValue);
 
         private object _value;
 
@@ -72,7 +73,7 @@ namespace Urho3DNet.UserInterface.Data
 
             Error = error;
             ErrorType = errorType;
-            _value = UrhoUIProperty.UnsetValue;
+            _value = UrhoProperty.UnsetValue;
         }
 
         /// <summary>
@@ -93,14 +94,14 @@ namespace Urho3DNet.UserInterface.Data
         /// </summary>
         /// <remarks>
         /// If this property is read when <see cref="HasValue"/> is false then it will return
-        /// <see cref="UrhoUIProperty.UnsetValue"/>.
+        /// <see cref="UrhoProperty.UnsetValue"/>.
         /// </remarks>
         public object Value => _value;
 
         /// <summary>
         /// Gets a value indicating whether <see cref="Value"/> should be pushed to the target.
         /// </summary>
-        public bool HasValue => _value != UrhoUIProperty.UnsetValue;
+        public bool HasValue => _value != UrhoProperty.UnsetValue;
 
         /// <summary>
         /// Gets the error that occurred on the source, if any.
@@ -228,7 +229,7 @@ namespace Urho3DNet.UserInterface.Data
         /// </summary>
         public void ClearValue()
         {
-            _value = UrhoUIProperty.UnsetValue;
+            _value = UrhoProperty.UnsetValue;
         }
 
         /// <summary>

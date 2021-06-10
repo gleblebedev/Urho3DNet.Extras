@@ -1,15 +1,15 @@
 using System;
 using System.Diagnostics;
-using Urho3DNet.UserInterface.Data;
-using Urho3DNet.UserInterface.Reactive;
-using Urho3DNet.UserInterface.Utilities;
+using Urho3DNet.MVVM.Data;
+using Urho3DNet.MVVM.Reactive;
+using Urho3DNet.MVVM.Utilities;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Base class for styled properties.
     /// </summary>
-    public abstract class StyledPropertyBase<TValue> : UrhoUIProperty<TValue>, IStyledPropertyAccessor
+    public abstract class StyledPropertyBase<TValue> : UrhoProperty<TValue>, IStyledPropertyAccessor
     {
         private bool _inherits;
 
@@ -21,14 +21,14 @@ namespace Urho3DNet.UserInterface
         /// <param name="metadata">The property metadata.</param>
         /// <param name="inherits">Whether the property inherits its value.</param>
         /// <param name="validate">A value validation callback.</param>
-        /// <param name="notifying">A <see cref="UrhoUIProperty.Notifying"/> callback.</param>
+        /// <param name="notifying">A <see cref="UrhoProperty.Notifying"/> callback.</param>
         protected StyledPropertyBase(
             string name,
             Type ownerType,            
             StyledPropertyMetadata<TValue> metadata,
             bool inherits = false,
             Func<TValue, bool> validate = null,
-            Action<IUrhoUIObject, bool> notifying = null)
+            Action<IUrhoObject, bool> notifying = null)
                 : base(name, ownerType, metadata, notifying)
         {
             Contract.Requires<ArgumentNullException>(name != null);
@@ -80,7 +80,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         internal bool HasCoercion { get; private set; }
 
-        public TValue CoerceValue(IUrhoUIObject instance, TValue baseValue)
+        public TValue CoerceValue(IUrhoObject instance, TValue baseValue)
         {
             var metadata = GetMetadata(instance.GetType());
 
@@ -121,7 +121,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <typeparam name="T">The type.</typeparam>
         /// <param name="defaultValue">The default value.</param>
-        public void OverrideDefaultValue<T>(TValue defaultValue) where T : IUrhoUIObject
+        public void OverrideDefaultValue<T>(TValue defaultValue) where T : IUrhoObject
         {
             OverrideDefaultValue(typeof(T), defaultValue);
         }
@@ -141,7 +141,7 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <typeparam name="T">The type.</typeparam>
         /// <param name="metadata">The metadata.</param>
-        public void OverrideMetadata<T>(StyledPropertyMetadata<TValue> metadata) where T : IUrhoUIObject
+        public void OverrideMetadata<T>(StyledPropertyMetadata<TValue> metadata) where T : IUrhoObject
         {
             base.OverrideMetadata(typeof(T), metadata);
         }
@@ -168,7 +168,7 @@ namespace Urho3DNet.UserInterface
         }
 
         /// <inheritdoc/>
-        public override void Accept<TData>(IUrhoUIPropertyVisitor<TData> vistor, ref TData data)
+        public override void Accept<TData>(IUrhoPropertyVisitor<TData> vistor, ref TData data)
         {
             vistor.Visit(this, ref data);
         }
@@ -186,27 +186,27 @@ namespace Urho3DNet.UserInterface
         object IStyledPropertyAccessor.GetDefaultValue(Type type) => GetDefaultBoxedValue(type);
 
         /// <inheritdoc/>
-        internal override void RouteClearValue(IUrhoUIObject o)
+        internal override void RouteClearValue(IUrhoObject o)
         {
             o.ClearValue<TValue>(this);
         }
 
         /// <inheritdoc/>
-        internal override object RouteGetValue(IUrhoUIObject o)
+        internal override object RouteGetValue(IUrhoObject o)
         {
             return o.GetValue<TValue>(this);
         }
 
         /// <inheritdoc/>
-        internal override object RouteGetBaseValue(IUrhoUIObject o, BindingPriority maxPriority)
+        internal override object RouteGetBaseValue(IUrhoObject o, BindingPriority maxPriority)
         {
             var value = o.GetBaseValue<TValue>(this, maxPriority);
-            return value.HasValue ? value.Value : UrhoUIProperty.UnsetValue;
+            return value.HasValue ? value.Value : UrhoProperty.UnsetValue;
         }
 
         /// <inheritdoc/>
         internal override IDisposable RouteSetValue(
-            IUrhoUIObject o,
+            IUrhoObject o,
             object value,
             BindingPriority priority)
         {
@@ -230,7 +230,7 @@ namespace Urho3DNet.UserInterface
 
         /// <inheritdoc/>
         internal override IDisposable RouteBind(
-            IUrhoUIObject o,
+            IUrhoObject o,
             IObservable<BindingValue<object>> source,
             BindingPriority priority)
         {
@@ -240,8 +240,8 @@ namespace Urho3DNet.UserInterface
 
         /// <inheritdoc/>
         internal override void RouteInheritanceParentChanged(
-            UrhoUIObject o,
-            IUrhoUIObject oldParent)
+            UrhoObject o,
+            IUrhoObject oldParent)
         {
             o.InheritanceParentChanged(this, oldParent);
         }
@@ -254,7 +254,7 @@ namespace Urho3DNet.UserInterface
         }
 
         [DebuggerHidden]
-        private Func<IUrhoUIObject, TValue, TValue> Cast<THost>(Func<THost, TValue, TValue> validate)
+        private Func<IUrhoObject, TValue, TValue> Cast<THost>(Func<THost, TValue, TValue> validate)
         {
             return (o, v) => validate((THost)o, v);
         }

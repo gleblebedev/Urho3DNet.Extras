@@ -1,32 +1,32 @@
 using System;
-using Urho3DNet.UserInterface.Data;
+using Urho3DNet.MVVM.Data;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
-    /// Interface for getting/setting <see cref="UrhoUIProperty"/> values on an object.
+    /// Interface for getting/setting <see cref="UrhoProperty"/> values on an object.
     /// </summary>
-    public interface IUrhoUIObject
+    public interface IUrhoObject
     {
         /// <summary>
-        /// Raised when a <see cref="UrhoUIProperty"/> value changes on this object.
+        /// Raised when a <see cref="UrhoProperty"/> value changes on this object.
         /// </summary>
-        event EventHandler<UrhoUIPropertyChangedEventArgs> PropertyChanged;
+        event EventHandler<UrhoPropertyChangedEventArgs> PropertyChanged;
 
         /// <summary>
-        /// Clears an <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears an <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="property">The property.</param>
         void ClearValue<T>(StyledPropertyBase<T> property);
 
         /// <summary>
-        /// Clears an <see cref="UrhoUIProperty"/>'s local value.
+        /// Clears an <see cref="UrhoProperty"/>'s local value.
         /// </summary>
         /// <param name="property">The property.</param>
         void ClearValue<T>(DirectPropertyBase<T> property);
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -34,7 +34,7 @@ namespace Urho3DNet.UserInterface
         T GetValue<T>(StyledPropertyBase<T> property);
 
         /// <summary>
-        /// Gets a <see cref="UrhoUIProperty"/> value.
+        /// Gets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -42,7 +42,7 @@ namespace Urho3DNet.UserInterface
         T GetValue<T>(DirectPropertyBase<T> property);
 
         /// <summary>
-        /// Gets an <see cref="UrhoUIProperty"/> base value.
+        /// Gets an <see cref="UrhoProperty"/> base value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -55,21 +55,21 @@ namespace Urho3DNet.UserInterface
         Optional<T> GetBaseValue<T>(StyledPropertyBase<T> property, BindingPriority maxPriority);
 
         /// <summary>
-        /// Checks whether a <see cref="UrhoUIProperty"/> is animating.
+        /// Checks whether a <see cref="UrhoProperty"/> is animating.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>True if the property is animating, otherwise false.</returns>
-        bool IsAnimating(UrhoUIProperty property);
+        bool IsAnimating(UrhoProperty property);
 
         /// <summary>
-        /// Checks whether a <see cref="UrhoUIProperty"/> is set on this object.
+        /// Checks whether a <see cref="UrhoProperty"/> is set on this object.
         /// </summary>
         /// <param name="property">The property.</param>
         /// <returns>True if the property is set, otherwise false.</returns>
-        bool IsSet(UrhoUIProperty property);
+        bool IsSet(UrhoProperty property);
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -81,7 +81,7 @@ namespace Urho3DNet.UserInterface
             BindingPriority priority = BindingPriority.LocalValue);
 
         /// <summary>
-        /// Sets a <see cref="UrhoUIProperty"/> value.
+        /// Sets a <see cref="UrhoProperty"/> value.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -89,7 +89,7 @@ namespace Urho3DNet.UserInterface
         void SetValue<T>(DirectPropertyBase<T> property, T value);
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -104,7 +104,7 @@ namespace Urho3DNet.UserInterface
             BindingPriority priority = BindingPriority.LocalValue);
 
         /// <summary>
-        /// Binds a <see cref="UrhoUIProperty"/> to an observable.
+        /// Binds a <see cref="UrhoProperty"/> to an observable.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -117,7 +117,7 @@ namespace Urho3DNet.UserInterface
             IObservable<BindingValue<T>> source);
 
         /// <summary>
-        /// Coerces the specified <see cref="UrhoUIProperty"/>.
+        /// Coerces the specified <see cref="UrhoProperty"/>.
         /// </summary>
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="property">The property.</param>
@@ -129,10 +129,10 @@ namespace Urho3DNet.UserInterface
         /// <param name="child">The inheritance child.</param>
         /// <remarks>
         /// Inheritance children will receive a call to
-        /// <see cref="InheritedPropertyChanged{T}(UrhoUIProperty{T}, Optional{T}, Optional{T})"/>
+        /// <see cref="InheritedPropertyChanged{T}(UrhoProperty{TValue}, Optional{T}, Optional{T})"/>
         /// when an inheritable property value changes on the parent.
         /// </remarks>
-        void AddInheritanceChild(IUrhoUIObject child);
+        void AddInheritanceChild(IUrhoObject child);
 
         /// <summary>
         /// Unregisters an object as an inheritance child.
@@ -140,9 +140,9 @@ namespace Urho3DNet.UserInterface
         /// <param name="child">The inheritance child.</param>
         /// <remarks>
         /// Removes an inheritance child that was added by a call to
-        /// <see cref="AddInheritanceChild(IUrhoUIObject)"/>.
+        /// <see cref="AddInheritanceChild(IUrhoObject)"/>.
         /// </remarks>
-        void RemoveInheritanceChild(IUrhoUIObject child);
+        void RemoveInheritanceChild(IUrhoObject child);
 
         /// <summary>
         /// Called when an inheritable property changes on an object registered as an inheritance
@@ -153,7 +153,7 @@ namespace Urho3DNet.UserInterface
         /// <param name="oldValue"></param>
         /// <param name="newValue"></param>
         void InheritedPropertyChanged<T>(
-            UrhoUIProperty<T> property,
+            UrhoProperty<T> property,
             Optional<T> oldValue,
             Optional<T> newValue);
     }

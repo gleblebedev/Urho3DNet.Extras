@@ -1,4 +1,4 @@
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// Untyped interface to <see cref="DirectPropertyMetadata{TValue}"/>
@@ -6,7 +6,7 @@ namespace Urho3DNet.UserInterface
     public interface IDirectPropertyMetadata
     {
         /// <summary>
-        /// Gets the to use when the property is set to <see cref="UrhoUIProperty.UnsetValue"/>.
+        /// Gets the to use when the property is set to <see cref="UrhoProperty.UnsetValue"/>.
         /// </summary>
         object UnsetValue { get; }
 

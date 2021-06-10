@@ -1,6 +1,6 @@
-﻿namespace Urho3DNet.UserInterface
+﻿namespace Urho3DNet.MVVM
 {
-    public abstract class UrhoUIControl: UrhoUIObject
+    public abstract class UrhoControl: UrhoObject
     {
     }
 }

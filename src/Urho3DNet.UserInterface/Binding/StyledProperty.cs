@@ -1,6 +1,6 @@
 using System;
 
-namespace Urho3DNet.UserInterface
+namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
     /// A styled avalonia property.
@@ -15,14 +15,14 @@ namespace Urho3DNet.UserInterface
         /// <param name="metadata">The property metadata.</param>
         /// <param name="inherits">Whether the property inherits its value.</param>
         /// <param name="validate">A value validation callback.</param>
-        /// <param name="notifying">A <see cref="UrhoUIProperty.Notifying"/> callback.</param>
+        /// <param name="notifying">A <see cref="UrhoProperty.Notifying"/> callback.</param>
         public StyledProperty(
             string name,
             Type ownerType,
             StyledPropertyMetadata<TValue> metadata,
             bool inherits = false,
             Func<TValue, bool> validate = null,
-            Action<IUrhoUIObject, bool> notifying = null)
+            Action<IUrhoObject, bool> notifying = null)
             : base(name, ownerType, metadata, inherits, validate, notifying)
         {
         }
@@ -42,9 +42,9 @@ namespace Urho3DNet.UserInterface
         /// </summary>
         /// <typeparam name="TOwner">The type of the additional owner.</typeparam>
         /// <returns>The property.</returns>        
-        public StyledProperty<TValue> AddOwner<TOwner>() where TOwner : IUrhoUIObject
+        public StyledProperty<TValue> AddOwner<TOwner>() where TOwner : IUrhoObject
         {
-            UrhoUIPropertyRegistry.Instance.Register(typeof(TOwner), this);
+            UrhoPropertyRegistry.Instance.Register(typeof(TOwner), this);
             return this;
         }
     }
