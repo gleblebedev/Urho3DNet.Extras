@@ -240,7 +240,7 @@ namespace Urho3DNet.MVVM.Binding
 
         /// <inheritdoc/>
         internal override void RouteInheritanceParentChanged(
-            UrhoObject o,
+            ObjectView o,
             IUrhoObject oldParent)
         {
             o.InheritanceParentChanged(this, oldParent);

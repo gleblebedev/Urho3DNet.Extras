@@ -20,7 +20,7 @@ namespace Urho3DNet.MVVM.Binding
         }
 
         /// <summary>
-        /// Gets the <see cref="UrhoObject"/> that the property changed on.
+        /// Gets the <see cref="ObjectView"/> that the property changed on.
         /// </summary>
         /// <value>The sender object.</value>
         public IUrhoObject Sender { get; }
@@ -57,7 +57,7 @@ namespace Urho3DNet.MVVM.Binding
         /// </summary>
         /// <remarks>
         /// This will usually be true, except in
-        /// <see cref="UrhoObject.OnPropertyChangedCore{T}(UrhoPropertyChangedEventArgs{T})"/>
+        /// <see cref="ObjectView.OnPropertyChangedCore{T}(UrhoPropertyChangedEventArgs{T})"/>
         /// which recieves notifications for all changes to property values, whether a value with a higher
         /// priority is present or not. When this property is false, the change that is being signalled
         /// has not resulted in a change to the property value on the object.

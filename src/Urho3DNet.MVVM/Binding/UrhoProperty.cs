@@ -129,11 +129,11 @@ namespace Urho3DNet.MVVM.Binding
 
         /// <summary>
         /// Gets an observable that is fired when this property changes on any
-        /// <see cref="UrhoObject"/> instance.
+        /// <see cref="ObjectView"/> instance.
         /// </summary>
         /// <value>
         /// An observable that is fired when this property changes on any
-        /// <see cref="UrhoObject"/> instance.
+        /// <see cref="ObjectView"/> instance.
         /// </value>
         public IObservable<UrhoPropertyChangedEventArgs> Changed => GetChanged();
 
@@ -144,7 +144,7 @@ namespace Urho3DNet.MVVM.Binding
         /// <remarks>
         /// When a property changes, change notifications are sent to all property subscribers;
         /// for example via the <see cref="UrhoProperty.Changed"/> observable and and the
-        /// <see cref="UrhoObject.PropertyChanged"/> event. If this callback is set for a property,
+        /// <see cref="ObjectView.PropertyChanged"/> event. If this callback is set for a property,
         /// then it will be called before and after these notifications take place. The bool argument
         /// will be true before the property change notifications are sent and false afterwards. This
         /// callback is intended to support Control.IsDataContextChanging.
@@ -157,7 +157,7 @@ namespace Urho3DNet.MVVM.Binding
         internal int Id { get; }
 
         /// <summary>
-        /// Provides access to a property's binding via the <see cref="UrhoObject"/>
+        /// Provides access to a property's binding via the <see cref="ObjectView"/>
         /// indexer.
         /// </summary>
         /// <param name="property">The property.</param>
@@ -172,7 +172,7 @@ namespace Urho3DNet.MVVM.Binding
         }
 
         /// <summary>
-        /// Provides access to a property's template binding via the <see cref="UrhoObject"/>
+        /// Provides access to a property's template binding via the <see cref="ObjectView"/>
         /// indexer.
         /// </summary>
         /// <param name="property">The property.</param>
@@ -378,7 +378,7 @@ namespace Urho3DNet.MVVM.Binding
         }
 
         /// <summary>
-        /// Returns a binding accessor that can be passed to <see cref="UrhoObject"/>'s []
+        /// Returns a binding accessor that can be passed to <see cref="ObjectView"/>'s []
         /// operator to initiate a binding.
         /// </summary>
         /// <returns>A <see cref="IndexerDescriptor"/>.</returns>
@@ -514,7 +514,7 @@ namespace Urho3DNet.MVVM.Binding
             IObservable<BindingValue<object>> source,
             BindingPriority priority);
 
-        internal abstract void RouteInheritanceParentChanged(UrhoObject o, IUrhoObject oldParent);
+        internal abstract void RouteInheritanceParentChanged(ObjectView o, IUrhoObject oldParent);
 
         /// <summary>
         /// Overrides the metadata for the property on the specified type.
@@ -575,8 +575,8 @@ namespace Urho3DNet.MVVM.Binding
 
         bool IPropertyInfo.CanGet => true;
         bool IPropertyInfo.CanSet => true;
-        object IPropertyInfo.Get(object target) => ((UrhoObject)target).GetValue(this);
-        void IPropertyInfo.Set(object target, object value) => ((UrhoObject)target).SetValue(this, value);
+        object IPropertyInfo.Get(object target) => ((ObjectView)target).GetValue(this);
+        void IPropertyInfo.Set(object target, object value) => ((ObjectView)target).SetValue(this, value);
     }
 
     /// <summary>

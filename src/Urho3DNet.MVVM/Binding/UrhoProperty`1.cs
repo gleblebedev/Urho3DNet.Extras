@@ -62,11 +62,11 @@ namespace Urho3DNet.MVVM.Binding
 
         /// <summary>
         /// Gets an observable that is fired when this property changes on any
-        /// <see cref="UrhoObject"/> instance.
+        /// <see cref="ObjectView"/> instance.
         /// </summary>
         /// <value>
         /// An observable that is fired when this property changes on any
-        /// <see cref="UrhoObject"/> instance.
+        /// <see cref="ObjectView"/> instance.
         /// </value>
 
         public new IObservable<UrhoPropertyChangedEventArgs<TValue>> Changed => _changed;

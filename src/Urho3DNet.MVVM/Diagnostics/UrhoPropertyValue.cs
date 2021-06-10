@@ -5,7 +5,7 @@ namespace Urho3DNet.MVVM.Diagnostics
 {
     /// <summary>
     /// Holds diagnostic-related information about the value of a <see cref="UrhoProperty"/>
-    /// on a <see cref="UrhoObject"/>.
+    /// on a <see cref="ObjectView"/>.
     /// </summary>
     public class UrhoPropertyValue
     {

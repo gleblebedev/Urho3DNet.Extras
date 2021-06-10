@@ -9,7 +9,7 @@ using Urho3DNet.MVVM.Utilities;
 namespace Urho3DNet.MVVM.Binding
 {
     /// <summary>
-    /// Stores styled property values for an <see cref="UrhoObject"/>.
+    /// Stores styled property values for an <see cref="ObjectView"/>.
     /// </summary>
     /// <remarks>
     /// At its core this class consists of an <see cref="UrhoProperty"/> to 
@@ -24,12 +24,12 @@ namespace Urho3DNet.MVVM.Binding
     /// </remarks>
     internal class ValueStore : IValueSink
     {
-        private readonly UrhoObject _owner;
+        private readonly ObjectView _owner;
         private readonly IValueSink _sink;
         private readonly UrhoPropertyValueStore<IValue> _values;
         private BatchUpdate? _batchUpdate;
 
-        public ValueStore(UrhoObject owner)
+        public ValueStore(ObjectView owner)
         {
             _sink = _owner = owner;
             _values = new UrhoPropertyValueStore<IValue>();

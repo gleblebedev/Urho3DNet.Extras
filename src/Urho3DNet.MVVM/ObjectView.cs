@@ -24,14 +24,19 @@ namespace Urho3DNet.MVVM
         private List<IUrhoObject> _inheritanceChildren;
         private ValueStore _values;
         private bool _batchUpdate;
+        private Object _target;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectView"/> class.
         /// </summary>
-        public ObjectView()
+        public ObjectView(Object target)
         {
-            VerifyAccess();
+            _target = target;
+            SubscribeToEvents(_target);
+            //VerifyAccess();
         }
+
+        public Object Target => _target;
 
         /// <summary>
         /// Raised when a <see cref="UrhoProperty"/> value changes on this object.
@@ -49,6 +54,14 @@ namespace Urho3DNet.MVVM
         {
             add { _inpcChanged += value; }
             remove { _inpcChanged -= value; }
+        }
+
+        protected virtual void SubscribeToEvents(Object target)
+        {
+        }
+
+        protected virtual void UnsubscribeFromEvents(Object target)
+        {
         }
 
         /// <summary>

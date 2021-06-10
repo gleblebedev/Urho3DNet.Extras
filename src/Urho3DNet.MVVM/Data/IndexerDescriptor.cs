@@ -5,7 +5,7 @@ using Urho3DNet.MVVM.Binding;
 namespace Urho3DNet.MVVM.Data
 {
     /// <summary>
-    /// Holds a description of a binding for <see cref="UrhoObject"/>'s [] operator.
+    /// Holds a description of a binding for <see cref="ObjectView"/>'s [] operator.
     /// </summary>
     public class IndexerDescriptor : ObservableBase<object>, IDescription
     {
@@ -39,7 +39,7 @@ namespace Urho3DNet.MVVM.Data
         /// <summary>
         /// Gets or sets the source object.
         /// </summary>
-        public UrhoObject Source
+        public ObjectView Source
         {
             get;
             set;
