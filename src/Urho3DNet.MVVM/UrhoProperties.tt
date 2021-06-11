@@ -11,21 +11,8 @@ using Urho3DNet.MVVM.Binding;
 
 namespace Urho3DNet.MVVM
 {
-<# Action<string, string, Tuple<string,Type>[]> PrintPropertiesForClass = (name, baseName, properties) => { #>
-    public partial class <#=name#>View : <#=baseName#>View
-    {
-        private <#=name#> _target;
-
-        public <#=name#>View(<#=name#> target): base(target)
-        {
-            _target = target;
-        }
-
-        public new <#=name#> Target => _target;
-
-<# foreach (var property in properties) {
-    var propertyName = property.Item1;
-    var propertyType = property.Item2;
+<#
+Func<Type, string> GetTypeName = (propertyType)=>{
     var propertyTypeName = propertyType.Name;
     if (propertyType == typeof(float))
         propertyTypeName = "float";
@@ -37,6 +24,31 @@ namespace Urho3DNet.MVVM
         propertyTypeName = "int";
     else if (propertyType == typeof(uint))
         propertyTypeName = "uint";
+    return propertyTypeName;
+};
+Action<string, string, Tuple<string,Type>[]> PrintPropertiesForClass = (name, baseName, properties) => { #>
+    public partial class <#=name#>View : <#=baseName#>View
+    {
+        private <#=name#> _target;
+
+        public <#=name#>View(<#=name#> target): base(target)
+        {
+            _target = target;
+<# foreach (var property in properties) {
+    var propertyName = property.Item1;
+    var propertyType = property.Item2;
+    var propertyTypeName = GetTypeName(propertyType);
+#>
+            _lastKnown<#=propertyName#> = target.<#=propertyName#>;
+<# } #>
+        }
+
+        public new <#=name#> Target => _target;
+
+<# foreach (var property in properties) {
+    var propertyName = property.Item1;
+    var propertyType = property.Item2;
+    var propertyTypeName = GetTypeName(propertyType);
 #>
         #region Property <#=propertyName#>
 

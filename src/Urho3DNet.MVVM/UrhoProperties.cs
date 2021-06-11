@@ -9,6 +9,48 @@ namespace Urho3DNet.MVVM
         public UIElementView(UIElement target): base(target)
         {
             _target = target;
+            _lastKnownName = target.Name;
+            _lastKnownPosition = target.Position;
+            _lastKnownSize = target.Size;
+            _lastKnownWidth = target.Width;
+            _lastKnownHeight = target.Height;
+            _lastKnownMinSize = target.MinSize;
+            _lastKnownMinWidth = target.MinWidth;
+            _lastKnownMinHeight = target.MinHeight;
+            _lastKnownMaxSize = target.MaxSize;
+            _lastKnownMaxWidth = target.MaxWidth;
+            _lastKnownMaxHeight = target.MaxHeight;
+            _lastKnownChildOffset = target.ChildOffset;
+            _lastKnownHorizontalAlignment = target.HorizontalAlignment;
+            _lastKnownVerticalAlignment = target.VerticalAlignment;
+            _lastKnownEnableAnchor = target.EnableAnchor;
+            _lastKnownMinAnchor = target.MinAnchor;
+            _lastKnownMaxAnchor = target.MaxAnchor;
+            _lastKnownMinOffset = target.MinOffset;
+            _lastKnownMaxOffset = target.MaxOffset;
+            _lastKnownPivot = target.Pivot;
+            _lastKnownClipBorder = target.ClipBorder;
+            _lastKnownPriority = target.Priority;
+            _lastKnownOpacity = target.Opacity;
+            _lastKnownBringToBack = target.BringToBack;
+            _lastKnownClipChildren = target.ClipChildren;
+            _lastKnownUseDerivedOpacity = target.UseDerivedOpacity;
+            _lastKnownIsEnabled = target.IsEnabled;
+            _lastKnownIsEditable = target.IsEditable;
+            _lastKnownIsSelected = target.IsSelected;
+            _lastKnownIsVisible = target.IsVisible;
+            _lastKnownIsHovering = target.IsHovering;
+            _lastKnownIsInternal = target.IsInternal;
+            _lastKnownFocusMode = target.FocusMode;
+            _lastKnownDragDropMode = target.DragDropMode;
+            _lastKnownLayoutMode = target.LayoutMode;
+            _lastKnownLayoutSpacing = target.LayoutSpacing;
+            _lastKnownLayoutBorder = target.LayoutBorder;
+            _lastKnownLayoutFlexScale = target.LayoutFlexScale;
+            _lastKnownIndent = target.Indent;
+            _lastKnownIndentSpacing = target.IndentSpacing;
+            _lastKnownTraversalMode = target.TraversalMode;
+            _lastKnownIsElementEventSender = target.IsElementEventSender;
         }
 
         public new UIElement Target => _target;
@@ -1071,6 +1113,7 @@ namespace Urho3DNet.MVVM
         public AnimatableView(Animatable target): base(target)
         {
             _target = target;
+            _lastKnownAnimationEnabled = target.AnimationEnabled;
         }
 
         public new Animatable Target => _target;
@@ -1108,6 +1151,7 @@ namespace Urho3DNet.MVVM
         public SerializableView(Serializable target): base(target)
         {
             _target = target;
+            _lastKnownIsTemporary = target.IsTemporary;
         }
 
         public new Serializable Target => _target;
@@ -1145,6 +1189,14 @@ namespace Urho3DNet.MVVM
         public BorderImageView(BorderImage target): base(target)
         {
             _target = target;
+            _lastKnownImageRect = target.ImageRect;
+            _lastKnownBorder = target.Border;
+            _lastKnownImageBorder = target.ImageBorder;
+            _lastKnownHoverOffset = target.HoverOffset;
+            _lastKnownDisabledOffset = target.DisabledOffset;
+            _lastKnownBlendMode = target.BlendMode;
+            _lastKnownIsTiled = target.IsTiled;
+            _lastKnownMaterial = target.Material;
         }
 
         public new BorderImage Target => _target;
@@ -1357,6 +1409,10 @@ namespace Urho3DNet.MVVM
         public ButtonView(Button target): base(target)
         {
             _target = target;
+            _lastKnownPressedOffset = target.PressedOffset;
+            _lastKnownPressedChildOffset = target.PressedChildOffset;
+            _lastKnownRepeatDelay = target.RepeatDelay;
+            _lastKnownRepeatRate = target.RepeatRate;
         }
 
         public new Button Target => _target;
@@ -1469,6 +1525,8 @@ namespace Urho3DNet.MVVM
         public CheckBoxView(CheckBox target): base(target)
         {
             _target = target;
+            _lastKnownIsChecked = target.IsChecked;
+            _lastKnownCheckedOffset = target.CheckedOffset;
         }
 
         public new CheckBox Target => _target;
@@ -1531,6 +1589,8 @@ namespace Urho3DNet.MVVM
         public CursorView(Cursor target): base(target)
         {
             _target = target;
+            _lastKnownShape = target.Shape;
+            _lastKnownUseSystemShapes = target.UseSystemShapes;
         }
 
         public new Cursor Target => _target;
@@ -1593,6 +1653,9 @@ namespace Urho3DNet.MVVM
         public DropDownListView(DropDownList target): base(target)
         {
             _target = target;
+            _lastKnownSelection = target.Selection;
+            _lastKnownPlaceholderText = target.PlaceholderText;
+            _lastKnownResizePopup = target.ResizePopup;
         }
 
         public new DropDownList Target => _target;
@@ -1680,6 +1743,7 @@ namespace Urho3DNet.MVVM
         public MenuView(Menu target): base(target)
         {
             _target = target;
+            _lastKnownPopupOffset = target.PopupOffset;
         }
 
         public new Menu Target => _target;
@@ -1717,6 +1781,14 @@ namespace Urho3DNet.MVVM
         public LineEditView(LineEdit target): base(target)
         {
             _target = target;
+            _lastKnownText = target.Text;
+            _lastKnownCursorPosition = target.CursorPosition;
+            _lastKnownCursorBlinkRate = target.CursorBlinkRate;
+            _lastKnownMaxLength = target.MaxLength;
+            _lastKnownEchoCharacter = target.EchoCharacter;
+            _lastKnownIsCursorMovable = target.IsCursorMovable;
+            _lastKnownIsTextSelectable = target.IsTextSelectable;
+            _lastKnownIsTextCopyable = target.IsTextCopyable;
         }
 
         public new LineEdit Target => _target;
@@ -1929,6 +2001,12 @@ namespace Urho3DNet.MVVM
         public ListViewView(ListView target): base(target)
         {
             _target = target;
+            _lastKnownSelection = target.Selection;
+            _lastKnownMultiselect = target.Multiselect;
+            _lastKnownClearSelectionOnDefocus = target.ClearSelectionOnDefocus;
+            _lastKnownSelectOnClickEnd = target.SelectOnClickEnd;
+            _lastKnownHierarchyMode = target.HierarchyMode;
+            _lastKnownBaseIndent = target.BaseIndent;
         }
 
         public new ListView Target => _target;
@@ -2091,6 +2169,16 @@ namespace Urho3DNet.MVVM
         public ScrollViewView(ScrollView target): base(target)
         {
             _target = target;
+            _lastKnownViewPosition = target.ViewPosition;
+            _lastKnownScrollBarsAutoVisible = target.ScrollBarsAutoVisible;
+            _lastKnownHorizontalScrollBarVisible = target.HorizontalScrollBarVisible;
+            _lastKnownVerticalScrollBarVisible = target.VerticalScrollBarVisible;
+            _lastKnownScrollStep = target.ScrollStep;
+            _lastKnownPageStep = target.PageStep;
+            _lastKnownScrollDeceleration = target.ScrollDeceleration;
+            _lastKnownScrollSnapEpsilon = target.ScrollSnapEpsilon;
+            _lastKnownAutoDisableChildren = target.AutoDisableChildren;
+            _lastKnownAutoDisableThreshold = target.AutoDisableThreshold;
         }
 
         public new ScrollView Target => _target;
@@ -2353,6 +2441,11 @@ namespace Urho3DNet.MVVM
         public ProgressBarView(ProgressBar target): base(target)
         {
             _target = target;
+            _lastKnownOrientation = target.Orientation;
+            _lastKnownRange = target.Range;
+            _lastKnownValue = target.Value;
+            _lastKnownLoadingPercentStyle = target.LoadingPercentStyle;
+            _lastKnownShowPercentText = target.ShowPercentText;
         }
 
         public new ProgressBar Target => _target;
@@ -2490,6 +2583,11 @@ namespace Urho3DNet.MVVM
         public ScrollBarView(ScrollBar target): base(target)
         {
             _target = target;
+            _lastKnownOrientation = target.Orientation;
+            _lastKnownRange = target.Range;
+            _lastKnownValue = target.Value;
+            _lastKnownScrollStep = target.ScrollStep;
+            _lastKnownStepFactor = target.StepFactor;
         }
 
         public new ScrollBar Target => _target;
@@ -2627,6 +2725,10 @@ namespace Urho3DNet.MVVM
         public SliderView(Slider target): base(target)
         {
             _target = target;
+            _lastKnownOrientation = target.Orientation;
+            _lastKnownRange = target.Range;
+            _lastKnownValue = target.Value;
+            _lastKnownRepeatRate = target.RepeatRate;
         }
 
         public new Slider Target => _target;
@@ -2699,6 +2801,7 @@ namespace Urho3DNet.MVVM
             {
                 SetAndRaise(ValueProperty, _lastKnownValue, value, _ =>
                 {
+                    SetValue(ValueProperty, value);
                     _lastKnownValue = value;
                     _target.Value = value;
                 });
@@ -2739,6 +2842,12 @@ namespace Urho3DNet.MVVM
         public SpriteView(Sprite target): base(target)
         {
             _target = target;
+            _lastKnownPosition = target.Position;
+            _lastKnownHotSpot = target.HotSpot;
+            _lastKnownScale = target.Scale;
+            _lastKnownRotation = target.Rotation;
+            _lastKnownImageRect = target.ImageRect;
+            _lastKnownBlendMode = target.BlendMode;
         }
 
         public new Sprite Target => _target;
@@ -2901,6 +3010,17 @@ namespace Urho3DNet.MVVM
         public TextView(Text target): base(target)
         {
             _target = target;
+            _lastKnownFontSize = target.FontSize;
+            _lastKnownTextAlignment = target.TextAlignment;
+            _lastKnownRowSpacing = target.RowSpacing;
+            _lastKnownWordwrap = target.Wordwrap;
+            _lastKnownAutoLocalizable = target.AutoLocalizable;
+            _lastKnownEffectShadowOffset = target.EffectShadowOffset;
+            _lastKnownEffectStrokeThickness = target.EffectStrokeThickness;
+            _lastKnownEffectRoundStroke = target.EffectRoundStroke;
+            _lastKnownEffectColor = target.EffectColor;
+            _lastKnownEffectDepthBias = target.EffectDepthBias;
+            _lastKnownTextAttr = target.TextAttr;
         }
 
         public new Text Target => _target;
@@ -3188,6 +3308,8 @@ namespace Urho3DNet.MVVM
         public UISelectableView(UISelectable target): base(target)
         {
             _target = target;
+            _lastKnownSelectionColor = target.SelectionColor;
+            _lastKnownHoverColor = target.HoverColor;
         }
 
         public new UISelectable Target => _target;
@@ -3250,6 +3372,7 @@ namespace Urho3DNet.MVVM
         public ToolTipView(ToolTip target): base(target)
         {
             _target = target;
+            _lastKnownDelay = target.Delay;
         }
 
         public new ToolTip Target => _target;
@@ -3287,6 +3410,8 @@ namespace Urho3DNet.MVVM
         public View3DView(View3D target): base(target)
         {
             _target = target;
+            _lastKnownFormat = target.Format;
+            _lastKnownAutoUpdate = target.AutoUpdate;
         }
 
         public new View3D Target => _target;
@@ -3349,6 +3474,16 @@ namespace Urho3DNet.MVVM
         public WindowView(Window target): base(target)
         {
             _target = target;
+            _lastKnownIsMovable = target.IsMovable;
+            _lastKnownIsResizable = target.IsResizable;
+            _lastKnownFixedWidthResizing = target.FixedWidthResizing;
+            _lastKnownFixedHeightResizing = target.FixedHeightResizing;
+            _lastKnownResizeBorder = target.ResizeBorder;
+            _lastKnownIsModal = target.IsModal;
+            _lastKnownModalShadeColor = target.ModalShadeColor;
+            _lastKnownModalFrameColor = target.ModalFrameColor;
+            _lastKnownModalFrameSize = target.ModalFrameSize;
+            _lastKnownModalAutoDismiss = target.ModalAutoDismiss;
         }
 
         public new Window Target => _target;

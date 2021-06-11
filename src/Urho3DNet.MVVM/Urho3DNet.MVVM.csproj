@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Logging\" />
+    <Folder Include="Styling\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.5.4" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
     <PackageReference Include="System.Reactive.Interfaces" Version="5.0.0" />
