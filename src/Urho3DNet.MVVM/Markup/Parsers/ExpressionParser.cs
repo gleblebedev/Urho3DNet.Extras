@@ -6,6 +6,8 @@ using Urho3DNet.MVVM.Data.Core;
 using Urho3DNet.MVVM.Markup.Parsers.Nodes;
 using Urho3DNet.MVVM.Utilities;
 
+#nullable enable
+
 namespace Urho3DNet.MVVM.Markup.Parsers
 {
     internal class ExpressionParser

@@ -192,7 +192,7 @@ namespace Urho3DNet.MVVM.Data
         /// Gets the value of the binding value if present, otherwise the default value.
         /// </summary>
         /// <returns>The value.</returns>
-        /*[return: MaybeNull]*/
+        [return: MaybeNull]
         public T GetValueOrDefault() => HasValue ? _value : default;
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Urho3DNet.MVVM.Data
         /// The value if present and of the correct type, `default(TResult)` if the value is
         /// not present or of an incorrect type.
         /// </returns>
-        /*[return: MaybeNull]*/
+        [return: MaybeNull]
         public TResult GetValueOrDefault<TResult>()
         {
             return HasValue ?
@@ -226,7 +226,7 @@ namespace Urho3DNet.MVVM.Data
         /// present but not of the correct type or null, or <paramref name="defaultValue"/> if the
         /// value is not present.
         /// </returns>
-        /*[return: MaybeNull]*/
+        [return: MaybeNull]
         public TResult GetValueOrDefault<TResult>(/*[AllowNull]*/ TResult defaultValue)
         {
             return HasValue ?

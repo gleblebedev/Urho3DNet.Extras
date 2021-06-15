@@ -16,7 +16,7 @@
 
         private void HandleSliderChanged(VariantMap args)
         {
-            Value = _target.Value;
+            SetValue(ValueProperty, _target.Value);
         }
     }
 }

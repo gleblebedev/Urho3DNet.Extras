@@ -11,6 +11,8 @@ using Urho3DNet.MVVM.Data;
 using Urho3DNet.MVVM.Data.Core;
 using Urho3DNet.MVVM.Utilities;
 
+#nullable enable
+
 namespace Urho3DNet.MVVM.Markup.Parsers.Nodes
 {
     internal class StringIndexerNode : IndexerNodeBase

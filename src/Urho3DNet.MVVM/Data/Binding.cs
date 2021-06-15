@@ -4,6 +4,8 @@ using Urho3DNet.MVVM.Controls;
 using Urho3DNet.MVVM.Data.Core;
 using Urho3DNet.MVVM.Markup.Parsers;
 
+#nullable enable
+
 namespace Urho3DNet.MVVM.Data
 {
     /// <summary>

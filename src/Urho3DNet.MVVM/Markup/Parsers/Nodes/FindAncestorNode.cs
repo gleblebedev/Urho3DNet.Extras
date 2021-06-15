@@ -2,6 +2,8 @@
 using Urho3DNet.MVVM.Data.Core;
 using Urho3DNet.MVVM.LogicalTree;
 
+#nullable enable
+
 namespace Urho3DNet.MVVM.Markup.Parsers.Nodes
 {
     public class FindAncestorNode : ExpressionNode

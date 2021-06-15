@@ -8,6 +8,8 @@ using Urho3DNet.MVVM.Binding;
 using Urho3DNet.MVVM.Data.Converters;
 using Urho3DNet.MVVM.Metadata;
 
+#nullable enable
+
 namespace Urho3DNet.MVVM.Data
 {
     /// <summary>

@@ -20,8 +20,11 @@ namespace Urho3DNet.MVVM.Tests
                 var t = type;
                 while (visited.Add(t))
                 {
+                    var baseTypeName = t.BaseType.Name;
+                    if (t == typeof(UIElement))
+                        baseTypeName = "Visual";
                     System.Console.WriteLine(
-                        $"PrintPropertiesForClass(\"{t.Name}\", \"{t.BaseType.Name}\", new Tuple<string,Type>[]{{");
+                        $"PrintPropertiesForClass(\"{t.Name}\", \"{baseTypeName}\", new Tuple<string,Type>[]{{");
                     foreach (var propertyInfo in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
                         if (propertyInfo.DeclaringType != t)

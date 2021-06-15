@@ -10,6 +10,7 @@ using Urho3DNet.MVVM.LogicalTree;
 using Urho3DNet.MVVM.Reactive;
 using Urho3DNet.MVVM.VisualTree;
 
+#nullable enable
 
 namespace Urho3DNet.MVVM.Data
 {

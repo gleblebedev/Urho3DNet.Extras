@@ -2,7 +2,7 @@
 
 namespace Urho3DNet.MVVM
 {
-    public partial class UIElementView : AnimatableView
+    public partial class UIElementView : Visual
     {
         private UIElement _target;
 
@@ -2801,7 +2801,6 @@ namespace Urho3DNet.MVVM
             {
                 SetAndRaise(ValueProperty, _lastKnownValue, value, _ =>
                 {
-                    SetValue(ValueProperty, value);
                     _lastKnownValue = value;
                     _target.Value = value;
                 });
