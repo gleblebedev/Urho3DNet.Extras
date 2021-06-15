@@ -25,8 +25,8 @@ namespace Urho3DNet.MVVM.Data.Core
             new List<IPropertyAccessorPlugin>
             {
                 new UrhoPropertyAccessorPlugin(),
-                //new MethodAccessorPlugin(),
-                //new InpcPropertyAccessorPlugin(),
+                new MethodAccessorPlugin(),
+                new InpcPropertyAccessorPlugin(),
             };
 
         /// <summary>
