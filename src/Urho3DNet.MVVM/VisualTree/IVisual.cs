@@ -69,10 +69,10 @@ namespace Urho3DNet.MVVM.VisualTree
         ///// </summary>
         //TransformedBounds? TransformedBounds { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether the control should be clipped to its bounds.
-        /// </summary>
-        bool ClipToBounds { get; set; }
+        ///// <summary>
+        ///// Gets a value indicating whether the control should be clipped to its bounds.
+        ///// </summary>
+        //bool ClipToBounds { get; set; }
 
         ///// <summary>
         ///// Gets or sets the geometry clip for this visual.
@@ -129,15 +129,15 @@ namespace Urho3DNet.MVVM.VisualTree
         /// </summary>
         IRenderRoot VisualRoot { get; }
 
-        /// <summary>
-        /// Gets or sets the Z index of the node.
-        /// </summary>
-        int ZIndex { get; set; }
+        ///// <summary>
+        ///// Gets or sets the Z index of the node.
+        ///// </summary>
+        //int ZIndex { get; set; }
 
-        /// <summary>
-        /// Invalidates the visual and queues a repaint.
-        /// </summary>
-        void InvalidateVisual();
+        ///// <summary>
+        ///// Invalidates the visual and queues a repaint.
+        ///// </summary>
+        //void InvalidateVisual();
 
         ///// <summary>
         ///// Renders the control to a <see cref="DrawingContext"/>.

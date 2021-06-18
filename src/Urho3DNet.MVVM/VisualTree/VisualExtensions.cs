@@ -394,18 +394,18 @@ namespace Urho.VisualTree
             return false;
         }
 
-        public static IEnumerable<IVisual> SortByZIndex(this IEnumerable<IVisual> elements)
-        {
-            return elements
-                .Select((element, index) => new ZOrderElement
-                {
-                    Element = element,
-                    Index = index,
-                    ZIndex = element.ZIndex,
-                })
-                .OrderBy(x => x, null)
-                .Select(x => x.Element);
-        }
+        //public static IEnumerable<IVisual> SortByZIndex(this IEnumerable<IVisual> elements)
+        //{
+        //    return elements
+        //        .Select((element, index) => new ZOrderElement
+        //        {
+        //            Element = element,
+        //            Index = index,
+        //            ZIndex = element.ZIndex,
+        //        })
+        //        .OrderBy(x => x, null)
+        //        .Select(x => x.Element);
+        //}
 
         private static T FindDescendantOfTypeCore<T>(IVisual visual) where T : class
         {

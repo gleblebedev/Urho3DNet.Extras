@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Urho3DNet.MVVM.Collections;
+using Urho3DNet.MVVM.Controls;
 
 namespace Urho3DNet.MVVM.LogicalTree
 {
@@ -21,6 +22,11 @@ namespace Urho3DNet.MVVM.LogicalTree
         event EventHandler<LogicalTreeAttachmentEventArgs> DetachedFromLogicalTree;
 
         /// <summary>
+        /// Gets a value indicating whether the element is attached to a rooted logical tree.
+        /// </summary>
+        bool IsAttachedToLogicalTree { get; }
+
+        /// <summary>
         /// Gets the logical parent.
         /// </summary>
         ILogical LogicalParent { get; }
@@ -29,5 +35,35 @@ namespace Urho3DNet.MVVM.LogicalTree
         /// Gets the logical children.
         /// </summary>
         IUrhoReadOnlyList<ILogical> LogicalChildren { get; }
+
+        /// <summary>
+        /// Notifies the control that it is being attached to a rooted logical tree.
+        /// </summary>
+        /// <param name="e">The event args.</param>
+        /// <remarks>
+        /// This method will be called automatically by the framework, you should not need to call
+        /// this method yourself.
+        /// </remarks>
+        void NotifyAttachedToLogicalTree(LogicalTreeAttachmentEventArgs e);
+
+        /// <summary>
+        /// Notifies the control that it is being detached from a rooted logical tree.
+        /// </summary>
+        /// <param name="e">The event args.</param>
+        /// <remarks>
+        /// This method will be called automatically by the framework, you should not need to call
+        /// this method yourself.
+        /// </remarks>
+        void NotifyDetachedFromLogicalTree(LogicalTreeAttachmentEventArgs e);
+
+        /// <summary>
+        /// Notifies the control that a change has been made to resources that apply to it.
+        /// </summary>
+        /// <param name="e">The event args.</param>
+        /// <remarks>
+        /// This method will be called automatically by the framework, you should not need to call
+        /// this method yourself.
+        /// </remarks>
+        void NotifyResourcesChanged(ResourcesChangedEventArgs e);
     }
 }
