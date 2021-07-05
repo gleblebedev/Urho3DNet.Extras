@@ -1,8 +1,9 @@
 ﻿using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Layout;
 
 namespace Urho3DNet.MVVM
 {
-    public partial class UIElementView : Visual
+    public partial class UIElementView : Layoutable
     {
         private UIElement _target;
 
@@ -21,8 +22,6 @@ namespace Urho3DNet.MVVM
             _lastKnownMaxWidth = target.MaxWidth;
             _lastKnownMaxHeight = target.MaxHeight;
             _lastKnownChildOffset = target.ChildOffset;
-            _lastKnownHorizontalAlignment = target.HorizontalAlignment;
-            _lastKnownVerticalAlignment = target.VerticalAlignment;
             _lastKnownEnableAnchor = target.EnableAnchor;
             _lastKnownMinAnchor = target.MinAnchor;
             _lastKnownMaxAnchor = target.MaxAnchor;
@@ -51,7 +50,10 @@ namespace Urho3DNet.MVVM
             _lastKnownIndentSpacing = target.IndentSpacing;
             _lastKnownTraversalMode = target.TraversalMode;
             _lastKnownIsElementEventSender = target.IsElementEventSender;
+            PartialInit(target);
         }
+
+        partial void PartialInit(UIElement target);
 
         public new UIElement Target => _target;
 
@@ -355,56 +357,6 @@ namespace Urho3DNet.MVVM
         }
 
         #endregion Property ChildOffset
-        #region Property HorizontalAlignment
-
-        private HorizontalAlignment _lastKnownHorizontalAlignment;
-
-        public static readonly DirectProperty<UIElementView, HorizontalAlignment> HorizontalAlignmentProperty =
-            UrhoProperty.RegisterDirect<UIElementView, HorizontalAlignment>(
-                nameof(HorizontalAlignment),
-                o => o.HorizontalAlignment,
-                (o, v) => o.HorizontalAlignment = v);
-
-        public HorizontalAlignment HorizontalAlignment
-        {
-            get => _target.HorizontalAlignment;
-
-            set
-            {
-                SetAndRaise(HorizontalAlignmentProperty, _lastKnownHorizontalAlignment, value, _ =>
-                {
-                    _lastKnownHorizontalAlignment = value;
-                    _target.HorizontalAlignment = value;
-                });
-            }
-        }
-
-        #endregion Property HorizontalAlignment
-        #region Property VerticalAlignment
-
-        private VerticalAlignment _lastKnownVerticalAlignment;
-
-        public static readonly DirectProperty<UIElementView, VerticalAlignment> VerticalAlignmentProperty =
-            UrhoProperty.RegisterDirect<UIElementView, VerticalAlignment>(
-                nameof(VerticalAlignment),
-                o => o.VerticalAlignment,
-                (o, v) => o.VerticalAlignment = v);
-
-        public VerticalAlignment VerticalAlignment
-        {
-            get => _target.VerticalAlignment;
-
-            set
-            {
-                SetAndRaise(VerticalAlignmentProperty, _lastKnownVerticalAlignment, value, _ =>
-                {
-                    _lastKnownVerticalAlignment = value;
-                    _target.VerticalAlignment = value;
-                });
-            }
-        }
-
-        #endregion Property VerticalAlignment
         #region Property EnableAnchor
 
         private bool _lastKnownEnableAnchor;
@@ -790,7 +742,7 @@ namespace Urho3DNet.MVVM
                 o => o.IsVisible,
                 (o, v) => o.IsVisible = v);
 
-        public bool IsVisible
+        public override bool IsVisible
         {
             get => _target.IsVisible;
 

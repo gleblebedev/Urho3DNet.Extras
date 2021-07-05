@@ -8,6 +8,7 @@
 <#@ import namespace="Urho3DNet" #>
 <#@ output extension=".cs" #>
 using Urho3DNet.MVVM.Binding;
+using Urho3DNet.MVVM.Layout;
 
 namespace Urho3DNet.MVVM
 {
