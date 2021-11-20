@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using NUnit.Framework;
 using Urho3DNet.MVVM.Data;
-using Urho3DNet.MVVM.Tests.Annotations;
 
 namespace Urho3DNet.MVVM.Tests
 {
@@ -16,10 +15,10 @@ namespace Urho3DNet.MVVM.Tests
         {
             TestApp.Launch((context) =>
             {
-                while (!Debugger.IsAttached)
-                {
-                    Thread.Sleep(1000);
-                }
+                //while (!Debugger.IsAttached)
+                //{
+                //    Thread.Sleep(1000);
+                //}
                 var slider = new Slider(context);
                 var view = new SliderView(slider);
                 var viewModel = new ViewModel();
@@ -68,7 +67,7 @@ namespace Urho3DNet.MVVM.Tests
                 }
             }
 
-            [NotifyPropertyChangedInvocator]
+            //[NotifyPropertyChangedInvocator]
             protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
