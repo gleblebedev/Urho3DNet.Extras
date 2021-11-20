@@ -65,6 +65,7 @@ namespace Urho3DNet.Samples
             RegisterSample<AvaloniaSample>();
             RegisterSample<FreeCameraSample>();
             RegisterSample<EditorSample>();
+            RegisterSample<MVVMSample>();
 
             base.Start();
         }
@@ -167,7 +168,10 @@ namespace Urho3DNet.Samples
                 case nameof(EditorSample):
                     _currentSample.Listener = new EditorSample(Context);
                     break;
-                    
+                case nameof(MVVMSample):
+                    _currentSample.Listener = new MVVMSample(Context);
+                    break;
+
             }
         }
 
